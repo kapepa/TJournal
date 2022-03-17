@@ -25,3 +25,35 @@ a {
   width: 100%;
   margin: 0 auto;
 }
+
+.flex{
+  display: flex;
+}
+
+.flex-direction-column{
+  flex-direction: column;
+}
+
+.flex-direction-row{
+  flex-direction: row;
+}
+
+.justify-content-center{
+  justify-content: center;
+}
+
+.justify-content-between{
+  justify-content: space-between;
+}
+
+.justify-content-around{
+  justify-content: space-around;
+}
+
+.align-items-center{
+  align-items: center;
+}
+
+.align-items-center{
+  align-items: center;
+}

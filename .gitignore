@@ -1,0 +1,72 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies client
+/client/node_modules
+/client/.pnp
+.pnp.js
+
+# testing
+/client/coverage
+
+# next.js
+/client/.next/
+/client/out/
+
+# production
+/client/build
+
+# misc
+/client/.DS_Store
+/client/*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+
+# vercel
+.vercel
+
+
+# compiled output server
+/server/dist
+/server/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+/server/.DS_Store
+
+# Tests
+/server/coverage
+/server/.nyc_output
+
+# IDEs and editors
+/server/.idea
+/server.project
+/server.classpath
+/server.c9/
+/server*.launch
+/server.settings/
+/server*.sublime-workspace
+
+# IDE - VSCode
+/server/.vscode/*
+/server/!.vscode/settings.json
+/server/!.vscode/tasks.json
+/server/!.vscode/launch.json
+/server/!.vscode/extensions.json

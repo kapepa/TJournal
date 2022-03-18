@@ -1,9 +1,11 @@
 .header{
   background-color: #fff4e2;
+  padding: 0 18px;
+  height: 60px;
   &__left{
-
+    gap: 18px
   }
   &__right{
-
+    gap: 18px
   }
 }

@@ -1,0 +1,30 @@
+.button_transparent{
+  border: none;
+  background-color: transparent;
+  outline: none;
+  max-width: 135px;
+  padding: 5px;
+  cursor: pointer;
+  font-weight: 700;
+  &__svg{
+    margin-right: 5px;
+    display: inline-block;
+  }
+  &__span{
+    color: #000;
+    transition: color .25s ease-in;
+    display: inline-block;
+  }
+  &__path{
+    fill: #000;
+    transition: fill .25s ease-in;
+  }
+  &:hover{
+    .button_transparent__path{
+      fill: #e9b649;
+    }
+    .button_transparent__span{
+      color: #e9b649;
+    }
+  }
+}

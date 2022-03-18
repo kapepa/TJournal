@@ -1,8 +1,16 @@
 .button_default{
   font-weight: 600;
-  font-size: 16px;
-  padding: 9.5px 16px;
+  font-size: 17px;
+  padding: 10px 16px 13px 16px;
   border-radius: 8px;
   background-color: #fff;
-  line-height: 2;
+  line-height: 1;
+  max-width: 135px;
+  height: 40px;
+  box-shadow: 0px 0px 2px 1px #000000;
+  white-space: nowrap;
+  transition: box-shadow .25s ease-in;
+  &:hover{
+    box-shadow: 0px 0px 3px 2px #000000;
+  }
 }

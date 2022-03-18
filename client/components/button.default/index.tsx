@@ -9,11 +9,9 @@ interface IButtonDefault {
 
 const ButtonDefault: NextPage<IButtonDefault> = ({text, path}) => {
   return (
-    <div>
-      <Link href={path}>
-        <a className={`${style.button_default}`}>{text}</a>
-      </Link>
-    </div>
+    <Link href={path}>
+      <a className={`${style.button_default} flex justify-content-center align-items-center`}>{text}</a>
+    </Link>
   )
 };
 

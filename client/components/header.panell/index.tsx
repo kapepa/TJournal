@@ -14,16 +14,16 @@ const HeaderPanell: NextPage = () => {
   }
 
   return (
-    <div className={style.header}>
-      <div className={style.header__left}>
+    <div className={`${style.header} flex justify-content-between`}>
+      <div className={`${style.header__left} flex align-items-center `}>
         <ButtonHamburger cd={clickHamburger}/>
         <Logo/>
         <Search/>
         <ButtonDefault text='Новая запись' path='/'/>
       </div>
-      <div className={style.header__right}>
-        {/*<Bell />*/}
-        {/*<ButtonTransparent/>*/}
+      <div className={`${style.header__right} flex align-items-center`}>
+        <Bell />
+        <ButtonTransparent text='Войти' cb={() => {}}/>
       </div>
     </div>
   )

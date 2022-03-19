@@ -29,6 +29,31 @@
   &__svg{
     margin-right: 12px;
   }
+  &__image{
+    width: 24px;
+    height: 24px;
+    background-size: 100% 100%;
+    margin-right: 12px;
+    border-radius: 6px;
+    &__news{
+      background-image: url("../../public/news.webp");
+    }
+    &__network{
+      background-image: url("../../public/network.webp");
+    }
+    &__break{
+      background-image: url("../../public/break.webp");
+    }
+    &__history{
+      background-image: url("../../public/history.webp");
+    }
+    &__tehnolegy{
+      background-image: url("../../public/tehnolegy.webp");
+    }
+    &__guest{
+      background-image: url("../../public/guest.webp");
+    }
+  }
   &__path{
     fill: #000;
     transition: fill .25s ease-in;

@@ -1,5 +1,5 @@
 .button_hamburger{
-  width: 24px;
+  min-width: 24px;
   height: 24px;
   padding: 3px;
   cursor: pointer;
@@ -8,6 +8,7 @@
   border: none;
   opacity: 1;
   transition: opacity .25s ease-in;
+  display: inline-block;
   &:hover{
     opacity: .5;
   }

@@ -1,0 +1,26 @@
+.header_panel{
+  background-color: #fff4e2;
+  padding: 0 18px;
+  height: 60px;
+  position: relative;
+  &__left{
+    gap: 18px;
+    flex-grow: 1;
+  }
+  &__right{
+    padding-left: 18px;
+    gap: 18px;
+  }
+  &__search{}
+}
+
+@media screen and (max-width: 720px) {
+  .header_panel{
+    &__right{
+      display: none;
+    }
+    &__search{
+      margin-left: auto;
+    }
+  }
+}

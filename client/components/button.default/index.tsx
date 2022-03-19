@@ -5,12 +5,14 @@ import style from './button.default.module.scss';
 interface IButtonDefault {
   text: string,
   path: string,
+  classes?: string,
 }
 
-const ButtonDefault: NextPage<IButtonDefault> = ({text, path}) => {
+const ButtonDefault: NextPage<IButtonDefault> = ({text, path, classes}) => {
   return (
     <Link href={path}>
-      <a className={`${style.button_default} flex justify-content-center align-items-center`}>{text}</a>
+      <a className={`flex justify-content-center align-items-center ${ style.button_default } ${classes ? classes : ''}`}
+      >{text}</a>
     </Link>
   )
 };

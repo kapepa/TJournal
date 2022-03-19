@@ -1,9 +1,10 @@
 .logo{
   cursor: pointer;
   display: inline-block;
-  width: 42px;
+  width: 100%;
   height: 50px;
   max-width: 32px;
+  min-width: 32px;
   &__image{
     display: block;
     background-image: url('../../public/logo.svg');

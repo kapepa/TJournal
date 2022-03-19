@@ -1,0 +1,40 @@
+.nav_aside{
+  width: 220px;
+  background-color: transparent;
+  height: 93.8vh;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  &__ul{
+    padding: 10px 12px;
+  }
+  &__li{
+    padding: 2px 0;
+  }
+  &__link{
+    height: 44px;
+    padding: 0 13px 4px 13px;
+    transition: background-color .25s ease-in;
+    border-radius: 8px;
+    &:hover{
+      background-color: rgba(255, 255, 255, .6);
+    }
+    &__active{
+      background-color: rgba(255, 255, 255, 1);
+      .nav_aside__path{
+        fill: #e9b649;
+      }
+    }
+  }
+  &__svg{
+    margin-right: 12px;
+  }
+  &__path{
+    fill: #000;
+    transition: fill .25s ease-in;
+  }
+  &__span{
+    font-size: 16px;
+    color: #000;
+  }
+}

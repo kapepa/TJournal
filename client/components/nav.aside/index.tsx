@@ -69,6 +69,75 @@ const NavAside: NextPage = () => {
           </Link>
         </li>
       </ul>
+
+      <ul className={style.nav_aside__ul}>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'news' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('news')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__news}`}/>
+              <span className={style.nav_aside__span}>Новости</span>
+            </a>
+          </Link>
+        </li>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'network' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('network')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__network}`}/>
+              <span className={style.nav_aside__span}>Интернет</span>
+            </a>
+          </Link>
+        </li>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'break' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('break')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__break}`}/>
+              <span className={style.nav_aside__span}>Разборы</span>
+            </a>
+          </Link>
+        </li>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'history' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('history')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__history}`}/>
+              <span className={style.nav_aside__span}>Истории</span>
+            </a>
+          </Link>
+        </li>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'tehnolegy' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('tehnolegy')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__tehnolegy}`}/>
+              <span className={style.nav_aside__span}>Технологии</span>
+            </a>
+          </Link>
+        </li>
+        <li className={style.nav_aside__li}>
+          <Link href="/">
+            <a
+              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'guest' ? style.nav_aside__link__active : ''}`}
+              onClick={() => {setLing('guest')}}
+            >
+              <div className={`${style.nav_aside__image} ${style.nav_aside__image__guest}`}/>
+              <span className={style.nav_aside__span}>Гость TJ</span>
+            </a>
+          </Link>
+        </li>
+      </ul>
     </nav>
   )
 };

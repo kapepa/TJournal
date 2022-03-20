@@ -1,0 +1,27 @@
+.x_close{
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  cursor: pointer;
+  &:before, &:after{
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    height: 20px;
+    width: 2px;
+    background-color: gray;
+    transition: background-color .25s ease-in;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    &:before, &:after{
+      background-color: black;
+    }
+  }
+}

@@ -7,9 +7,21 @@
   left: 0;
   &__ul{
     padding: 10px 12px;
+    &__avtive{
+      .nav_aside__li:nth-child(4){
+        & ~ li {
+          display: flex;
+        }
+      }
+    }
   }
   &__li{
     padding: 2px 0;
+    &:nth-child(4){
+      & ~ li {
+        display: none;
+      }
+    }
   }
   &__link{
     height: 44px;
@@ -61,5 +73,31 @@
   &__span{
     font-size: 16px;
     color: #000;
+  }
+  &__fold{
+    padding: 8px 12px;
+  }
+  &__arrow{
+    margin: 0 20px;
+    padding-left: 20px;
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 3px;
+    &::before{
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -6px;
+      width: 24px;
+      height: 14px;
+      transform: translateY(-50%) rotate(180deg);
+      background-image: url("../../public/up-arrow.svg");
+      background-repeat: no-repeat;
+    }
+    &__active{
+      &::before{
+        transform: translateY(-50%);
+      }
+    }
   }
 }

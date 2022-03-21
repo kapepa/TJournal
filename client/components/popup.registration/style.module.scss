@@ -1,0 +1,58 @@
+.popup_registration{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 36px 16px;
+  &__frame{
+    width: 50%;
+    max-height: 600px;
+    max-width: 640px;
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    &::after{
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+  }
+  &__close{
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+  }
+  &__inner{
+    min-height: 100%;
+    width: 100%;
+  }
+  &__bg{
+    background-image: url("../../public/reg-window-bg.webp");
+    background-size: cover;
+    background-position: 50%;
+    height: 100%;
+    width: 100%;
+    flex-basis: 33%;
+  }
+  &__content{
+    flex-grow: 1;
+    padding: 24px 50px;
+  }
+  &__h3{
+    width: 100%;
+    font-size: 24px;
+    line-height: 36px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  &__btn_social{
+    margin-bottom: 16px;
+  }
+  &__gorizont{
+    position: static;
+    gap: 16px;
+  }
+}

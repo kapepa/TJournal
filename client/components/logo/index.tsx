@@ -1,8 +1,8 @@
-import type { NextPage } from 'next';
+import React, {FC} from "react";
 import Link from 'next/link'
-import style from './logo.module.scss';
+import style from './style.module.scss';
 
-const Logo: NextPage = () => {
+const Logo: FC = () => {
   return (
     <div className={`${style.logo}`}>
       <Link href="/home">

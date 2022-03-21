@@ -1,10 +1,13 @@
-import type {NextPage} from 'next';
+import React, {FC} from "react";
 import Link from 'next/link'
-import {useState} from "react";
-import style from './nav.aside.module.scss';
+import { useState, useRef } from "react";
+import style from './style.module.scss';
 
-const NavAside: NextPage = () => {
-  const [link, setLing] = useState<string>('flame')
+const NavAside: FC = () => {
+  const listRef = useRef<HTMLUListElement>(null);
+  const [fold, setFold] = useState(false);
+  const [link, setLing] = useState<string>('flame');
+
   return (
     <nav className={style.nav_aside}>
       <ul className={style.nav_aside__ul}>
@@ -70,7 +73,7 @@ const NavAside: NextPage = () => {
         </li>
       </ul>
 
-      <ul className={style.nav_aside__ul}>
+      <ul ref={listRef} className={`${style.nav_aside__ul} ${fold ? style.nav_aside__ul__avtive : ''}`}>
         <li className={style.nav_aside__li}>
           <Link href="/">
             <a
@@ -138,6 +141,12 @@ const NavAside: NextPage = () => {
           </Link>
         </li>
       </ul>
+      <div className={style.nav_aside__fold}>
+        <div
+          className={`${style.nav_aside__arrow} ${fold ? style.nav_aside__arrow__active : ''}`}
+          onClick={() => setFold( fold ? false : true )}
+        >{ fold ? 'Свернуть' : 'Еще' }</div>
+      </div>
     </nav>
   )
 };

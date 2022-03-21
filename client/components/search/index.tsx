@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
-import type { NextPage } from 'next';
-import style from './search.module.scss';
+import React, { FC, useState, useRef } from 'react';
+import style from './style.module.scss';
 
 interface ISearch {
   classes?: string,
 }
 
-const Search: NextPage<ISearch> = ({classes}) => {
+const Search: FC<ISearch> = ({classes}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [trigger, setTrigger] = useState<Boolean>(false);
   const clickSearch = (e: React.MouseEvent<HTMLDivElement>) => {

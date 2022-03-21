@@ -1,6 +1,5 @@
-import React from 'react';
-import type { NextPage} from 'next';
-import style from './button.transparent.module.scss';
+import React, {FC} from 'react';
+import style from './style.module.scss';
 
 
 interface IButtonTransparent {
@@ -8,7 +7,7 @@ interface IButtonTransparent {
   cb: (e: React.MouseEvent<HTMLButtonElement>) => void,
 };
 
-const ButtonTransparent: NextPage<IButtonTransparent> = ({text, cb}) => {
+const ButtonTransparent: FC<IButtonTransparent> = ({text, cb}) => {
   return (
     <button className={`${style.button_transparent} flex align-items-center`} onClick={cb}>
       <svg className={style.button_transparent__svg} width={22} height={22} version="1.1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 1000 1000" >

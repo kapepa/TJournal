@@ -1,0 +1,57 @@
+.button_social{
+  position: relative;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  height: 48px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%), inset 0 0 0 1px rgb(0 0 0 / 6%), inset 0 -1px 0 rgb(0 0 0 / 12%), inset 1px 0 0 rgb(0 0 0 / 6%), inset -1px 0 0 rgb(0 0 0 / 6%);
+  &__static{
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  &__icon{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    background-repeat: no-repeat;
+    &__email{
+      background-image: url("../../public/email.svg");
+    }
+    &__vk{
+      background-image: url("../../public/vk.svg");
+    }
+    &__google{
+      background-image: url("../../public/google.svg");
+    }
+    &__facebook{
+      background-image: url("../../public/facebook.svg");
+    }
+    &__twitter{
+      background-image: url("../../public/twitter.svg");
+    }
+    &__apple{
+      background-image: url("../../public/apple.svg");
+    }
+    &__static{
+      position: relative;
+      flex-grow: 1;
+      display: inline-block;
+      top: 0;
+      left: 0;
+      transform: translateY(0);
+    }
+  }
+  &__span{
+    font-weight: 500;
+    font-size: 17px;
+    width: 100%;
+    padding: 0 50px;
+  }
+}

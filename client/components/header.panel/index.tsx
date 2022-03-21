@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import type { NextPage } from 'next';
+import React, {FC, useEffect, useState} from 'react';
 import Router, { useRouter } from 'next/router'
-import style from './header.panel.module.scss';
+import style from './style.module.scss';
 import ButtonHamburger from "../button.hamburger";
 import Logo from "../logo";
 import Search from "../search";
@@ -16,7 +15,7 @@ interface Ipopup{
   registration: boolean;
 }
 
-const HeaderPanel: NextPage = () => {
+const HeaderPanel: FC = () => {
   const router = useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,8 +1,7 @@
-import type { NextPage } from 'next';
-import Link from 'next/link'
-import style from './bell.module.scss';
+import React, {FC} from "react";
+import style from './style.module.scss';
 
-const Bell: NextPage = () => {
+const Bell: FC = () => {
   return (
     <div className={`${style.bell} flex align-items-center`}>
       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"

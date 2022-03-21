@@ -39,6 +39,20 @@
   }
   &__content{
     flex-grow: 1;
-    padding: 30px;
+    padding: 24px 50px;
+  }
+  &__h3{
+    width: 100%;
+    font-size: 24px;
+    line-height: 36px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  &__btn_social{
+    margin-bottom: 16px;
+  }
+  &__gorizont{
+    position: static;
+    gap: 16px;
   }
 }

@@ -1,7 +1,6 @@
-import type { NextPage } from 'next';
-import React from "react";
+import React, {FC} from "react";
 import Link from 'next/link'
-import style from './button.default.module.scss';
+import style from './style.module.scss';
 
 interface IButtonDefault {
   text: string,
@@ -10,7 +9,7 @@ interface IButtonDefault {
   cb: (e: React.MouseEvent<HTMLAnchorElement>) => void,
 }
 
-const ButtonDefault: NextPage<IButtonDefault> = ({text, path, classes, cb}) => {
+const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb}) => {
   return (
     <Link href={path}>
       <a

@@ -1,9 +1,9 @@
-import type { NextPage } from 'next';
+import React, {FC} from "react";
 import Link from 'next/link'
 import { useState, useRef } from "react";
-import style from './nav.aside.module.scss';
+import style from './style.module.scss';
 
-const NavAside: NextPage = () => {
+const NavAside: FC = () => {
   const listRef = useRef<HTMLUListElement>(null);
   const [fold, setFold] = useState(false);
   const [link, setLing] = useState<string>('flame');

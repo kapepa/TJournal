@@ -1,0 +1,33 @@
+.input_default{
+  &__input{
+    padding: 0 15px;
+    font-size: 16px;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f5f5f5;
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: background-color .25s ease-in, border-color .25s ease-in, box-shadow .25s ease-in;
+    &:hover {
+      background-color: #fff;
+      border-color: #4683d9;
+      box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
+    }
+  }
+  &__label{
+    max-height: 46px;
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff;
+    position: relative;
+  }
+  &__span{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    color: gray;
+    font-size: 14px;
+  }
+}

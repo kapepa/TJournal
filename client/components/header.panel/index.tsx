@@ -22,7 +22,7 @@ const HeaderPanel: FC = () => {
     console.log('clickHamburger')
   }
 
-  const clickButtonDefault = (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
+  const clickButtonDefault = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     if(popup.registration){
       Router.push({query: { registration: false }});
       setPopup({...popup, registration: false });
@@ -48,6 +48,7 @@ const HeaderPanel: FC = () => {
           text='Новая запись'
           path={`${router.pathname}?registration=true`}
           cb={clickButtonDefault}
+          type='def'
         />
       </div>
       <div className={`${style.header_panel__right} flex align-items-center`}>

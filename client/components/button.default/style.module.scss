@@ -3,15 +3,28 @@
   font-size: 17px;
   padding: 10px 16px 13px 16px;
   border-radius: 8px;
-  background-color: #fff;
   line-height: 1;
-  max-width: 135px;
   height: 40px;
-  box-shadow: 0px 0px 2px 1px #000000;
   white-space: nowrap;
-  transition: box-shadow .25s ease-in;
-  &:hover{
-    box-shadow: 0px 0px 3px 2px #000000;
+  transition: box-shadow .25s ease-in, background-color .25s ease-in;
+  cursor: pointer;
+  &__def{
+    box-shadow: 0 0 2px 1px #000000;
+    background-color: #fff;
+    color: #000;
+    &:hover{
+      box-shadow: 0 0 3px 2px #000000;
+    }
+  }
+  &__blue{
+    background-color: #4683d9;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    box-shadow: 0 1px 2px rgb(70 131 217 / .5), inset 0 -1px 0 rgb(0 0 0 / .12);
+    &:hover{
+      background-color: #3579d9;
+    }
   }
 }
 

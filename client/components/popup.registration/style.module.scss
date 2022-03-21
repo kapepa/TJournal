@@ -10,6 +10,7 @@
     width: 50%;
     max-height: 600px;
     max-width: 640px;
+    min-width: 290px;
     background-color: #fff;
     border-radius: 8px;
     position: relative;
@@ -40,6 +41,26 @@
   &__content{
     flex-grow: 1;
     padding: 24px 50px;
+    position: relative;
+  }
+  &__back{
+    cursor: pointer;
+    position: absolute;
+    top: 2%;
+    left: 5%;
+    padding-left: 20px;
+    color: gray;
+    &::before{
+      content: "";
+      background-image: url("../../public/up-arrow.svg");
+      transform: translateY(-38%) rotate(-90deg) ;
+      background-repeat: no-repeat;
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+    }
   }
   &__h3{
     width: 100%;
@@ -54,5 +75,33 @@
   &__gorizont{
     position: static;
     gap: 16px;
+  }
+  &__entre{
+    padding-top: 16px;
+  }
+  &__span{
+    color: #595959;
+    padding-right: 5px;
+    display: inline-block;
+  }
+  &__desc{
+    color: #3766a9;
+    display: inline-block;
+    padding-left: 5px;
+    cursor: pointer;
+  }
+  &__label{
+    margin-bottom: 16px;
+  }
+  &__recaptcha{
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .popup_registration{
+    &__content{
+      padding: 12px 25px;
+    }
   }
 }

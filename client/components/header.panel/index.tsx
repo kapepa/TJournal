@@ -22,7 +22,7 @@ const HeaderPanel: FC = () => {
     console.log('clickHamburger')
   }
 
-  const clickButtonDefault = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+  const clickButtonDefault = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement | HTMLDivElement>) => {
     if(popup.registration){
       Router.push({query: { registration: false }});
       setPopup({...popup, registration: false });

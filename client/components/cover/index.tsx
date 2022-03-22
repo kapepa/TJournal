@@ -1,19 +1,15 @@
 import React, {FC, useEffect, useRef, useState} from "react";
 import style from './style.module.scss';
 import ButtonDefault from "../button.default";
+import {IFile} from "../../dto/file";
 
 interface ICover {
   classes?: string,
   cover?: string
+  cb: (data: IFile) => void ;
 }
 
-interface IFile{
-  cover: File,
-  reader: any
-}
-
-const Cover: FC<ICover> = ({classes, cover}) => {
-  const imageRef = useRef<HTMLImageElement>(null);
+const Cover: FC<ICover> = ({classes, cb}) => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<IFile>({} as IFile);
 
@@ -23,55 +19,20 @@ const Cover: FC<ICover> = ({classes, cover}) => {
     input.onchange = (e): void => {
       const readerFile = new FileReader();
       const input = (fileRef.current as HTMLInputElement);
-      const file = input.files[0]
-
-      readerFile.readAsText(file);
-
+      const file = {...input.files}[0]
+      readerFile.readAsDataURL(file);
       readerFile.onload = function(e) {
-        console.log(readerFile.result)
+        console.log( typeof readerFile.result)
+        setFile({cover: file, reader: readerFile.result});
+        cb({cover: file, reader: readerFile.result})
       }
-
-
-      // readerFile.readAsText(new Blob([file], ));
-      //
-      // readerFile.onload = function(e) {
-      //   // imageRef.current.src = reader.result;
-      //
-      //   console.log(readerFile.result)
-      // }
-
-
-      // const file = {...input.files}[0];
-      // reader.readAsDataURL(file);;
-      // reader.onload = function() {
-      //   // setFile({cover: file, reader: reader.result});
-      //   // const img = (imageRef.current as HTMLImageElement)
-      //   // img.src = `data:image` + reader.result
-      //   imageRef.current.src = reader.result
-      //   console.log(reader.result)
-      // };
     }
   }
-
-  // useEffect(() => {
-  //   if(window){
-  //     const readerFile = new FileReader();
-  //     readerFile.readAsText(file.cover);
-  //     readerFile.onload = function() {
-  //       console.log(readerFile.result)
-  //     }
-  //   }
-  // },[file])
-
-  // useEffect(() => {
-  //   if(file) console.log(file)
-  // },[file])
 
   return (
     <div className={`flex justify-content-center ${style.cover} ${classes ? classes : ''}`}>
       <ButtonDefault text='Добавить обложку' cb={clickAdd} type='def' />
       <input ref={fileRef} name='file' type='file' className={style.cover__file}/>
-      <img ref={imageRef} className={`${style.cover__image}`} alt='cover'/>
     </div>
   )
 };

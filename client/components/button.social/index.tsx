@@ -10,14 +10,21 @@ enum EIcon {
   apple,
 }
 
+enum ESize {
+  def,
+  small,
+}
+
 interface IButtonSocial {
   cb: (e: React.MouseEvent<HTMLButtonElement>) => void,
   text?: string,
   classes?: string,
-  icon: keyof typeof EIcon
+  icon: keyof typeof EIcon,
+  size?: keyof typeof ESize,
 }
 
-const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, text, icon }) => {
+const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, size, text, icon }) => {
+
   const iconGenerate = (icon: string) => {
     let image;
     switch (icon){
@@ -36,10 +43,22 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, text, icon }) => {
     }
     return image
   }
+
+  const sizeGenerate = (size: string | undefined) => {
+    let vol;
+    switch (size){
+      case 'small' : vol = style.button_social__small;
+        break;
+      default : vol =  style.button_social__def;
+        break;
+    }
+    return vol
+  }
+
   return (
     <button
       onClick={cb}
-      className={`${style.button_social} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
+      className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
     >
       <div
         className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}

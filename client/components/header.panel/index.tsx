@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState, useContext} from 'react';
 import Router, { useRouter } from 'next/router'
 import style from './style.module.scss';
 import ButtonHamburger from "../button.hamburger";
@@ -9,6 +9,7 @@ import Bell from "../bell";
 import ButtonTransparent from "../button.transparent";
 import NavAside from "../nav.aside";
 import PopupRegistration from "../popup.registration";
+import {DataContext} from "../../layout/layout.default";
 
 interface Ipopup{
   navAside: boolean;
@@ -16,7 +17,8 @@ interface Ipopup{
 }
 
 const HeaderPanel: FC = () => {
-  const router = useRouter();
+  const data = useContext(DataContext)
+  const { pathname } = useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('clickHamburger')
@@ -32,28 +34,30 @@ const HeaderPanel: FC = () => {
   }
 
   useEffect(() => {
-    let query = router.query;
-    if(query.registration) setPopup(prev => {return {...prev, registration: true}});
+    setPopup({...popup, registration: data.query.registration})
   },[])
 
   return (
     <div className={`${style.header_panel} flex justify-content-between`}>
       <div className={`${style.header_panel__left} flex align-items-center `}>
         <ButtonHamburger
-          cd={() => setPopup(prev => {return {...prev, navAside: prev.navAside ? false : true }}) }
+          cb={() => setPopup(prev => {return {...prev, navAside: prev.navAside ? false : true }}) }
         />
         <Logo/>
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          path={`${router.pathname}?registration=true`}
+          path={`${pathname}?registration=true`}
           cb={clickButtonDefault}
           type='def'
         />
       </div>
       <div className={`${style.header_panel__right} flex align-items-center`}>
         <Bell />
-        <ButtonTransparent text='Войти' cb={() => {}}/>
+        <ButtonTransparent
+          text='Войти'
+          cb={clickButtonDefault}
+        />
       </div>
       {popup.navAside && <NavAside />}
       {popup.registration && <PopupRegistration cb={clickButtonDefault} />}

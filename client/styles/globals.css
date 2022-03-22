@@ -5,6 +5,12 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: #f2f2f2;
+  min-width: 320px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  padding: 0;
+  margin: 0;
 }
 
 a {
@@ -27,7 +33,7 @@ ul, li{
 }
 
 .container{
-  max-width: 640px;
+  max-width: 960px;
   width: 100%;
   margin: 0 auto;
 }

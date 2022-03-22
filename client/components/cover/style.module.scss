@@ -1,0 +1,18 @@
+.cover{
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 15px;
+  position: relative;
+  &__file{
+    display: none;
+  }
+  &__image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    object-fit: contain;
+  }
+}

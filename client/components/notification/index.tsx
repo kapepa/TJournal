@@ -1,5 +1,6 @@
 import React, {FC, useState} from "react";
 import style from './style.module.scss';
+import ButtonSocial from "../button.social";
 
 const Notification: FC = () => {
   return (
@@ -16,8 +17,13 @@ const Notification: FC = () => {
           <span className={style.notification__desc}>
             Авторизуйтесь или зарегистрируйтесь, чтобы оценивать материалы, создавать записи и писать комментарии.
           </span>
-          <div className={`${style.notification__social}`}>
-
+          <div className={`flex ${style.notification__social}`}>
+            <ButtonSocial size='small' icon='facebook' cb={() => {}}/>
+            <ButtonSocial size='small' icon='vk' cb={() => {}}/>
+            <ButtonSocial size='small' icon='google' cb={() => {}}/>
+            <ButtonSocial size='small' icon='twitter' cb={() => {}}/>
+            <ButtonSocial size='small' icon='apple' cb={() => {}}/>
+            <ButtonSocial size='small' icon='email' cb={() => {}}/>
           </div>
         </div>
       </div>

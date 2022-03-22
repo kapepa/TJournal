@@ -8,6 +8,8 @@
   white-space: nowrap;
   transition: box-shadow .25s ease-in, background-color .25s ease-in;
   cursor: pointer;
+  border: none;
+  z-index: 10;
   &__def{
     box-shadow: 0 0 2px 1px #000000;
     background-color: #fff;

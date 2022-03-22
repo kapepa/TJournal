@@ -40,7 +40,7 @@ const HeaderPanel: FC = () => {
     <div className={`${style.header_panel} flex justify-content-between`}>
       <div className={`${style.header_panel__left} flex align-items-center `}>
         <ButtonHamburger
-          cd={() => setPopup(prev => {return {...prev, navAside: prev.navAside ? false : true }}) }
+          cb={() => setPopup(prev => {return {...prev, navAside: prev.navAside ? false : true }}) }
         />
         <Logo/>
         <Search classes={style.header_panel__search}/>
@@ -53,7 +53,10 @@ const HeaderPanel: FC = () => {
       </div>
       <div className={`${style.header_panel__right} flex align-items-center`}>
         <Bell />
-        <ButtonTransparent text='Войти' cb={() => {}}/>
+        <ButtonTransparent
+          text='Войти'
+          cb={clickButtonDefault}
+        />
       </div>
       {popup.navAside && <NavAside />}
       {popup.registration && <PopupRegistration cb={clickButtonDefault} />}

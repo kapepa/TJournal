@@ -1,9 +1,18 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import style from './style.module.scss';
+import Notification from "../notification";
 
 const Bell: FC = () => {
+  const [view, setView] = useState<boolean>(false);
+
   return (
-    <div className={`${style.bell} flex align-items-center`}>
+    <div
+      className={`${style.bell} flex align-items-center`}
+      onClick={() =>{
+        if(view) setView(false);
+        if(!view) setView(true);
+      }}
+    >
       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"
            viewBox="0 0 611.999 611.999" width="24" height="24">
         <g>
@@ -27,6 +36,7 @@ const Bell: FC = () => {
           </g>
         </g>
       </svg>
+      {view && <Notification/>}
     </div>
   )
 }

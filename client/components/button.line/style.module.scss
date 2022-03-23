@@ -1,0 +1,30 @@
+.button_line{
+  background-color: #f4f7f9;
+  font-size: 14px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  padding: 7px 20px 7px 40px;
+  position: relative;
+  cursor: pointer;
+  &::before{
+    background-size: contain;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+  }
+  &__anchor{
+    &::before{
+      background-image: url("../../public/chain.svg");
+    }
+  }
+  &__image{
+    &::before{
+      background-image: url("../../public/image.svg");
+    }
+  }
+}

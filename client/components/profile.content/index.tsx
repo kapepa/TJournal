@@ -3,6 +3,7 @@ import Link from 'next/link';
 import style from './style.module.scss';
 import {IUser} from "../../dto/user";
 import ButtonDefault from "../button.default";
+import ButtonLine from "../button.line";
 
 interface IProfileContent {
   user: IUser
@@ -11,8 +12,15 @@ interface IProfileContent {
 const ProfileContent: FC<IProfileContent> = ({user}) => {
   return (
     <div className={`${style.profile_content}`}>
-      <div className={`flex ${style.profile_content__writted}`}>
-        sad
+      <div className={`flex flex-direction-column ${style.profile_content__writted}`}>
+        <div className={`flex align-items-center ${style.profile_content__head}`}>
+          <div className={`flex justify-content-center align-items-center ${style.profile_content__image}`}>{user.name.charAt(0).toUpperCase()}</div>
+          <span className={`${style.profile_content__new}`}>Новая запись</span>
+        </div>
+        <div className={`${style.profile_content__btn_section}`}>
+          <ButtonLine text='Фото и видео' type='image' cb={() => {}} classes={style.profile_content__btn_new}/>
+          <ButtonLine text='Ссылка' type='anchor' cb={() => {}} classes={style.profile_content__btn_new}/>
+        </div>
       </div>
       <div className={`flex flex-direction-column ${style.profile_content__subs}`}>
         <div className={`flex ${style.profile_content__cap}`}>

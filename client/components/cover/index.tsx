@@ -22,7 +22,6 @@ const Cover: FC<ICover> = ({classes, cb}) => {
       const file = {...input.files}[0]
       readerFile.readAsDataURL(file);
       readerFile.onload = function(e) {
-        console.log( typeof readerFile.result)
         setFile({cover: file, reader: readerFile.result});
         cb({cover: file, reader: readerFile.result})
       }

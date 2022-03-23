@@ -8,10 +8,12 @@ enum EIcon {
   facebook,
   twitter,
   apple,
+  settings,
 }
 
 enum ESize {
   def,
+  fourty,
   small,
 }
 
@@ -40,6 +42,8 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, size, text, icon }) => {
         break;
       case 'apple' : image = style.button_social__icon__apple;
         break;
+      case 'settings' : image = style.button_social__icon__settings;
+        break;
     }
     return image
   }
@@ -48,6 +52,8 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, size, text, icon }) => {
     let vol;
     switch (size){
       case 'small' : vol = style.button_social__small;
+        break;
+      case 'fourty' : vol = style.button_social__fourty;
         break;
       default : vol =  style.button_social__def;
         break;

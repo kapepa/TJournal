@@ -7,6 +7,8 @@ import {IQuery} from "../../dto/query";
 import style from "./style.module.scss";
 import Cover from "../../components/cover";
 import {IFile} from "../../dto/file";
+import ProfilePanel from "../../components/profile.panel";
+import ProfileContent from "../../components/profile.content";
 
 interface IProfile {
   user: IUser,
@@ -21,13 +23,12 @@ const Profile: NextPage<IProfile> = ({user, query}) => {
   const [state, setState] = useState<IState>({} as IState);
   const loadCover = (file: IFile) => setState({...state, file});
 
-
-
   return (
     <LayoutDefault title='Profile' user={user} query={query}>
       <section className={`flex flex-direction-column ${style.profile}`}>
         {!(state?.file?.reader && state?.file?.cover) && <Cover cb={loadCover}/>}
-
+        <ProfilePanel user={user} />
+        <ProfileContent user={user} />
       </section>
     </LayoutDefault>
   )

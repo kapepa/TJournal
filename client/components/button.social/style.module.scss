@@ -19,6 +19,13 @@
       height: 25px;
     }
   }
+  &__fourty{
+    height: 40px;
+    .button_social__icon{
+      width: 25px;
+      height: 25px;
+    }
+  }
   &__small{
     flex-grow: 0;
     height: 33px;
@@ -33,6 +40,7 @@
     left: 12px;
     transform: translateY(-50%);
     background-repeat: no-repeat;
+    background-size: contain;
     &__email{
       background-image: url("../../public/email.svg");
     }
@@ -50,6 +58,9 @@
     }
     &__apple{
       background-image: url("../../public/apple.svg");
+    }
+    &__settings{
+      background-image: url("../../public/settings.svg");
     }
     &__static{
       position: relative;

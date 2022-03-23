@@ -58,6 +58,10 @@ ul, li{
   justify-content: space-between;
 }
 
+.justify-content-end{
+  justify-content: flex-end;
+}
+
 .justify-content-around{
   justify-content: space-around;
 }

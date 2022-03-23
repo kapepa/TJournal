@@ -17,8 +17,8 @@ interface Ipopup{
 }
 
 const HeaderPanel: FC = () => {
-  const data = useContext(DataContext)
-  const { pathname } = useRouter();
+  const data = useContext(DataContext);
+  const router= useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('clickHamburger')
@@ -47,7 +47,7 @@ const HeaderPanel: FC = () => {
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          path={`${pathname}?registration=true`}
+          path={`${router.pathname}?registration=true`}
           cb={clickButtonDefault}
           type='def'
         />
@@ -56,7 +56,8 @@ const HeaderPanel: FC = () => {
         <Bell />
         <ButtonTransparent
           text='Войти'
-          cb={clickButtonDefault}
+          // cb={clickButtonDefault}
+          cb={() => router.push('/profile')}
         />
       </div>
       {popup.navAside && <NavAside />}

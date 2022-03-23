@@ -1,0 +1,42 @@
+.profile_content{
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(1, 2fr 1fr);
+  grid-auto-rows: auto;
+  &__writted, &__subs, &__create {
+    padding: 12px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  &__listening{
+    padding: 12px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    align-self: baseline;
+  }
+  &__h4{
+    font-size: 16px;
+  }
+  &__span{
+    margin-left: 5px;
+  }
+  &__cap{
+    margin-bottom: 5px;
+  }
+  &__desc{
+    position: static;
+  }
+  &__create{
+    height: 285px;
+  }
+  &__btn_wrapper{
+    margin-top: 16px;
+  }
+  &__link{
+    color: #3766a9;
+    transition: color .25s ease-in;
+    &:hover{
+      color: darkred;
+    }
+  }
+}

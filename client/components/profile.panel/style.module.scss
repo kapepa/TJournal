@@ -1,0 +1,62 @@
+.profile_panel{
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 24px 20px 0 20px;
+  &__frame{
+    position: static;
+  }
+  &__avatar{
+    width: 112px;
+    height: 112px;
+    background-color: darkgreen;
+    color: #fff;
+    font-size: 50px;
+    border-radius: 6px;
+  }
+  &__fullname{
+    padding: 15px 0;
+  }
+  &__name{
+    font-size: 30px;
+    font-weight: 600;
+  }
+  &__describe{
+    margin-bottom: 10px;
+    color: #4683d9;
+    transition: color .25s ease-in;
+    &:hover{
+      color: darkred;
+      font-size: 18px;
+    }
+  }
+  &__subs{
+    margin-bottom: 5px;
+  }
+  &__user{
+    flex-grow: 1;
+  }
+  &__action{
+    gap: 8px;
+  }
+  &__nav{
+    margin-top: 5px;
+    margin-left: -18px;
+  }
+  &__link{
+    font-size: 16px;
+    height: 60px;
+    margin: 0 18px;
+    position: relative;
+    &__active{
+      &::before{
+        content: '';
+        position: absolute;
+        background-color: #4683d9;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 3px;
+      }
+    }
+  }
+}

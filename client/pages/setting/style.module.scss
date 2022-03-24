@@ -1,3 +1,10 @@
 .setting{
-
+  padding: 20px 0;
+  &__main{
+    flex-grow: 2;
+  }
+  &__aside{
+    flex-grow: 1;
+    max-width: 300px;
+  }
 }

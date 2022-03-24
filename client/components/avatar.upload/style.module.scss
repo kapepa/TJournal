@@ -1,0 +1,18 @@
+.avatar_upload{
+  &__same{
+    width: 112px;
+    height: 112px;
+    z-index: 10;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 3px #fff solid;
+  }
+  &__icon{
+    background-color: darkgreen;
+    color: #fff;
+    font-size: 50px;
+  }
+  &__input_file{
+    display: none;
+  }
+}

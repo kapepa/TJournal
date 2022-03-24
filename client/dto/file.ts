@@ -1,5 +1,5 @@
 interface IFile {
-  cover: File,
+  cover: File | null,
   reader: ArrayBuffer | string | null
 }
 

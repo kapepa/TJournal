@@ -1,4 +1,5 @@
 .button_social{
+  display: inline-block;
   position: relative;
   cursor: pointer;
   border: none;
@@ -14,6 +15,7 @@
   }
   &__def{
     height: 48px;
+    width: 48px;
     .button_social__icon{
       width: 25px;
       height: 25px;
@@ -21,6 +23,7 @@
   }
   &__fourty{
     height: 40px;
+    width: 40px;
     .button_social__icon{
       width: 25px;
       height: 25px;
@@ -29,6 +32,7 @@
   &__small{
     flex-grow: 0;
     height: 33px;
+    width: 33px;
     .button_social__icon{
       width: 20px;
       height: 20px;

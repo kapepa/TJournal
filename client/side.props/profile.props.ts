@@ -1,5 +1,4 @@
 import {GetServerSideProps} from "next";
-import HomeProps from "./home.props";
 
 const ProfileProps: GetServerSideProps = async (ctx) => {
 
@@ -13,8 +12,10 @@ const ProfileProps: GetServerSideProps = async (ctx) => {
         name: 'New Name',
         subs: 5,
         listening: 2,
+        donate: 0,
         avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiZhF32GBxYMToEL_8Y_1VJpyz52NCK_U5ng&usqp=CAU',
         cover: 'https://media.gettyimages.com/photos/aerial-view-of-cousine-islandseychelles-picture-id541050212?s=612x612',
+        comments: [],
         created_at: Date.now(),
       }
     },

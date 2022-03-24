@@ -1,4 +1,5 @@
 import React, {FC} from "react";
+import Link from 'next/link'
 import style from "./style.module.scss";
 
 enum EIcon {
@@ -18,14 +19,15 @@ enum ESize {
 }
 
 interface IButtonSocial {
-  cb: (e: React.MouseEvent<HTMLButtonElement>) => void,
+  cb: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void,
   text?: string,
   classes?: string,
   icon: keyof typeof EIcon,
   size?: keyof typeof ESize,
+  link?: string
 }
 
-const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, size, text, icon }) => {
+const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }) => {
 
   const iconGenerate = (icon: string) => {
     let image;
@@ -62,15 +64,32 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, classes, size, text, icon }) => {
   }
 
   return (
-    <button
-      onClick={cb}
-      className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
-    >
-      <div
-        className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}
-      />
-      {text && <span className={style.button_social__span}>{text}</span>}
-    </button>
+    <>
+      {!link &&
+        <button
+          onClick={cb}
+          className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
+        >
+          <div
+            className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}
+          />
+          {text && <span className={style.button_social__span}>{text}</span>}
+        </button>
+      }
+      {link &&
+        <Link href={link}>
+          <a
+            onClick={cb}
+            className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
+          >
+            <div
+              className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}
+            />
+            {text && <span className={style.button_social__span}>{text}</span>}
+          </a>
+        </Link>
+      }
+    </>
   )
 };
 

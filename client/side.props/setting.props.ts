@@ -1,12 +1,11 @@
 import {GetServerSideProps} from "next";
 
-const HomeProps: GetServerSideProps = async (ctx) => {
-  const regist = ctx.query.registration;
+const SettingProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
       query: {
-        registration: regist === 'true' ? Boolean(regist) : false,
+        registration:  false,
       },
       user: {
         id: 'dsf234234',
@@ -23,4 +22,6 @@ const HomeProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default HomeProps;
+
+
+export default SettingProps;

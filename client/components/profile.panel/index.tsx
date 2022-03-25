@@ -52,9 +52,9 @@ const ProfilePanel: FC<IProfilePanel> = ({user, query, file, icon, loadIcon}) =>
           </div>
         </div>
       </div>
-      <nav className={`flex ${style.profile_panel__nav}`}>
+      <nav className={`flex ${style.profile_panel__nav}`}>{console.log(nav)}
         <Link href={`/profile?nav=article`}><a
-          className={`flex align-items-center ${nav === 'article' ? style.profile_panel__link__active : ''} ${style.profile_panel__link}`}
+          className={`flex align-items-center ${nav === "undefined" || nav === 'article' ? style.profile_panel__link__active : ''} ${style.profile_panel__link}`}
           onClick={(e) => {
             setNav('article');
           }}

@@ -13,6 +13,8 @@
     padding: 0 20px 0 80px;
     height: 48px;
     position: relative;
+    cursor: pointer;
+    transition: .25s background-color ease-in;
     &::before{
       content: '';
       position: absolute;
@@ -22,6 +24,40 @@
       width: 80%;
       background-color: gray;
       transform: translateX(-50%);
+    }
+    &::after{
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 30px;
+      width: 24px;
+      height: 24px;
+      background-size: cover;
+      transform: translateY(-50%);
+    }
+    &:hover{
+      background-color: rgba(239,245,254,0.5);
+    }
+    &__people::after{
+      background-image: url("../../public/people.svg");
+    }
+    &__settings::after{
+      background-image: url("../../public/settings.svg");
+    }
+    &__diamond::after{
+      background-image: url("../../public/diamond.svg");
+    }
+    &__bell::after{
+      background-image: url("../../public/bell.svg");
+    }
+    &__stop::after{
+      background-image: url("../../public/stop.svg");
+    }
+  }
+  &__active{
+    background-color: #eff5fe;
+    &::before{
+      display: none;
     }
   }
 }

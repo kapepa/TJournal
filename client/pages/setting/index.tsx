@@ -21,7 +21,7 @@ const Setting: NextPage<ISetting> = ({user, query}) => {
         <main className={`${style.setting__main}`}>
           <SettingsChange user={user} />
         </main>
-        <aside className={`${style.setting__aside}`}>
+        <aside className={`flex ${style.setting__aside}`}>
           <NavSetting/>
         </aside>
       </section>

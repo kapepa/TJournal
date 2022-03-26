@@ -28,6 +28,14 @@
       background-color: #3579d9;
     }
   }
+  &__yellow{
+    background: linear-gradient(72.98deg,#f4c560 0,#e9b649 25%,#d1924d 100%);
+    color: #fff;
+    transition: background .25s ease-in;
+    &:hover{
+      background: linear-gradient(72.98deg,#d1924d 0,#e9b649 25%, #f4c560 100%);
+    }
+  }
 }
 
 @media screen and (max-width: 860px) {

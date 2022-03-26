@@ -17,7 +17,9 @@ const InputSelect: FC<IInputSelect> = ({change, label,name, list}) => {
     open ? setOpen(false) : setOpen(true)
   }
 
-  const closeSelect = () => setOpen(false);
+  const closeSelect = () => {
+    setOpen(false)
+  };
 
   useEffect(() => {
     if(window) window.addEventListener('click',closeSelect);

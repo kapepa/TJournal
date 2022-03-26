@@ -16,7 +16,7 @@
       box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
     }
   }
-  &__label{
+  &__wrapper{
     max-height: 46px;
     height: 100%;
     width: 100%;
@@ -30,6 +30,13 @@
     transform: translateY(-50%);
     color: gray;
     font-size: 14px;
+  }
+  &__label{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
   }
 }
 

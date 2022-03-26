@@ -1,0 +1,27 @@
+.checkbox{
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  background-color: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.03);
+  border-radius: 4px;
+  position: relative;
+  &__input{
+    display: none;
+  }
+  &__active{
+    &::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("../../public/check-mark.svg");
+      background-size: contain;
+      width: 18px;
+      height: 18px;
+      z-index: 10;
+    }
+  }
+}

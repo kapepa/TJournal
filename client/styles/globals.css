@@ -71,6 +71,10 @@ ul, li{
   align-items: center;
 }
 
+.align-items-end{
+  align-items: flex-end;
+}
+
 @media screen and (max-width: 998px){
   .container{
     max-width: 660px;

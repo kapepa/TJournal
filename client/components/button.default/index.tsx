@@ -5,6 +5,7 @@ import style from './style.module.scss';
 enum BtnStyle {
   def,
   blue,
+  yellow,
 }
 
 interface IButtonDefault {
@@ -22,6 +23,7 @@ const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= f
     switch (type) {
       case 'def': view = style.button_default__def; break;
       case 'blue':view = style.button_default__blue; break;
+      case 'yellow':view = style.button_default__yellow; break;
     }
     return view;
   }

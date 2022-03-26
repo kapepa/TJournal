@@ -11,6 +11,7 @@ const HomeProps: GetServerSideProps = async (ctx) => {
       user: {
         id: 'dsf234234',
         name: 'New Name',
+        email: 'test@gmail.com',
         subs: 5,
         listening: 2,
         donate: 0,

@@ -1,0 +1,21 @@
+.check_list{
+  &__h4{
+    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 26px;
+  }
+  &__frame{
+    padding: 4px 0 4px 4px;
+    font-size: 16px;
+    line-height: 24px;
+    user-select: none;
+    min-width: 18px;
+    min-height: 32px;
+    cursor: pointer;
+    position: relative;
+  }
+  &__box{
+    margin-right: 7px;
+  }
+}

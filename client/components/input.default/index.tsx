@@ -7,26 +7,32 @@ interface IInputDefault {
   classesLabel?: string
   name: string,
   change: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string,
+  wrapper?: string
 }
 
-const InputDefault: FC<IInputDefault> = ({change, name, classes, classesLabel, defaultValue= ''}) => {
+const InputDefault: FC<IInputDefault> = ({wrapper,change, name, label, classes, classesLabel, defaultValue= ''}) => {
   const maxRef = useRef(30)
   const [simbol, setSimbol] = useState<number>(maxRef.current);
+
   return (
-    <label className={`${style.input_default__label} ${classesLabel ? classesLabel : ''}`}>
-      <input
-        className={`${style.input_default__input} ${classes ? classes : ''}`}
-        defaultValue={defaultValue}
-        name={name}
-        onChange={(e) => {
-          const val = (e.target as HTMLInputElement)
-          change(e);
-          setSimbol(maxRef.current - val.value.length);
-        }}
-        maxLength={30}
-      />
-      <span className={style.input_default__span}>{simbol}</span>
-    </label>
+    <div className={`${wrapper ? wrapper : ''}`}>
+      {label && <label className={`${style.input_default__label}`}>{label}</label>}
+      <div className={`${style.input_default__wrapper} ${classesLabel ? classesLabel : ''}`}>
+        <input
+          className={`${style.input_default__input} ${classes ? classes : ''}`}
+          defaultValue={defaultValue}
+          name={name}
+          onChange={(e) => {
+            const val = (e.target as HTMLInputElement)
+            change(e);
+            setSimbol(maxRef.current - val.value.length);
+          }}
+          maxLength={30}
+        />
+        <span className={style.input_default__span}>{simbol}</span>
+      </div>
+    </div>
   )
 };
 

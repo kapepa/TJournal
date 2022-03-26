@@ -78,7 +78,7 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
       {( nav === 'function' ) &&
         <>
           <div className={`flex flex-direction-column`}>
-            <div className={`flex`}>
+            <div className={`flex ${style.settings_change__up}`}>
               <div className={`flex ${style.settings_change__cap}`}>
                 <div className={`${style.settings_change__price}`}>{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB'}).format(75)}</div>
                 <div className={`flex justify-content-center align-items-center ${style.settings_change__price_desc}`}>в месяц за доступ к приятным функциям</div>
@@ -115,7 +115,7 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
           <div className={`flex flex-direction-column ${style.settings_change__black_list}`}>
             <div className={`flex align-items-end`}>
               <InputDefault wrapper={`${style.settings_change__input_filter}`} label='Фильтр ленты по словам' defaultValue='Ключевое слово или тег' name='filter' change={() => {}}/>
-              <ButtonDefault text='Сохранить' type='blue' cb={() => {}} classes={style.settings_change__btn_filter}/>
+              <ButtonDefault text='Добавить' type='def' cb={() => {}} classes={style.settings_change__btn_filter}/>
             </div>
             <InputDefault label='Пользователи' defaultValue='Имя или ссылка' name='name' change={() => {}}/>
           </div>

@@ -17,7 +17,7 @@ const Home: NextPage<INextPage> = ({query, user}) => {
       <div>Home</div>
     </LayoutDefault>
   )
-}
+};
 
 export const getServerSideProps = HomeProps;
 

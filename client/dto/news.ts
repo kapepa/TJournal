@@ -9,6 +9,9 @@ interface IArticle {
   title: string,
   comments: number,
   type: string,
+  shortDesc: string,
+  text: string,
+  image: string[]
   created_at: Date,
 }
 

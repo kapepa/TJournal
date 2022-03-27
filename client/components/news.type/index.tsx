@@ -22,7 +22,6 @@ const NewsType: FC<INewsType> = ({type}) => {
   }
   const {alias, href, classes} = view(type)
 
-  console.log()
   return (
     <Link href={`${href}`}>
       <a className={`${style.news_type} ${classes ? classes : ''}`}>{alias}</a>

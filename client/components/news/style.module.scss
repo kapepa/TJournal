@@ -2,6 +2,32 @@
   padding: 24px 0 30px 0;
   background-color: #fff;
   &__head{
-
+    gap: 8px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  &__info{
+    margin-bottom: 10px;
+  }
+  &__h4{
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 30px;
+    word-wrap: break-word;
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+  &__short_desc{
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  &__first_image{
+    object-fit: contain;
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+  &__frame{
+    max-width: 640px;
+    margin: 0 auto;
   }
 }

@@ -1,0 +1,44 @@
+.interactions_panel{
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 24px;
+  &__left{
+    gap: 20px;
+  }
+  &__right{
+    position: static;
+  }
+  &__btn_node{
+
+  }
+  &__btn_press{
+    border: none;
+    outline: none;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+    &::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("../../public/up-arrow.svg");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    &:first-child::before{
+      transform: rotate(180deg);
+    }
+  }
+  &__likes{
+    color: #2ea83a;
+    font-weight: 500;
+    width: 35px;
+    text-align: center;
+    display: inline-block;
+  }
+}

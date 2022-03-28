@@ -11,7 +11,8 @@ interface IArticle {
   type: string,
   shortDesc: string,
   text: string,
-  image: string[]
+  image: string[],
+  likes: number,
   created_at: Date,
 }
 

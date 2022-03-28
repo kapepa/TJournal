@@ -1,3 +1,40 @@
 .subscribe_panel{
-
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 0;
+  &__link{
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    position: relative;
+    &::before{
+      content: '';
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-color: #e9b649;
+    }
+  }
+  &__news::before{
+    background-image: url("../../public/news.webp");
+  }
+  &__network::before{
+    background-image: url("../../public/network.webp");
+  }
+  &__break::before{
+    background-image: url("../../public/break.webp");
+  }
+  &__history::before{
+    background-image: url("../../public/history.webp");
+  }
+  &__tehnolegy::before{
+    background-image: url("../../public/tehnolegy.webp");
+  }
+  &__guest::before{
+    background-image: url("../../public/guest.webp");
+  }
 }

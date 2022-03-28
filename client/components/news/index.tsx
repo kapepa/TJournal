@@ -46,7 +46,7 @@ const News: FC<INews> = ({article}) => {
       </div>
       <ZoomSlider images={article.image}/>
       <InteractionsPanel article={article}/>
-      <SubscribePanel/>
+      <SubscribePanel article={article}/>
     </article>
   )
 }

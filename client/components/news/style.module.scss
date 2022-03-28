@@ -22,12 +22,15 @@
     margin-bottom: 12px;
   }
   &__first_image{
-    object-fit: contain;
-    max-width: 100%;
     margin-bottom: 8px;
   }
   &__frame{
     max-width: 640px;
     margin: 0 auto;
+    padding-bottom: 10px;
+  }
+  &__p{
+    display: inline-block;
+    margin: 12px 0;
   }
 }

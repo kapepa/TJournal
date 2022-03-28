@@ -1,0 +1,37 @@
+.button_icon{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  position: relative;
+  height: 20px;
+  width: 20px;
+  &::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+  }
+  &__message{
+    &::before{
+      background-image: url("../../public/message.svg");
+    }
+  }
+  &__create{
+    &::before{
+      background-image: url("../../public/two-counterclockwise-arrows.svg");
+    }
+  }
+  &__share{
+    &::before{
+      background-image: url("../../public/download.svg");
+    }
+  }
+  &__digit{
+    padding-left: 27px;
+  }
+}

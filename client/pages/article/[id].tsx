@@ -19,8 +19,8 @@ const Article: NextPage<IArticlePage> = ({query, user, article}) => {
   return (
     <LayoutDefault title={'Article'} query={query} user={user}>
       <section className={`${style.article}`}>
-        <Chat article={article}/>
         <News article={article}/>
+        <Chat article={article}/>
       </section>
     </LayoutDefault>
   )

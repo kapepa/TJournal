@@ -8,9 +8,9 @@ interface IChatCommunication {
 }
 
 const ChatCommunication: FC<IChatCommunication> = ({article}) => {
-  console.log();
+
   return (
-    <div className={`${style.chat_communication}`}>
+    <div className={`flex flex-direction-column ${style.chat_communication}`}>
       {article.сhat.map((el, i) => <ChatComment key={`comment-${i}`} comment={el}/>)}
     </div>
   )

@@ -47,4 +47,18 @@
       transform: rotate(180deg);
     }
   }
+  &__scope{
+    padding: 10px 0;
+  }
+  &__span_text{
+    display: inline-block;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .chat_comment{
+    &__span_text{
+      font-size: 14px;
+    }
+  }
 }

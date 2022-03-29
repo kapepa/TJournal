@@ -1,5 +1,6 @@
 import React, {FC, useState} from "react";
 import style from './style.module.scss';
+import ButtonTransparent from "../button.transparent";
 
 interface IChatComment{
   comment: any
@@ -30,9 +31,10 @@ const ChatComment: FC<IChatComment> = ({comment}) => {
           <button data-likes='increase' className={`${style.chat_comment__btn}`} onClick={clickLikes}/>
         </div>
       </div>
-      <div>
-        <span>dasda</span>
+      <div className={`${style.chat_comment__scope}`}>
+        <span className={`${style.chat_comment__span_text}`}>{comment.comments}</span>
       </div>
+      <ButtonTransparent text='Ответить' cb={() => {}} picture={true}/>
     </div>
   )
 };

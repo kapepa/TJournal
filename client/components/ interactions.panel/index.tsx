@@ -4,10 +4,11 @@ import ButtonIcon from "../button.icon";
 import {IArticle} from "../../dto/news";
 
 interface IInteractionsPanel {
-  article: IArticle
+  article: IArticle,
+  classes?: string,
 }
 
-const InteractionsPanel: FC<IInteractionsPanel> = ({article}) => {
+const InteractionsPanel: FC<IInteractionsPanel> = ({article, classes}) => {
   const [likes, setLikes] = useState<number>(article.likes);
   const clickLikes = (e: React.MouseEvent<HTMLButtonElement>) => {
     const btn = (e.target as HTMLButtonElement);
@@ -17,7 +18,7 @@ const InteractionsPanel: FC<IInteractionsPanel> = ({article}) => {
   }
 
   return (
-    <div className={`flex justify-content-between ${style.interactions_panel}`}>
+    <div className={`flex justify-content-between ${style.interactions_panel} ${classes ? classes : ''}`}>
       <div className={`flex ${style.interactions_panel__left}`}>
         <ButtonIcon type='message' digit={article.comments}/>
         <ButtonIcon type='create'/>

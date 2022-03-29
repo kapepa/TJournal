@@ -7,6 +7,7 @@ import ZoomImage from "../zoom.image";
 import ZoomSlider from "../zoom.slider";
 import InteractionsPanel from "../ interactions.panel";
 import SubscribePanel from "../subscribe.panel";
+import Chat from "../chat";
 
 interface INews {
   article: IArticle,
@@ -32,7 +33,7 @@ const News: FC<INews> = ({article}) => {
 
   return (
     <article className={`${style.article}`}>
-      <div className={`${style.article__head}`}>
+      <div className={`${style.article__head} ${style.article__frame}`}>
         <div className={`flex ${style.article__info}`}>
           <NewsType type={article.type}/>
           <TimeCreate time={article.created_at}/>
@@ -41,12 +42,12 @@ const News: FC<INews> = ({article}) => {
         <span className={style.article__short_desc}>{article.shortDesc}</span>
       </div>
       {article.image[0] && <ZoomImage image={article.image[0]} alt={article.title} classes={style.article__first_image} />}
-      <div className={`${style.article__frame}`}>
+      <div className={`${style.article__frame} ${style.article__text}`}>
         {splitText(article.text).map((el,i) => <p key={`p-${i}`} className={`${style.article__p}`}>{el}</p>)}
       </div>
       <ZoomSlider images={article.image}/>
-      <InteractionsPanel article={article}/>
-      <SubscribePanel article={article}/>
+      <InteractionsPanel article={article} classes={`${style.article__frame}`}/>
+      <SubscribePanel article={article} classes={`${style.article__frame}`}/>
     </article>
   )
 }

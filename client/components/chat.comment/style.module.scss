@@ -1,0 +1,50 @@
+.chat_comment{
+  &__user{
+    padding-right: 10px;
+  }
+  &__avatar{
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  &__nic{
+    padding-left: 10px;
+  }
+  &__aliase{
+    line-height: 15px;
+    font-weight: 500;
+  }
+  &__likes{
+    &:hover{
+      &>button{
+        opacity: 1;
+      }
+    }
+  }
+  &__number{
+    color: #2ea83a;
+    width: 40px;
+    height: 22px;
+    background-color: rgba(46, 168, 58, .2);
+    display: inline-block;
+    text-align: center;
+  }
+  &__btn{
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    border: none;
+    outline: none;
+    background-image: url("../../public/up-arrow.svg");
+    background-size: 100% 100%;
+    background-position: center;
+    background-color: transparent;
+    margin: 0 4px;
+    transition: opacity .25s ease-in;
+    opacity: 0;
+    &:first-child{
+      transform: rotate(180deg);
+    }
+  }
+}

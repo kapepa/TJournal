@@ -16,20 +16,20 @@
     width: 20px;
     height: 20px;
   }
-  &__message{
-    &::before{
-      background-image: url("../../public/message.svg");
-    }
+  &__settings::before{
+    background-image: url("../../public/settings-vertical.svg");
   }
-  &__create{
-    &::before{
-      background-image: url("../../public/two-counterclockwise-arrows.svg");
-    }
+  &__bell::before{
+    background-image: url("../../public/bell.svg");
   }
-  &__share{
-    &::before{
-      background-image: url("../../public/download.svg");
-    }
+  &__message::before{
+    background-image: url("../../public/message.svg");
+  }
+  &__create::before{
+    background-image: url("../../public/two-counterclockwise-arrows.svg");
+  }
+  &__share::before{
+    background-image: url("../../public/download.svg");
   }
   &__digit{
     padding-left: 27px;

@@ -1,12 +1,18 @@
 .zoom_slider{
   display: grid;
-  height: 640px;
+  max-height: 640px;
   overflow: hidden;
+  position: relative;
+  width: 100%;
+  &::before{
+    position: absolute;
+    display: block;
+    padding-bottom: 100%;
+  }
   &__picture{
     object-fit: cover;
     width: 100%;
     height: 100%;
-    max-height: 640px;
   }
   &__two{
     grid-template-columns: 1fr 1fr;
@@ -21,5 +27,17 @@
   &__four{
     grid-template-columns: 1fr 1fr;
     grid-column: auto;
+  }
+}
+
+@media screen and (max-width: 998px){
+  .zoom_slider{
+    max-height: 520px;
+  }
+}
+
+@media screen and (max-width: 720px){
+  .zoom_slider{
+    max-height: 420px;
   }
 }

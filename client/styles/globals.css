@@ -72,7 +72,7 @@ ul, li{
 }
 
 .align-items-end{
-  align-items: flex-end;
+  align-items: end;
 }
 
 @media screen and (max-width: 998px){
@@ -80,4 +80,8 @@ ul, li{
     max-width: 660px;
   }
 }
+
+@media screen and (max-width: 860px) {}
+
+@media screen and (max-width: 720px) {}
 

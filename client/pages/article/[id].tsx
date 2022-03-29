@@ -6,6 +6,8 @@ import {IQuery} from "../../dto/query";
 import {IUser} from "../../dto/user";
 import {IArticle} from "../../dto/news";
 import News from "../../components/news";
+import Chat from "../../components/chat";
+import React from "react";
 
 interface IArticlePage {
   query: IQuery,
@@ -17,6 +19,7 @@ const Article: NextPage<IArticlePage> = ({query, user, article}) => {
   return (
     <LayoutDefault title={'Article'} query={query} user={user}>
       <section className={`${style.article}`}>
+        <Chat article={article}/>
         <News article={article}/>
       </section>
     </LayoutDefault>

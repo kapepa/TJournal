@@ -6,6 +6,8 @@ enum EType {
   message,
   create,
   share,
+  bell,
+  settings,
 }
 
 interface IButtonIcon {
@@ -23,6 +25,8 @@ const ButtonIcon: FC<IButtonIcon> = ({classes, digit, href, type, cb= () => {}})
       case 'message' : obj = {icon: style.button_icon__message, title: 'сообщение'} ; break;
       case 'create' : obj = {icon: style.button_icon__create, title: 'создать'}; break;
       case 'share' : obj = {icon: style.button_icon__share, title: 'поделиться'}; break;
+      case 'bell' : obj = {icon: style.button_icon__bell, title: 'поделиться'}; break;
+      case 'settings' : obj = {icon: style.button_icon__settings, title: 'settings'}; break;
       default: obj = {icon: '', title: ''};
     }
     return obj;

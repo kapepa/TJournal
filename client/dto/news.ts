@@ -13,6 +13,7 @@ interface IArticle {
   text: string,
   image: string[],
   likes: number,
+  сhat: any[],
   created_at: Date,
 }
 

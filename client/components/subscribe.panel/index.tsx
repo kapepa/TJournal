@@ -26,7 +26,7 @@ const SubscribePanel: FC<ISubscribePanel> = ({classes, article}) => {
   const {alias, href, classesStyle} = view(article.type)
 
   return (
-    <div className={`flex justify-content-between ${style.subscribe_panel}`}>
+    <div className={`flex justify-content-between ${style.subscribe_panel} ${classes ? classes : ''}`}>
       <Link href={href}>
         <a className={`${style.subscribe_panel__link} ${classesStyle}`} title={alias}/>
       </Link>

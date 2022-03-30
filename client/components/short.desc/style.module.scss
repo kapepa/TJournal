@@ -45,3 +45,13 @@
     }
   }
 }
+
+@media screen and (max-width: 720px){
+  .short_desc{
+    &__link{
+      font-size: 14px;
+      margin-bottom: 7px;
+      line-height: 1.5;
+    }
+  }
+}

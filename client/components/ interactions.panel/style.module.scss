@@ -40,3 +40,9 @@
     display: inline-block;
   }
 }
+
+@media screen and (max-width: 720px) {
+  .interactions_panel{
+    padding-top: 8px;
+  }
+}

@@ -1,0 +1,43 @@
+.popup_editor{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 36px 16px;
+  z-index: 10;
+  &__frame{
+    width: 100%;
+    max-height: 700px;
+    max-width: 880px;
+    min-width: 290px;
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 20px;
+    &::after{
+      content: "";
+      display: block;
+      padding-top: 100%;
+    }
+  }
+  &__close{
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+  }
+  &__title{
+    &>textarea{
+      height: 47px;
+      font-size: 36px;
+      background-color: transparent;
+      border-color: transparent;
+      &:hover{
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+  }
+}

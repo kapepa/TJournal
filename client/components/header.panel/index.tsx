@@ -10,10 +10,12 @@ import ButtonTransparent from "../button.transparent";
 import NavAside from "../nav.aside";
 import PopupRegistration from "../popup.registration";
 import {DataContext} from "../../layout/layout.default";
+import PopupEditor from "../popup.editor";
 
 interface Ipopup{
   navAside: boolean;
   registration: boolean;
+  editor: boolean;
 }
 
 const HeaderPanel: FC = () => {
@@ -33,6 +35,15 @@ const HeaderPanel: FC = () => {
     }
   }
 
+  const clickButtonEditor = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement | HTMLDivElement>) => {
+    if(popup.editor){
+      Router.push({query: { editor: false }});
+      setPopup({...popup, editor: false });
+    } else {
+      setPopup({...popup, editor: true })
+    }
+  }
+
   useEffect(() => {
     setPopup({...popup, registration: data.query.registration})
   },[])
@@ -47,8 +58,8 @@ const HeaderPanel: FC = () => {
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          path={`${router.pathname}?registration=true`}
-          cb={clickButtonDefault}
+          path={`${router.pathname}?editor=true`}
+          cb={clickButtonEditor}
           type='def'
         />
       </div>
@@ -62,6 +73,7 @@ const HeaderPanel: FC = () => {
       </div>
       {popup.navAside && <NavAside />}
       {popup.registration && <PopupRegistration cb={clickButtonDefault} />}
+      {popup.editor && <PopupEditor cb={clickButtonEditor}/>}
     </div>
   )
 };

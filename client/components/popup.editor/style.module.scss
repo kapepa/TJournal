@@ -5,7 +5,6 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  padding: 36px 16px;
   z-index: 10;
   &__frame{
     width: 100%;
@@ -23,21 +22,26 @@
       padding-top: 100%;
     }
   }
+  &__area{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 36px 16px;
+  }
   &__close{
     top: 16px;
     right: 16px;
     z-index: 10;
   }
   &__title{
-    &>textarea{
-      height: 47px;
-      font-size: 36px;
-      background-color: transparent;
-      border-color: transparent;
-      &:hover{
-        border-color: transparent;
-        box-shadow: none;
-      }
-    }
+    font-size: 35px;
+    text-align: center;
+  }
+  &__redactor{
+    flex-grow: 1;
   }
 }

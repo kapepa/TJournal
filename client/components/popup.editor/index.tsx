@@ -1,7 +1,13 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
+import dynamic from "next/dynamic";
 import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
-import InputTextarea from "../input.textarea";
+import ButtonDefault from "../button.default";
+
+
+let Redactor = dynamic(() => import('../сustom.editor/index'), {
+  ssr: false
+});
 
 interface IState {
   title: string,
@@ -13,11 +19,12 @@ interface IPopupEditor {
 }
 
 const PopupEditor: FC<IPopupEditor> = ({cb}) => {
+  const refRedactor = useRef<any>(null);
   const [state, setState] = useState<IState>({} as IState);
 
-  const changeTitle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const area = (e.target as HTMLTextAreaElement);
-    setState({...state, title: area.value});
+  const sendArticle = () => {
+    const data = refRedactor.current.props.data.blocks;
+    console.log(data)
   }
 
   return (
@@ -27,7 +34,13 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
     >
       <div className={`flex ${style.popup_editor__frame}`}>
         <ButtonXClose cd={cb} classes={style.popup_editor__close} />
-        <InputTextarea placeholder='Заголовок' change={changeTitle} classes={`${style.popup_editor__title}`} name='title'/>
+        <div className={`flex flex-direction-column ${style.popup_editor__area}`}>
+          <h4 className={`${style.popup_editor__title}`}>Редактор</h4>
+          {Redactor && <Redactor refRedactor={refRedactor} classes={style.popup_editor__redactor}/>}
+          <div className={`flex justify-content-center`}>
+            <ButtonDefault type='blue' text='Опубликовать' cb={sendArticle}/>
+          </div>
+        </div>
       </div>
     </div>
   )

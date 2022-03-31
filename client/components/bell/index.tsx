@@ -1,16 +1,23 @@
-import React, {FC, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import style from './style.module.scss';
 import Notification from "../notification";
+import {DataContext} from "../../layout/layout.default";
 
 const Bell: FC = () => {
+  const { win } = useContext(DataContext)
   const [view, setView] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(view) setView(false);
+  },[win])
 
   return (
     <div
       className={`${style.bell} flex align-items-center`}
     >
       <svg
-        onClick={() =>{
+        onClick={(e: React.MouseEvent<HTMLOrSVGElement>) =>{
+          e.stopPropagation();
           if(view) setView(false);
           if(!view) setView(true);
         }}

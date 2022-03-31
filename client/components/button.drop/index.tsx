@@ -1,15 +1,22 @@
-import React, {FC, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import style from './style.module.scss';
+import {DataContext} from "../../layout/layout.default";
 
 interface IButtonDrop {
   list: {name: string, cb: () => void}[]
 }
 
 const ButtonDrop: FC<IButtonDrop> = ({list}) => {
+  const { win } = useContext(DataContext)
   const [state, setState] = useState<boolean>(false);
-  const clickDot = () => {
+  const clickDot = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     state ? setState(false) : setState(true);
   }
+
+  useEffect(() => {
+    if(state) setState(false);
+  },[win])
 
   return (
     <div className={`${style.button_drop}`}>

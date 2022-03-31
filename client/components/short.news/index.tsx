@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC} from 'react';
 import style from './style.module.scss';
 import {IArticle} from "../../dto/news";
 import NewsType from "../news.type";
@@ -12,10 +12,6 @@ interface IShortNews{
 const ShortNews: FC<IShortNews> = ({article}) => {
   const clickComplaint = () => {console.log(`complaint`)};
   const clickHide = () => {console.log(`hide`)};
-
-  // useEffect(() => {
-  //   window.addEventListener('click', () => {console.log('window')})
-  // },[])
 
   return (
     <div className={`flex flex-direction-column ${style.short_news}`}>

@@ -20,7 +20,7 @@ const Home: NextPage<IHomePage> = ({query, user, listNews, article}) => {
     <LayoutDefault title="Home" user={user} query={query}>
       <div className={`flex flex-direction-column ${style.home}`}>
         <ShortDesc list={listNews} />
-        <ShortNews article={article}/>
+        <ShortNews article={article} />
       </div>
     </LayoutDefault>
   )

@@ -5,6 +5,7 @@
   background-color: #fff;
   min-width: 430px;
   display: flex;
+  z-index: 10;
   &::before{
     content: "";
     position: absolute;

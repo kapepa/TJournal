@@ -27,7 +27,7 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
     }
   }
 
-  const clickEmail = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const clickEmail = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     if(view.select === 'regist') setVies({ ...view, regist: true });
     if(view.select === 'login') setVies({ ...view, login: true });
   }

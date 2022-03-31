@@ -13,9 +13,9 @@ const ShortNews: FC<IShortNews> = ({article}) => {
   const clickComplaint = () => {console.log(`complaint`)};
   const clickHide = () => {console.log(`hide`)};
 
-  useEffect(() => {
-    window.addEventListener('click', () => {console.log('window')})
-  },[])
+  // useEffect(() => {
+  //   window.addEventListener('click', () => {console.log('window')})
+  // },[])
 
   return (
     <div className={`flex flex-direction-column ${style.short_news}`}>

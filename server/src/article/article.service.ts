@@ -1,8 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import DtoArticle from "../dto/dto.article";
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {ArticleEntity} from "./article.entity";
 
 @Injectable()
 export class ArticleService {
+  constructor(
+    @InjectRepository(ArticleEntity)
+    private usersRepository: Repository<ArticleEntity>,
+  ) {}
+
   async getList(last: number): Promise<DtoArticle[]> {
     const list =  [
       {

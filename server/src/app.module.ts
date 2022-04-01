@@ -3,17 +3,19 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './article/article.module';
 import { UserModule } from './user/user.module';
+import { UserEntity } from "./user/user.entity";
+import { ArticleEntity } from "./article/article.entity";
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 3306,
       username: 'root',
       password: 'Admin12345',
       database: 't-journal',
-      entities: [],
+      entities: [UserEntity,ArticleEntity],
       synchronize: true,
     }),
     AuthModule,

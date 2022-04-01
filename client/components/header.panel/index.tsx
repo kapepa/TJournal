@@ -42,11 +42,11 @@ const HeaderPanel: FC = () => {
     } else {
       setPopup({...popup, editor: true })
     }
-  }
+  };
 
   useEffect(() => {
     setPopup({...popup, registration: data.query.registration})
-  },[])
+  },[]);
 
   return (
     <div className={`${style.header_panel} flex justify-content-between`}>
@@ -58,8 +58,10 @@ const HeaderPanel: FC = () => {
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          path={`${router.pathname}?editor=true`}
-          cb={clickButtonEditor}
+          // path={`${router.pathname}?editor=true`}
+          // cb={clickButtonEditor}
+          path={`${router.pathname}?registration=true`}
+          cb={clickButtonDefault}
           type='def'
         />
       </div>

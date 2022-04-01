@@ -1,11 +1,11 @@
 interface IListNews {
-  _id: string,
+  id: string,
   title: string,
   comments: number,
 }
 
 interface IArticle {
-  _id: string,
+  id: string,
   title: string,
   comments: number,
   type: string,

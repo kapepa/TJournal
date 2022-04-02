@@ -1,14 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
 import {UserService} from "../user/user.service";
 import {DtoUser} from "../dto/dto.user";
+
+config();
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
 
   async JwtToken (user: DtoUser): Promise<string> {
-
-    return 'atoken';
+    const {password, ...other } = user
+    const token = jwt.sign({id: user.id, name: user.name, created_at: user.created_at}, process.env.JWT_TOKEN);
+    return token;
   }
 
   async AuthCreate () {

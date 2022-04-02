@@ -1,9 +1,9 @@
 import {Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn} from 'typeorm';
 
-@Entity()
+@Entity({name: 'user'})
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column()
   name: string;
@@ -12,21 +12,24 @@ export class UserEntity {
   email: string;
 
   @Column()
+  password: string
+
+  @Column({ default: '' })
   avatar: string;
 
-  @Column()
-  string: string;
+  @Column({ default: '' })
+  cover: string;
 
-  @Column()
-  comments: string;
+  @Column( "simple-array",{ nullable: true })
+  comments: string[];
 
-  @Column()
+  @Column({ default: 0 })
   subs: number;
 
-  @Column()
+  @Column({ default: 0 })
   listening: number;
 
-  @Column()
+  @Column({ default: 0 })
   donate: number;
 
   @Column({ default: false })

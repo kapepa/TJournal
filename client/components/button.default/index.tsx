@@ -27,6 +27,7 @@ const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= f
     }
     return view;
   }
+  const classStr = `flex justify-content-center align-items-center ${ style.button_default } ${typeBtn(type)} ${classes ? classes : ''} ${disabled ? style.button_default__disabled : '' }`;
 
   return (
     <>
@@ -34,14 +35,14 @@ const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= f
         <Link href={path}>
           <a
             onClick={cb}
-            className={`flex justify-content-center align-items-center ${ style.button_default } ${typeBtn(type)} ${classes ? classes : ''} `}
+            className={classStr}
           >{text}</a>
         </Link>
       }
       { path === undefined &&
         <button
           onClick={cb}
-          className={`flex justify-content-center align-items-center ${ style.button_default } ${typeBtn(type)} ${classes ? classes : ''}`}
+          className={classStr}
           disabled={disabled}
         >{text}</button>
       }

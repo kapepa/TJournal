@@ -4,6 +4,8 @@ import ButtonXClose from "../button.xclose";
 import ButtonSocial from "../button.social";
 import InputDefault from "../input.default";
 import ButtonDefault from "../button.default";
+import FormRegistration from "../form.registration";
+import FormLogin from "../form.login";
 
 interface IPopupRegistration {
   classes?: string,
@@ -61,47 +63,8 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
                 </div>
               </>
             }
-            { view.regist &&
-              <>
-                <InputDefault
-                  classesLabel={style.popup_registration__label}
-                  name='name'
-                  defaultValue='Имя и фамилия'
-                  change={() => {}}
-                />
-                <InputDefault
-                  classesLabel={style.popup_registration__label}
-                  name='email'
-                  defaultValue='Почта'
-                  change={() => {}}
-                />
-                <InputDefault
-                  classesLabel={style.popup_registration__label}
-                  name='password'
-                  defaultValue='Пароль'
-                  change={() => {}}
-                />
-                <div className={style.popup_registration__recaptcha}>need make recaptcha this</div>
-                <ButtonDefault text='Зарегистрироваться' type='blue' cb={() => {}}/>
-              </>
-            }
-            { view.login &&
-              <>
-                <InputDefault
-                  classesLabel={style.popup_registration__label}
-                  name='email'
-                  defaultValue='Почта'
-                  change={() => {}}
-                />
-                <InputDefault
-                  classesLabel={style.popup_registration__label}
-                  name='password'
-                  defaultValue='Пароль'
-                  change={() => {}}
-                />
-                <ButtonDefault text='Войти' type='blue' cb={() => {}}/>
-              </>
-            }
+            { view.regist && <FormRegistration />}
+            { view.login && <FormLogin /> }
             <div className={`${style.popup_registration__entre}`}>
               <span className={`${style.popup_registration__span}`}>
                 {view.select === 'regist'

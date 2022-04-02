@@ -36,6 +36,10 @@
       background: linear-gradient(72.98deg,#d1924d 0,#e9b649 25%, #f4c560 100%);
     }
   }
+  &__disabled{
+    opacity: .7;
+    pointer-events: none;
+  }
 }
 
 @media screen and (max-width: 860px) {

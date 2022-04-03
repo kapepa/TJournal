@@ -8,6 +8,7 @@ import { UserEntity } from "./user/user.entity";
 import { ArticleEntity } from "./article/article.entity";
 import {LocalStrategy} from "./auth/local.strategy";
 import {AuthService} from "./auth/auth.service";
+import { MailerModule } from './mailer/mailer.module';
 
 config();
 
@@ -25,7 +26,8 @@ config();
     }),
     AuthModule,
     ArticleModule,
-    UserModule
+    UserModule,
+    MailerModule,
   ],
   providers: [AuthService, LocalStrategy],
   exports: [AuthService],

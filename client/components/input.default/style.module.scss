@@ -16,6 +16,20 @@
       box-shadow: 0 0 0 3px rgb(70 131 217 / 12%);
     }
   }
+  &__warning{
+    border-color: #e52e3a;
+  }
+  &__float_text{
+    color: #e52e3a;
+    font-size: 12px;
+    transition: height .25s ease-in;
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+  &__show_text{
+    height: auto;
+  }
   &__wrapper{
     max-height: 46px;
     height: 100%;
@@ -43,7 +57,17 @@
 @media screen and (max-width: 860px) {
   .input_default{
     &__input{
+      min-height: 32px;
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .input_default{
+    &__input{
       padding: 0 22px 0 15px;
+      min-height: 28px;
+      font-size: 14px;
     }
     &__span{
       font-size: 12px;

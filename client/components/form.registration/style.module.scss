@@ -4,3 +4,12 @@
     margin-bottom: 16px;
   }
 }
+
+@media screen and (max-width: 998px){
+  .form_regist{
+    gap: 10px;
+    &__label{
+      margin-bottom: 10px;
+    }
+  }
+}

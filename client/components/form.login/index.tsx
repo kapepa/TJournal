@@ -11,12 +11,14 @@ const FormLogin: FC = () => {
         name='email'
         defaultValue='Почта'
         change={() => {}}
+        type='text'
       />
       <InputDefault
         classesLabel={style.form_login__label}
         name='password'
         defaultValue='Пароль'
         change={() => {}}
+        type='text'
       />
       <ButtonDefault text='Войти' type='blue' cb={() => {}}/>
     </form>

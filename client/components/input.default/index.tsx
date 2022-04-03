@@ -9,11 +9,12 @@ interface IInputDefault {
   name: string,
   change: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label?: string,
-  wrapper?: string
-  type: string
+  wrapper?: string,
+  type: string,
+  warning?: boolean,
 }
 
-const InputDefault: FC<IInputDefault> = ({wrapper,change, name, label, classes, classesLabel, placeholder, defaultValue, type}) => {
+const InputDefault: FC<IInputDefault> = ({warning, wrapper,change, name, label, classes, classesLabel, placeholder, defaultValue, type}) => {
   const maxRef = useRef(30)
   const [simbol, setSimbol] = useState<number>(maxRef.current);
 
@@ -22,7 +23,7 @@ const InputDefault: FC<IInputDefault> = ({wrapper,change, name, label, classes, 
       {label && <label className={`${style.input_default__label}`}>{label}</label>}
       <div className={`${style.input_default__wrapper} ${classesLabel ? classesLabel : ''}`}>
         <input
-          className={`${style.input_default__input} ${classes ? classes : ''}`}
+          className={`${style.input_default__input} ${classes ? classes : ''} ${warning ? style.input_default__warning : ''}`}
           placeholder={placeholder ? placeholder : ''}
           defaultValue={defaultValue ? defaultValue : ''}
           name={name}
@@ -34,6 +35,9 @@ const InputDefault: FC<IInputDefault> = ({wrapper,change, name, label, classes, 
           maxLength={30}
           type={type}
         />
+        <span
+          className={`${style.input_default__float_text} ${warning ? style.input_default__show_text : '' }`}
+        >Некорректный ....</span>
         <span className={style.input_default__span}>{simbol}</span>
       </div>
     </div>

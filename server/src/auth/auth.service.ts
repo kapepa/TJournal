@@ -3,12 +3,16 @@ import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import {UserService} from "../user/user.service";
 import {DtoUser} from "../dto/dto.user";
+import {MailerService} from "../mailer/mailer.service";
 
 config();
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private mailerService: MailerService,
+  ) {}
 
   async JwtToken (user: DtoUser): Promise<string> {
     const {password, ...other } = user

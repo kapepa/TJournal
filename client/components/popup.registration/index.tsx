@@ -2,8 +2,6 @@ import React, {FC, useState} from "react";
 import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
 import ButtonSocial from "../button.social";
-import InputDefault from "../input.default";
-import ButtonDefault from "../button.default";
 import FormRegistration from "../form.registration";
 import FormLogin from "../form.login";
 

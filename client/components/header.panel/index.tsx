@@ -48,6 +48,10 @@ const HeaderPanel: FC = () => {
     setPopup({...popup, registration: data.query.registration})
   },[]);
 
+  useEffect(() => {
+    if(!Object.keys(router.query).length) setPopup({ navAside: false, registration: false, editor: false})
+  },[router.query])
+
   return (
     <div className={`${style.header_panel} flex justify-content-between`}>
       <div className={`${style.header_panel__left} flex align-items-center `}>

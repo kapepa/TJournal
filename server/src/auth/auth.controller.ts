@@ -1,4 +1,11 @@
-import {Body, Controller, ForbiddenException, Get, Post, Req, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import {ApiCreatedResponse,  ApiTags} from "@nestjs/swagger";
 import {DtoAuth} from "../dto/dto.auth";
 import {AuthService} from "./auth.service";
@@ -18,20 +25,20 @@ export class AuthController {
     description: 'The record has been successfully created.',
     type: DtoAuth,
   })
-  async PostCreate(@Body() body): Promise<string> {
+  async PostCreate(@Body() body, @Req() req): Promise<string> {
     try {
       const user = await this.userService.createUser(body);
       const token = await this.authService.JwtToken(user);
       return token;
-    }catch (e){
-      new ForbiddenException(e.name);
+    }catch (err){
+      req.status(err.response.status).send(err.response.error);
     }
   }
 
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('/login')
   async login(@Req() req) {
     console.log(req.user)
-    return req.user;
+    return "asd";
   }
 }

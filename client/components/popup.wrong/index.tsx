@@ -11,7 +11,8 @@ interface IPopupWrong {
 const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
   let text;
   switch (message){
-    case 'Such email already exist': text = 'Такой email уже используется.'; break;
+    case 'Conflict': text = 'Такой email уже используется.'; break;
+    case 'Unauthorized': text = 'Неправильно введен пароль или логин.' ; break;
   }
 
   return (

@@ -5,6 +5,7 @@ import {
   Post,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import {ApiCreatedResponse,  ApiTags} from "@nestjs/swagger";
 import {DtoAuth} from "../dto/dto.auth";
@@ -25,20 +26,20 @@ export class AuthController {
     description: 'The record has been successfully created.',
     type: DtoAuth,
   })
-  async PostCreate(@Body() body, @Req() req): Promise<string> {
-    try {
-      const user = await this.userService.createUser(body);
-      const token = await this.authService.JwtToken(user);
-      return token;
-    }catch (err){
-      req.status(err.response.status).send(err.response.error);
-    }
+  async PostCreate(@Body() body): Promise<string> {
+    const user = await this.userService.createUser(body);
+    const token = await this.authService.JwtToken(user);
+    return token;
   }
 
-  // @UseGuards(AuthGuard('local'))
   @Post('/login')
+  @UseGuards(AuthGuard('local'))
+  @ApiCreatedResponse({
+    description: 'Successful login, return token user.',
+  })
   async login(@Req() req) {
-    // console.log(req.user)
-    // return "asd";
+    const token = await this.authService.JwtToken(req.user);
+    await this.authService.AuthCreate(req.user.email);
+    return token
   }
 }

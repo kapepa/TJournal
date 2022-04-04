@@ -12,7 +12,7 @@ interface IButtonDefault {
   text: string,
   path?: string,
   classes?: string,
-  cb: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement >) => void,
+  cb?: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement >) => void,
   type: keyof typeof BtnStyle
   disabled?: boolean
 }

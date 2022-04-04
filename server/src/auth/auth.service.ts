@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt';
 import { config } from 'dotenv';
 import {UserService} from "../user/user.service";
 import {DtoUser} from "../dto/dto.user";
@@ -20,13 +21,16 @@ export class AuthService {
     return token;
   }
 
-  async AuthCreate () {
-    return "asdas"
+  async AuthCreate (email: string) {
+    const el = await this.mailerService.SendEmailRegistration(email);
+    return null;
   }
 
-  async validateUser(name: string, pass: string): Promise<any> {
-    const user = await this.userService.findOne(name);
-    if (user && user.password === pass) {
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.userService.findUser("email", email);
+    const match = await bcrypt.compare(pass, user.password);
+
+    if (match) {
       const { password, ...result } = user;
       return result;
     }

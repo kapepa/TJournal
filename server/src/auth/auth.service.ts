@@ -21,11 +21,6 @@ export class AuthService {
     return token;
   }
 
-  async AuthCreate (email: string) {
-    const el = await this.mailerService.SendEmailRegistration(email);
-    return null;
-  }
-
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.userService.findUser("email", email);
     const match = await bcrypt.compare(pass, user.password);

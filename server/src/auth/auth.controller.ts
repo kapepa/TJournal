@@ -12,13 +12,15 @@ import {DtoAuth} from "../dto/dto.auth";
 import {AuthService} from "./auth.service";
 import {UserService} from "../user/user.service";
 import {AuthGuard} from "@nestjs/passport";
+import {MailerService} from "../mailer/mailer.service";
 
 @ApiTags('Auth')
 @Controller('/api/auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private mailerService: MailerService
   ) {}
 
   @Post('/create')
@@ -39,7 +41,7 @@ export class AuthController {
   })
   async login(@Req() req) {
     const token = await this.authService.JwtToken(req.user);
-    await this.authService.AuthCreate(req.user.email);
+    await this.mailerService.SendEmailRegistration(req.user.email)
     return token
   }
 }

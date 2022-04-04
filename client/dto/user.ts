@@ -13,10 +13,13 @@ interface IUser {
   created_at: Date,
 }
 
-interface IRegistraition {
-  name: string,
+interface ILogin {
   email: string,
   password: string,
 }
 
-export type { IUser, IRegistraition }
+interface IRegistraition extends ILogin {
+  name: string,
+}
+
+export type { IUser, IRegistraition, ILogin }

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {ConflictException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -21,10 +21,7 @@ export class UserService {
   async createUser (body: DtoAuth): Promise<DtoUser> {
     const { password, ...other } = body;
     const checkEmail = await this.findUser('email', body.email);
-    if(checkEmail) throw new BadRequestException({
-      status: 203,
-      error: 'Such email already exist'
-    })
+    if(checkEmail) throw new ConflictException();
 
     const hash = await bcrypt.hashSync(password, Number(process.env.BCRYPT_ROUNDS));
     const user = await this.usersRepository.create({...other, password: hash});

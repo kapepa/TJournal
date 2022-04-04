@@ -12,7 +12,7 @@ interface IPopupRegistration {
 
 const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
   const [view, setVies] = useState({
-    select: 'regist',
+    select: 'login',
     regist: false,
     login: false,
   })

@@ -19,7 +19,11 @@ const FormRegistration: FC = () => {
   const router = useRouter();
   const data = useContext(DataContext);
   const [warning, setWarning] = useState<boolean>(false);
-  const [state, setState] = useState({} as IState);
+  const [state, setState] = useState({
+    name: 'TestNameaa',
+    email: 'kapepa@mail.ru',
+    password: '123456',
+    confirme: '123456',} as IState);
   const nameValidator = Validator.name(state.name);
   const emailValidator = Validator.email(state.email);
   const passwordValidator = Validator.password(state.password, state.confirme);
@@ -35,11 +39,10 @@ const FormRegistration: FC = () => {
     const {confirme, ...other} = state;
     if(validate){
       setWarning(false);
-      SubmitRegistraition(other, data.wrong).then(res => {
-        if(res){
-          Cookies.set('token', res);
-          router.push('/home', { query: {}});
-        }
+      SubmitRegistraition(other, data.wrong).then(token => {
+        if(!token) return;
+        Cookies.set('token', token);
+        router.push('/home', { query: {}});
       });
     } else {
       setWarning(true);
@@ -88,7 +91,6 @@ const FormRegistration: FC = () => {
         disabled={!validate}
         text='Зарегистрироваться'
         type='blue'
-        cb={() => {}}
       />
     </form>
   )

@@ -7,17 +7,15 @@ const HomeProps: GetServerSideProps = wrapper.getServerSideProps(store => async 
   const regist = query.registration;
   const token = getCookies({req}).token;
   const request = RequestServer(token, store.dispatch);
-  const user = await request.Profile();
 
-
-  console.log(store.getState())
+  await request.Profile();
 
   return {
     props: {
       query: {
         registration: regist === 'true' ? Boolean(regist) : false,
       },
-      user: user,
+      user: store.getState().user,
       listNews: [
         {
           _id: 'asdasdas12312asdasdartysdas',

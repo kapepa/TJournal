@@ -5,12 +5,14 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {} as IUser,
   reducers: {
-    setEnt(state, action) {
-      return action.payload;
+    setProfile(state, action) {
+      return  action.payload;
     },
   },
   extraReducers: {},
 });
+
+export const { setProfile } = userSlice.actions;
 
 
 

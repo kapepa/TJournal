@@ -1,0 +1,18 @@
+.avatar{
+  background-color: #2ea83a;
+  border-radius: 8px;
+  cursor: pointer;
+  &__fourty{
+    width: 40px;
+    height: 40px;
+  }
+  &__symbol{
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+  }
+  &__image{
+    width: 100%;
+    height: 100%;
+  }
+}

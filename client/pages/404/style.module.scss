@@ -1,0 +1,31 @@
+.error{
+  height: 100%;
+  &__layer{
+    padding: 10px;
+    min-width: 300px;
+  }
+  &__h5{
+    text-align: center;
+    font-size: 24px;
+    padding-bottom: 12px;
+  }
+  &__span{
+    font-size: 17px;
+    font-weight: 600;
+  }
+  &__btn_area{
+    width: 100%;
+    padding-top: 15px;
+  }
+}
+
+@media screen and (min-width: 720px){
+  .error{
+    &__h5{
+      font-size: 19px;
+    }
+    &__span{
+      font-size: 14px;
+    }
+  }
+}

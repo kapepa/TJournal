@@ -45,7 +45,7 @@ const HeaderPanel: FC = () => {
   };
 
   useEffect(() => {
-    setPopup({...popup, registration: data.query.registration})
+    if(data?.query) setPopup({...popup, registration: data.query.registration})
   },[]);
 
   useEffect(() => {

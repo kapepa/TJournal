@@ -1,8 +1,6 @@
 import {GetServerSideProps} from "next";
-import ChatCommunication from "../components/chat.communication";
 
 const ArticleProps: GetServerSideProps = async (ctx) => {
-
   return {
     props: {
       query: {
@@ -42,7 +40,5 @@ const ArticleProps: GetServerSideProps = async (ctx) => {
     },
   }
 }
-
-
 
 export default ArticleProps;

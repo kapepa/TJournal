@@ -9,6 +9,7 @@ import { ArticleEntity } from "./article/article.entity";
 import {LocalStrategy} from "./auth/local.strategy";
 import {AuthService} from "./auth/auth.service";
 import { MailerModule } from './mailer/mailer.module';
+import {JwtStrategy} from "./auth/jwt.strategy";
 
 config();
 
@@ -29,7 +30,7 @@ config();
     UserModule,
     MailerModule,
   ],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AppModule {}

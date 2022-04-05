@@ -12,14 +12,18 @@
     "@editorjs/editorjs": "^2.23.2",
     "@editorjs/header": "^2.6.2",
     "@editorjs/paragraph": "^2.8.0",
+    "@reduxjs/toolkit": "^1.8.1",
     "@types/js-cookie": "^3.0.1",
     "axios": "^0.26.1",
+    "cookies-next": "^2.0.4",
     "js-cookie": "^3.0.1",
     "next": "12.1.0",
+    "next-redux-wrapper": "^7.0.5",
     "npm": "^8.5.5",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-editor-js": "^1.10.0",
+    "react-redux": "^7.2.8",
     "sass": "^1.49.9"
   },
   "devDependencies": {

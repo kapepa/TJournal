@@ -11,6 +11,7 @@ import NavAside from "../nav.aside";
 import PopupRegistration from "../popup.registration";
 import {DataContext} from "../../layout/layout.default";
 import PopupEditor from "../popup.editor";
+import Avatar from "../avatar";
 
 interface Ipopup{
   navAside: boolean;
@@ -19,7 +20,7 @@ interface Ipopup{
 }
 
 const HeaderPanel: FC = () => {
-  const data = useContext(DataContext);
+  const {query, user} = useContext(DataContext);
   const router= useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -45,7 +46,7 @@ const HeaderPanel: FC = () => {
   };
 
   useEffect(() => {
-    if(data?.query) setPopup({...popup, registration: data.query.registration})
+    if(query) setPopup({...popup, registration: query.registration})
   },[]);
 
   useEffect(() => {
@@ -62,20 +63,24 @@ const HeaderPanel: FC = () => {
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          // path={`${router.pathname}?editor=true`}
-          // cb={clickButtonEditor}
-          path={`${router.pathname}?registration=true`}
-          cb={clickButtonDefault}
+          path={ user.id ? `${router.pathname}?editor=true` : `${router.pathname}?registration=true`}
+          cb={ user.id ? clickButtonEditor : clickButtonDefault}
           type='def'
         />
       </div>
       <div className={`${style.header_panel__right} flex align-items-center`}>
         <Bell />
-        <ButtonTransparent
-          text='Войти'
-          // cb={clickButtonDefault}
-          cb={() => router.push('/profile')}
-        />
+        { user.id ?
+          <Avatar
+            name={user.name}
+            path='/profile'
+            image={user.avatar}
+          /> :
+          <ButtonTransparent
+            text='Войти'
+            cb={clickButtonDefault}
+          />
+        }
       </div>
       {popup.navAside && <NavAside />}
       {popup.registration && <PopupRegistration cb={clickButtonDefault} />}

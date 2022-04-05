@@ -1,6 +1,6 @@
 import Axios from "./axios";
 import config from "../config";
-import {fetchProfile} from "../redux/user/userAction";
+import {setProfile} from "../redux/user/userSlice";
 
 const RequestServer = (token: string, dispatch: any) => {
   Axios.defaults.baseURL = config.url;
@@ -9,8 +9,7 @@ const RequestServer = (token: string, dispatch: any) => {
   return {
     async Profile () {
       const profile = await Axios.get('/api/user').then( res => res.data ).catch(err => {});
-      dispatch(fetchProfile(profile))
-
+      dispatch(setProfile(profile))
       return profile
     },
   }

@@ -1,25 +1,23 @@
 import {GetServerSideProps} from "next";
+import { getCookies } from 'cookies-next';
+import {wrapper} from "../redux/store";
+import RequestServer from "../helpers/request.server";
 
-const HomeProps: GetServerSideProps = async (ctx) => {
-  const regist = ctx.query.registration;
+const HomeProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req,}) => {
+  const regist = query.registration;
+  const token = getCookies({req}).token;
+  const request = RequestServer(token, store.dispatch);
+  const user = await request.Profile();
+
+
+  console.log(store.getState())
 
   return {
     props: {
       query: {
         registration: regist === 'true' ? Boolean(regist) : false,
       },
-      user: {
-        id: 'dsf234234',
-        name: 'New Name',
-        email: 'test@gmail.com',
-        subs: 5,
-        listening: 2,
-        donate: 0,
-        avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiZhF32GBxYMToEL_8Y_1VJpyz52NCK_U5ng&usqp=CAU',
-        cover: 'https://media.gettyimages.com/photos/aerial-view-of-cousine-islandseychelles-picture-id541050212?s=612x612',
-        comments: [],
-        created_at: Date.now(),
-      },
+      user: user,
       listNews: [
         {
           _id: 'asdasdas12312asdasdartysdas',
@@ -53,6 +51,6 @@ const HomeProps: GetServerSideProps = async (ctx) => {
       }
     },
   }
-}
+});
 
 export default HomeProps;

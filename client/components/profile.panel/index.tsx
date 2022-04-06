@@ -7,6 +7,7 @@ import ButtonDefault from "../button.default";
 import {IFile} from "../../dto/file";
 import AvatarUpload from "../avatar.upload";
 import {changeIconUser} from "../../redux/user/userAction";
+import {useDispatch} from "react-redux";
 
 interface IProfilePanel {
   user: IUser,
@@ -17,6 +18,7 @@ interface IProfilePanel {
 }
 
 const ProfilePanel: FC<IProfilePanel> = ({user, query, file, icon, loadIcon}) => {
+  const dispatch = useDispatch();
   const data = new Date(user.created_at);
   const [nav, setNav] = useState<string | undefined>(query);
   const day = data.getDate();
@@ -28,7 +30,7 @@ const ProfilePanel: FC<IProfilePanel> = ({user, query, file, icon, loadIcon}) =>
     if(!icon.cover) return;
     const form = new FormData();
     form.append('file', icon.cover);
-    changeIconUser(form);
+    dispatch(changeIconUser(form));
     loadIcon({cover: null, reader: null})
   }
 

@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IUser} from "../../dto/user";
 import {HYDRATE} from "next-redux-wrapper";
+import {changeIconUser} from "./userAction";
 
 export const userSlice = createSlice({
   name: 'user',
@@ -17,6 +18,11 @@ export const userSlice = createSlice({
         ...action.payload.user
       };
     },
+    // [changeIconUser]: (state, action) => {},
+    // [changeIconUser.fulfilled]: (state, action) => {
+    //   console.log(action)
+    //   return state
+    // }
   },
 });
 

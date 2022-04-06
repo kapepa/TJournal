@@ -36,7 +36,7 @@ const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
   return (
     <div
       onClick={clickAvatar}
-      className={`${style.avatar_upload} ${icon ? style.avatar_upload__save : ''}`}
+      className={`${style.avatar_upload} ${ icon?.reader ? style.avatar_upload__save : ''}`}
     >
       { currentUrl && <img src={String(currentUrl)}  alt='avatar' className={style.avatar_upload__same}/>}
       { !currentUrl &&

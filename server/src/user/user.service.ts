@@ -30,8 +30,8 @@ export class UserService {
     return profile;
   }
 
-  async findUser (name: string, value: string){
-    return await this.usersRepository.findOne({[name]: value});
+  async findUser (key: string, val: string){
+    return await this.usersRepository.findOne({[key]: val});
   }
 
   async updateUser (key: string, val: string, data: any): Promise<any> {
@@ -39,8 +39,4 @@ export class UserService {
     return user
   }
 
-  async findOne(name: string): Promise<DtoUser | undefined> {
-    const user = await this.usersRepository.findOne({name});
-    return user;
-  }
 }

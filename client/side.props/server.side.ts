@@ -1,14 +1,14 @@
-import {GetServerSideProps} from "next";
-import { getCookies } from 'cookies-next';
 import {wrapper} from "../redux/store";
+import {getCookies} from "cookies-next";
 import RequestServer from "../helpers/request.server";
+import {GetServerSideProps} from "next";
 
-const HomeProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req,}) => {
+const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req}) => {
   const regist = query.registration;
   const token = getCookies({req}).token;
   const request = RequestServer(token, store.dispatch);
 
-  await request.Profile();
+  if(!store.getState().user.id) await request.Profile();
 
   return {
     props: {
@@ -48,7 +48,7 @@ const HomeProps: GetServerSideProps = wrapper.getServerSideProps(store => async 
         created_at: Date.now(),
       }
     },
-  }
+  };
 });
 
-export default HomeProps;
+export default ServerSideProps;

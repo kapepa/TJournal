@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import LayoutDefault from "../../layout/layout.default";
-import HomeProps from "../../side.props/home.props";
+import ServerSideProps from "../../side.props/server.side";
 import {IQuery} from "../../dto/query";
 import {IUser} from "../../dto/user";
 import {IArticle, IListNews} from "../../dto/news";
@@ -26,6 +26,6 @@ const Home: NextPage<IHomePage> = ({query, user, listNews, article}) => {
   )
 };
 
-export const getServerSideProps = HomeProps;
+export const getServerSideProps = ServerSideProps;
 
 export default Home;

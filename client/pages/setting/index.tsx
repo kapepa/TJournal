@@ -1,12 +1,11 @@
 import {NextPage} from "next";
 import LayoutDefault from "../../layout/layout.default";
-import SettingProps from "../../side.props/setting.props";
+import ServerSideProps from "../../side.props/server.side";
 import NavSetting from "../../components/nav.setting";
 import SettingsChange from "../../components/settings.change";
 import {IUser} from "../../dto/user";
 import {IQuery} from "../../dto/query";
 import style from './style.module.scss';
-
 
 interface ISetting {
   user: IUser,
@@ -29,6 +28,6 @@ const Setting: NextPage<ISetting> = ({user, query}) => {
   )
 };
 
-export const getServerSideProps = SettingProps;
+export const getServerSideProps = ServerSideProps;
 
 export default Setting;

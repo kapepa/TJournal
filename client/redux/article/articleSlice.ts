@@ -1,12 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {IUser} from "../../dto/user";
+import {IArticle} from "../../dto/news";
 import {HYDRATE} from "next-redux-wrapper";
 
-export const userSlice = createSlice({
-  name: 'user',
-  initialState: {} as IUser,
+export const articleSlice = createSlice({
+  name: 'article',
+  initialState: {} as IArticle,
   reducers: {
-    setProfile(state, action) {
+    setArticle(state, action) {
       return  action.payload;
     },
   },
@@ -14,18 +14,10 @@ export const userSlice = createSlice({
     [HYDRATE]: (state, action) => {
       return {
         ...state,
-        ...action.payload.user
+        ...action.payload.article,
       };
     },
   },
 });
 
-export const { setProfile } = userSlice.actions;
-
-
-
-
-
-
-
-
+export const { setArticle } = articleSlice.actions;

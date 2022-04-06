@@ -34,6 +34,11 @@ export class UserService {
     return await this.usersRepository.findOne({[name]: value});
   }
 
+  async updateUser (key: string, val: string, data: any): Promise<any> {
+    const user = await this.usersRepository.update({[key]: val},{...data})
+    return user
+  }
+
   async findOne(name: string): Promise<DtoUser | undefined> {
     const user = await this.usersRepository.findOne({name});
     return user;

@@ -2,15 +2,20 @@ import React, {FC, useRef} from "react";
 import style from './style.module.scss';
 import {IUser} from "../../dto/user";
 import {IFile} from "../../dto/file";
+import ButtonDefault from "../button.default";
+import config from "../../config";
 
 interface IAvatarUpload {
   user: IUser
   icon: IFile
   loadIcon: (obj: IFile) => void
+  cb: (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void
 }
 
-const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon}) => {
+const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
   const fileRef = useRef<HTMLInputElement>(null);
+  const urlConfig = (user.avatar && /http/.test(user.avatar)) ? user.avatar : `${config.url}/${user.avatar}`
+  const currentUrl = icon?.reader ?? urlConfig;
 
   const clickAvatar = (e: React.MouseEvent<HTMLDivElement>) => {
     const reader = new FileReader();
@@ -26,18 +31,22 @@ const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon}) => {
         });
       };
     }
-  }
+  };
 
   return (
-    <>
-      { icon?.reader && <img src={String(icon.reader)}  alt='avatar' className={style.avatar_upload__same}/>}
-      { !icon &&
-        <div onClick={clickAvatar} className={`flex justify-content-center align-items-center ${style.avatar_upload__same} ${style.avatar_upload__icon}`}>
+    <div
+      onClick={clickAvatar}
+      className={`${style.avatar_upload} ${icon ? style.avatar_upload__save : ''}`}
+    >
+      { currentUrl && <img src={String(currentUrl)}  alt='avatar' className={style.avatar_upload__same}/>}
+      { !currentUrl &&
+        <div className={`flex justify-content-center align-items-center ${style.avatar_upload__same} ${style.avatar_upload__icon}`}>
           {user.name.charAt(0).toUpperCase()}
         </div>
       }
       <input ref={fileRef} name='file' type='file' className={style.avatar_upload__input_file} />
-    </>
+      <ButtonDefault text='Cохранить' type='blue' classes={`${style.avatar_upload__btn}`} cb={cb} />
+    </div>
   )
 };
 

@@ -1,7 +1,7 @@
 import {NextPage} from "next";
 import style from './style.module.scss';
 import LayoutDefault from "../../layout/layout.default";
-import ArticleProps from "../../side.props/article.props";
+import ServerSideProps from "../../side.props/server.side";
 import {IQuery} from "../../dto/query";
 import {IUser} from "../../dto/user";
 import {IArticle} from "../../dto/news";
@@ -26,6 +26,6 @@ const Article: NextPage<IArticlePage> = ({query, user, article}) => {
   )
 }
 
-export const getServerSideProps = ArticleProps;
+export const getServerSideProps = ServerSideProps;
 
 export default Article;

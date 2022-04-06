@@ -1,7 +1,7 @@
 import {useState} from "react";
 import type { NextPage } from 'next';
 import LayoutDefault from "../../layout/layout.default";
-import ProfileProps from "../../side.props/profile.props";
+import ServerSideProps from "../../side.props/server.side";
 import {IUser} from "../../dto/user";
 import {IQuery} from "../../dto/query";
 import style from "./style.module.scss";
@@ -39,6 +39,6 @@ const Profile: NextPage<IProfile> = ({user, query}) => {
   )
 }
 
-export const getServerSideProps = ProfileProps;
+export const getServerSideProps = ServerSideProps;
 
 export default Profile;

@@ -6,6 +6,7 @@ import ButtonSocial from "../button.social";
 import ButtonDefault from "../button.default";
 import {IFile} from "../../dto/file";
 import AvatarUpload from "../avatar.upload";
+import {changeIconUser} from "../../redux/user/userAction";
 
 interface IProfilePanel {
   user: IUser,
@@ -22,6 +23,15 @@ const ProfilePanel: FC<IProfilePanel> = ({user, query, file, icon, loadIcon}) =>
   const manth = data.getMonth() + 1;
   const year = data.getFullYear();
 
+  const changeAvatar = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.stopPropagation();
+    if(!icon.cover) return;
+    const form = new FormData();
+    form.append('file', icon.cover);
+    changeIconUser(form);
+    loadIcon({cover: null, reader: null})
+  }
+
   return (
     <div className={style.profile_panel}>
       <div className={`flex ${style.profile_panel__frame}`}>
@@ -35,7 +45,7 @@ const ProfilePanel: FC<IProfilePanel> = ({user, query, file, icon, loadIcon}) =>
               <img className={`${style.profile_panel__cover_img}`} src={String(file?.reader)} alt='image cover' />
             </div>
           }
-          <AvatarUpload user={user} icon={icon} loadIcon={loadIcon}/>
+          <AvatarUpload user={user} icon={icon} loadIcon={loadIcon} cb={changeAvatar}/>
           <div className={`${style.profile_panel__fullname}`}>
             <span className={`${style.profile_panel__name}`}>{user.name}</span>
           </div>

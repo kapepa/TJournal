@@ -6,15 +6,21 @@ import { ArticleModule } from './article/article.module';
 import { UserModule } from './user/user.module';
 import { UserEntity } from "./user/user.entity";
 import { ArticleEntity } from "./article/article.entity";
-import {LocalStrategy} from "./auth/local.strategy";
-import {AuthService} from "./auth/auth.service";
+import { LocalStrategy } from "./auth/local.strategy";
+import { AuthService } from "./auth/auth.service";
 import { MailerModule } from './mailer/mailer.module';
-import {JwtStrategy} from "./auth/jwt.strategy";
+import { JwtStrategy } from "./auth/jwt.strategy";
+import { FileModule } from './file/file.module';
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 config();
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,
@@ -29,6 +35,7 @@ config();
     ArticleModule,
     UserModule,
     MailerModule,
+    FileModule,
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],

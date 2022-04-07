@@ -16,7 +16,7 @@ export class DtoUser {
 
   @ApiProperty()
   @MinLength(6)
-  password: string
+  password?: string
 
   @ApiProperty()
   @IsString()

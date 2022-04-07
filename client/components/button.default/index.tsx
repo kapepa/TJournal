@@ -15,9 +15,10 @@ interface IButtonDefault {
   cb?: (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement >) => void,
   type: keyof typeof BtnStyle
   disabled?: boolean
+  data?: string
 }
 
-const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= false, type= 'def'}) => {
+const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= false, type= 'def', data}) => {
   const typeBtn = (type: string) => {
     let view;
     switch (type) {
@@ -36,6 +37,7 @@ const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= f
           <a
             onClick={cb}
             className={classStr}
+            data-btn={data ? data : ''}
           >{text}</a>
         </Link>
       }
@@ -44,6 +46,7 @@ const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= f
           onClick={cb}
           className={classStr}
           disabled={disabled}
+          data-btn={data ? data : ''}
         >{text}</button>
       }
     </>

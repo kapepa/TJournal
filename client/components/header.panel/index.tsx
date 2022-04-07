@@ -50,7 +50,12 @@ const HeaderPanel: FC = () => {
   },[]);
 
   useEffect(() => {
-    if(!Object.keys(router.query).length) setPopup({ navAside: false, registration: false, editor: false})
+    console.log(router.query)
+    if(!Object.keys(router.query).length){
+      setPopup({ navAside: false, registration: false, editor: false})
+    } else if(Boolean(router.query)){
+      setPopup({ navAside: false, registration: false, editor: Boolean(router.query)})
+    }
   },[router.query])
 
   return (

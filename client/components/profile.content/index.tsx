@@ -1,16 +1,15 @@
-import React, {FC} from "react";
+import React, {FC, useContext, useState} from "react";
 import Link from 'next/link';
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router';
 import style from './style.module.scss';
-import {IUser} from "../../dto/user";
 import ButtonDefault from "../button.default";
 import ButtonLine from "../button.line";
+import {DataContext} from "../../layout/layout.default";
 
-interface IProfileContent {
-  user: IUser
-}
+interface IProfileContent {}
 
-const ProfileContent: FC<IProfileContent> = ({user}) => {
+const ProfileContent: FC<IProfileContent> = () => {
+  const { user } = useContext(DataContext)
   const router = useRouter();
   const { nav } = router.query;
 
@@ -32,7 +31,7 @@ const ProfileContent: FC<IProfileContent> = ({user}) => {
             <div className={`flex justify-content-center flex-direction-column align-items-center ${style.profile_content__create} ${style.profile_content__containe}`}>
               <span className={`${style.profile_content__desc}`}>Напишите первую статью, чтобы привлечь читателей в ваш блог</span>
               <div className={`${style.profile_content__btn_wrapper}`}>
-              <ButtonDefault type='def' cb={()=>{}} text='Создать запись'/>
+              <ButtonDefault type='def' cb={()=>{ router.push({query: {editor: 'true'}} ) }} text='Создать запись'/>
               </div>
             </div>
           </>

@@ -68,6 +68,7 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }
       {!link &&
         <button
           onClick={cb}
+          data-btn={icon}
           className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
         >
           <div
@@ -80,6 +81,7 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }
         <Link href={link}>
           <a
             onClick={cb}
+            data-btn={icon}
             className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
           >
             <div

@@ -14,7 +14,7 @@ export class FileService {
   async DeleteFile (file: string) {
     const basic = join(__dirname,'..','..','/static');
     const fullPath = `${basic}\\${file}`;
-    if(fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+    if(fs.existsSync(fullPath)) await fs.unlinkSync(fullPath);
   }
 
   async LoadFile (id: string, name: string, file: Express.Multer.File): Promise<string> {
@@ -25,7 +25,7 @@ export class FileService {
     const basic = join(__dirname,'..','..','/static');
 
     if(!fs.existsSync(basic)) await fs.mkdirSync(basic);
-    if(user.avatar) await this.DeleteFile(user.avatar);
+    if(user[name]) await this.DeleteFile(user[name]);
     fs.writeFileSync(`${basic}\\${createName}`, Buffer.from(file.buffer));
     await this.userService.updateUser('id', id, {[name]: createName});
 

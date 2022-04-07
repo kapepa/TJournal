@@ -1,14 +1,18 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IUser} from "../../dto/user";
 import {HYDRATE} from "next-redux-wrapper";
-import {changeIconUser} from "./userAction";
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {} as IUser,
   reducers: {
     setProfile(state, action) {
-      return  action.payload;
+      return action.payload;
+    },
+    changeAvatar(state, action) {
+      if(action.payload.name === 'avatar') state.avatar = action.payload.img;
+      if(action.payload.name === 'cover') state.cover = action.payload.img;
+      return state
     },
   },
   extraReducers: {
@@ -18,11 +22,6 @@ export const userSlice = createSlice({
         ...action.payload.user
       };
     },
-    // [changeIconUser]: (state, action) => {},
-    // [changeIconUser.fulfilled]: (state, action) => {
-    //   console.log(action)
-    //   return state
-    // }
   },
 });
 

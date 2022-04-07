@@ -14,7 +14,7 @@ interface IAvatarUpload {
 
 const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const urlConfig = (user.avatar && /http/.test(user.avatar)) ? user.avatar : `${config.url}/${user.avatar}`
+  const urlConfig = (user.avatar && /http/.test(user.avatar)) ? user.avatar : `${config.url}/${user.avatar}`;
   const currentUrl = icon?.reader ?? urlConfig;
 
   const clickAvatar = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -44,8 +44,8 @@ const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
           {user.name.charAt(0).toUpperCase()}
         </div>
       }
-      <input ref={fileRef} name='file' type='file' className={style.avatar_upload__input_file} />
-      <ButtonDefault text='Cохранить' type='blue' classes={`${style.avatar_upload__btn}`} cb={cb} />
+      <input ref={fileRef} name='avatar' type='file' className={style.avatar_upload__input_file} />
+      <ButtonDefault text='Cохранить' type='blue' classes={`${style.avatar_upload__btn}`} cb={cb} data={'avatar'} />
     </div>
   )
 };

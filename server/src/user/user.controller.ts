@@ -1,4 +1,14 @@
-import {Controller, Get, Put, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Put,
+  Query,
+  Req,
+  UploadedFile,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common';
 import {ApiCreatedResponse} from "@nestjs/swagger";
 import {DtoUser} from "../dto/dto.user";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
@@ -19,19 +29,18 @@ export class UserController {
     description: 'Receive user data!',
     type: DtoUser,
   })
-  async Profile (@Req() req) {
+  async Profile (@Req() req): Promise<DtoUser> {
     const {password, ...other}  = await this.userService.findUser('id',req.user.id);
     return other;
   }
 
-  @Put('/icon')
+  @Put('/file')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
   @ApiCreatedResponse({
-    description: 'Change icon in user',
+    description: 'Change picture in user',
   })
-  async ChangeIcon (@UploadedFile() file: Express.Multer.File, @Req() req) {
-    const image = await this.fileService.LoadFile(req.user.id, 'avatar', file);
-    return image;
+  async ChangeFile (@UploadedFile() file: Express.Multer.File, @Query('name') query, @Req() req): Promise<{img: string, name: string}> {
+    return {img: await this.fileService.LoadFile(req.user.id, query, file), name: query};
   }
 }

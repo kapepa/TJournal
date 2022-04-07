@@ -5,7 +5,9 @@ import { IQuery } from "../dto/query";
 import {IUser} from "../dto/user";
 import {createContext, useEffect, useState} from "react";
 import PopupWrong from "../components/popup.wrong";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import Cookies from "js-cookie";
+import {setProfile} from "../redux/user/userSlice";
 
 interface IWrong {
   active: boolean,

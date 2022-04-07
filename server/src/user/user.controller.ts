@@ -5,7 +5,6 @@ import {
   Query,
   Req,
   UploadedFile,
-  UploadedFiles,
   UseGuards,
   UseInterceptors
 } from '@nestjs/common';

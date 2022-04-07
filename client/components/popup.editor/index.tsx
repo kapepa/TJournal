@@ -29,7 +29,10 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
 
   return (
     <div
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => {if((e.target as HTMLDivElement).classList.contains(style.popup_editor)) cb(e) }}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        if((e.target as HTMLDivElement).classList.contains(style.popup_editor)) cb(e)
+      }}
       className={`flex justify-content-center align-items-center ${style.popup_editor}`}
     >
       <div className={`flex ${style.popup_editor__frame}`}>

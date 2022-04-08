@@ -61,5 +61,5 @@ export class AuthController {
     const {password, ...user} = await this.userService.createSocial(req.user);
     const token = await this.authService.JwtToken(user);
     return `<script>window.opener.postMessage(${JSON.stringify({...user, token})},'*'); window.close();</script>`;
-  }
+  };
 };

@@ -11,7 +11,7 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ default: '' })
   password: string
 
   @Column({ default: '' })

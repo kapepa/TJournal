@@ -3,8 +3,10 @@ import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
 import ButtonSocial from "../button.social";
 import FormRegistration from "../form.registration";
+import Cookie from "js-cookie";
 import FormLogin from "../form.login";
 import config from '../../config';
+import {useRouter} from "next/router";
 
 interface IPopupRegistration {
   classes?: string,
@@ -12,6 +14,7 @@ interface IPopupRegistration {
 }
 
 const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
+  const router = useRouter();
   const [view, setVies] = useState({
     select: 'login',
     regist: false,
@@ -39,7 +42,9 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
 
   useEffect(() => {
     if( window ) addEventListener('message', event => {
-      console.log(event.data)
+      const { token, ...other} = event.data;
+      Cookie.set('token', token);
+      router.push('/home')
     });
   },[]);
 

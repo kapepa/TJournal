@@ -58,11 +58,8 @@ export class AuthController {
     description: 'redirect google authorisation.',
   })
   async GoogleRedirect(@Req() req) {
-    const {token, ...other} = req.user;
-    // const user = await this.userService.createUser(other);
-    console.log(req.user)
-    // return `<script>window.opener.postMessage(${JSON.stringify({...user, token})},'*'); window.close();</script>`;
-
-    return `<script>window.opener.postMessage('sdasd','*'); window.close();</script>`;
-  }
-}
+    const {password, ...user} = await this.userService.createSocial(req.user);
+    const token = await this.authService.JwtToken(user);
+    return `<script>window.opener.postMessage(${JSON.stringify({...user, token})},'*'); window.close();</script>`;
+  };
+};

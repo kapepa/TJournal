@@ -6,16 +6,17 @@ import {GetServerSideProps} from "next";
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req}) => {
   const regist = query.registration;
   const token = getCookies({req}).token;
-  const request = RequestServer(token, store.dispatch);
+  const request = token ? RequestServer(token, store.dispatch) : false;
 
-  if(!store.getState().user.id) await request.Profile();
+  if(!store.getState().user.id && request) await request.Profile();
+  const profile = store.getState().user;
 
   return {
     props: {
       query: {
         registration: regist === 'true' ? Boolean(regist) : false,
       },
-      user: store.getState().user,
+      user: profile.id ? profile : {},
       listNews: [
         {
           _id: 'asdasdas12312asdasdartysdas',

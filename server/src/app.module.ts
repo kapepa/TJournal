@@ -41,4 +41,4 @@ config();
   providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
   exports: [AuthService],
 })
-export class AppModule {}
+export class AppModule {};

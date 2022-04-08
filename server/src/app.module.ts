@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { config } from "dotenv";
+import { join } from "path";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ArticleModule } from './article/article.module';
@@ -12,7 +13,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { JwtStrategy } from "./auth/jwt.strategy";
 import { FileModule } from './file/file.module';
 import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "path";
+import {GoogleStrategy} from "./auth/google.strategy";
 
 config();
 
@@ -37,7 +38,7 @@ config();
     MailerModule,
     FileModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
   exports: [AuthService],
 })
 export class AppModule {}

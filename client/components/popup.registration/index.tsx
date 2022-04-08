@@ -1,9 +1,10 @@
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
 import ButtonSocial from "../button.social";
 import FormRegistration from "../form.registration";
 import FormLogin from "../form.login";
+import config from '../../config';
 
 interface IPopupRegistration {
   classes?: string,
@@ -32,6 +33,16 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
     if(view.select === 'login') setVies({ ...view, login: true });
   }
 
+  const clickGoogle = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    window.open(`${config.url}/api/auth/google`, `AuthGoogle`, `width=500px,height=500px`);
+  }
+
+  useEffect(() => {
+    if( window ) addEventListener('message', event => {
+      console.log(event.data)
+    });
+  },[]);
+
   return (
     <div
       onClick={(e: React.MouseEvent<HTMLDivElement>) => {if((e.target as HTMLDivElement).classList.contains(style.popup_registration)) cb(e) }}
@@ -52,8 +63,8 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
             { !(view.regist || view.login) &&
               <>
                 <ButtonSocial cb={clickEmail} text="Почта" icon='email' classes={style.popup_registration__btn_social} />
+                <ButtonSocial cb={clickGoogle} text="Google" icon='google' classes={style.popup_registration__btn_social}/>
                 <ButtonSocial cb={() => {}} text="ВКонтакте" icon='vk' classes={style.popup_registration__btn_social}/>
-                <ButtonSocial cb={() => {}} text="Google" icon='google' classes={style.popup_registration__btn_social}/>
                 <div className={`flex ${style.popup_registration__gorizont}`}>
                   <ButtonSocial cb={() => {}}  icon='facebook' />
                   <ButtonSocial cb={() => {}}  icon='twitter' />

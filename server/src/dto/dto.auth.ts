@@ -12,5 +12,9 @@ export class DtoAuth {
 
   @ApiProperty()
   @MinLength(6)
-  readonly password: string
+  readonly password?: string
+
+  @ApiProperty()
+  @MinLength(6)
+  readonly avatar?: string
 }

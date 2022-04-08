@@ -1,7 +1,7 @@
 import {
   Body,
   Controller,
-  Get,
+  Get, HttpStatus,
   Post,
   Req,
   Res,
@@ -43,5 +43,26 @@ export class AuthController {
     const token = await this.authService.JwtToken(req.user);
     await this.mailerService.SendEmailRegistration(req.user.email)
     return token
+  }
+
+  @Get('/google')
+  @UseGuards(AuthGuard('google'))
+  @ApiCreatedResponse({
+    description: 'Login user through google.',
+  })
+  async GoogleCreate(@Res() res) {}
+
+  @Get('/google/redirect')
+  @UseGuards(AuthGuard('google'))
+  @ApiCreatedResponse({
+    description: 'redirect google authorisation.',
+  })
+  async GoogleRedirect(@Req() req) {
+    const {token, ...other} = req.user;
+    // const user = await this.userService.createUser(other);
+    console.log(req.user)
+    // return `<script>window.opener.postMessage(${JSON.stringify({...user, token})},'*'); window.close();</script>`;
+
+    return `<script>window.opener.postMessage('sdasd','*'); window.close();</script>`;
   }
 }

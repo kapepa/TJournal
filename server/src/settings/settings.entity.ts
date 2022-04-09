@@ -22,16 +22,16 @@ export class SettingsEntity {
   @Column({ default: false })
   online: boolean;
 
-  @Column({ default: '' })
+  @Column({ default: 'popular' })
   ribbon: string;
 
-  @Column()
+  @Column({ default: 'default' })
   sorting: string;
 
-  @Column()
+  @Column({ default: 'all' })
   entry: string;
 
-  @Column()
+  @Column({ default: 'all' })
   adult: string;
 
   @CreateDateColumn()

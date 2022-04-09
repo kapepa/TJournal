@@ -2,7 +2,7 @@ import Axios from "./axios";
 import config from "../config";
 import {setProfile} from "../redux/user/userSlice";
 
-const RequestServer = (token: string, dispatch: any) => {
+export const RequestServer = (token: string, dispatch: any) => {
   Axios.defaults.baseURL = config.url;
   Axios.defaults.headers.common = { Authorization: `Bearer ${token}`};
 
@@ -14,5 +14,3 @@ const RequestServer = (token: string, dispatch: any) => {
     },
   }
 }
-
-export default RequestServer;

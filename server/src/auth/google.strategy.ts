@@ -2,7 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { config } from 'dotenv';
 import { Injectable } from '@nestjs/common';
-import tools from "../../tools";
+import tools from '../../tools';
 
 config();
 
@@ -17,13 +17,18 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
-    const { name, emails, photos } = profile
+  async validate(
+    accessToken: string,
+    refreshToken: string,
+    profile: any,
+    done: VerifyCallback,
+  ): Promise<any> {
+    const { name, emails, photos } = profile;
     const user = {
       email: emails[0].value,
       name: `${name.givenName} ${name.familyName}`.trim(),
       avatar: photos[0].value,
-    }
+    };
 
     done(null, user);
   }

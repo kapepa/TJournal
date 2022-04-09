@@ -1,8 +1,8 @@
-import {Controller, Get, Query, Req, UseGuards} from '@nestjs/common';
-import { ArticleService } from './article.service'
-import {ApiCreatedResponse, ApiTags} from "@nestjs/swagger";
-import DtoArticle from "../dto/dto.article";
-import {JwtAuthGuard} from "../auth/jwt-auth.guard";
+import { Controller, Get, Query, Req, UseGuards } from '@nestjs/common';
+import { ArticleService } from './article.service';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import DtoArticle from '../dto/dto.article';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('Article')
 @Controller(`/api/article`)

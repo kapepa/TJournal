@@ -40,6 +40,10 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
     window.open(`${config.url}/api/auth/google`, `AuthGoogle`, `width=500px,height=500px`);
   }
 
+  const clickFacebook = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+
+  };
+
   useEffect(() => {
     if( window ) addEventListener('message', event => {
       const { token, ...other} = event.data;
@@ -69,10 +73,10 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
               <>
                 <ButtonSocial cb={clickEmail} text="Почта" icon='email' classes={style.popup_registration__btn_social} />
                 <ButtonSocial cb={clickGoogle} text="Google" icon='google' classes={style.popup_registration__btn_social}/>
-                <ButtonSocial cb={() => {}} text="ВКонтакте" icon='vk' classes={style.popup_registration__btn_social}/>
+                <ButtonSocial cb={() => {}} text="Facebook" icon='facebook' classes={style.popup_registration__btn_social} />
                 <div className={`flex ${style.popup_registration__gorizont}`}>
-                  <ButtonSocial cb={() => {}}  icon='facebook' />
                   <ButtonSocial cb={() => {}}  icon='twitter' />
+                  <ButtonSocial cb={() => {}}  icon='vk' />
                   <ButtonSocial cb={() => {}}  icon='apple' />
                 </div>
               </>

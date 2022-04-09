@@ -5,9 +5,15 @@ import { UserController } from './user.controller';
 import { UserEntity } from './user.entity';
 import { MailerModule } from '../mailer/mailer.module';
 import { FileModule } from '../file/file.module';
+import { SettingsModule } from '../settings/settings.module';
 
 @Module({
-  imports: [FileModule, MailerModule, TypeOrmModule.forFeature([UserEntity])],
+  imports: [
+    FileModule,
+    MailerModule,
+    SettingsModule,
+    TypeOrmModule.forFeature([UserEntity]),
+  ],
   providers: [UserService],
   controllers: [UserController],
   exports: [UserService],

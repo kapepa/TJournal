@@ -7,6 +7,7 @@ import { UserEntity } from './user.entity';
 import { DtoAuth } from '../dto/dto.auth';
 import { DtoUser } from '../dto/dto.user';
 import { MailerService } from '../mailer/mailer.service';
+import { SettingsService } from '../settings/settings.service';
 
 config();
 
@@ -16,6 +17,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
     private mailerService: MailerService,
+    private settingsService: SettingsService,
   ) {}
 
   async createUser(body: DtoAuth): Promise<DtoUser> {
@@ -27,12 +29,14 @@ export class UserService {
       password,
       Number(process.env.BCRYPT_ROUNDS),
     );
+    const settings = await this.settingsService.createSettings();
     const user = await this.usersRepository.create({
       ...other,
+      settings,
       password: hash,
     });
     const profile = await this.usersRepository.save(user);
-    await this.mailerService.SendEmailRegistration(profile.email);
+    // await this.mailerService.SendEmailRegistration(profile.email);
     return profile;
   }
 
@@ -41,13 +45,13 @@ export class UserService {
     if (checkEmail) throw new ConflictException();
 
     const user = await this.usersRepository.create(body);
-    const profile = await this.usersRepository.save(user);
-    // await this.mailerService.SendEmailRegistration(profile.email);
-    return profile;
+    return await this.usersRepository.save(user);
   }
 
   async findUser(key: string, val: string) {
-    return await this.usersRepository.findOne({ [key]: val });
+    const user = await this.usersRepository.findOne({ [key]: val });
+
+    return user;
   }
 
   async updateUser(key: string, val: string, data: any): Promise<any> {

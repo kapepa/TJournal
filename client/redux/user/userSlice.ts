@@ -14,6 +14,9 @@ export const userSlice = createSlice({
       if(action.payload.name === 'cover') state.cover = action.payload.img;
       return state
     },
+    changeData(state, action) {
+      return {...state, ...action.payload};
+    }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -25,7 +28,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setProfile } = userSlice.actions;
+export const { setProfile, changeData } = userSlice.actions;
 
 
 

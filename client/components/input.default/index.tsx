@@ -5,7 +5,8 @@ enum EName {
   'name',
   'email',
   'password',
-  'confirme'
+  'confirme',
+  'filter'
 }
 
 interface IInputDefault {
@@ -49,11 +50,11 @@ const InputDefault: FC<IInputDefault> = ({warning, wrapper,change, name, label, 
           maxLength={30}
           type={type}
         />
-        <span
-          className={`${style.input_default__float_text} ${warning ? style.input_default__show_text : '' }`}
-        >{`Некорректный ${errorName}`}</span>
         <span className={style.input_default__span}>{simbol}</span>
       </div>
+      <span
+        className={`${style.input_default__float_text} ${warning ? style.input_default__show_text : '' }`}
+      >{`Некорректный ${errorName}`}</span>
     </div>
   )
 };

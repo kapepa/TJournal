@@ -16,5 +16,19 @@ export const changeIconUser =
       dispatch(userSlice.actions.changeAvatar(image));
     };
 
+export const changeDataUser =
+  (form: FormData): AppThunk =>
+    async dispatch => {
+      Axios.defaults.headers.common = {
+        ...Axios.defaults.headers.common,
+        'Content-Type': 'multipart/form-data',
+      }
+      const data = await Axios.put(`/api/user/change`,form)
+        .then(res => res.data)
+        .catch(err => console.log(err));
+      dispatch(userSlice.actions.changeData(data));
+    };
+
+
 
 

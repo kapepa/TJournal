@@ -38,17 +38,19 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
 
   const clickGoogle = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     window.open(`${config.url}/api/auth/google`, `AuthGoogle`, `width=500px,height=500px`);
-  }
+  };
 
   const clickFacebook = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-
+    window.open(`${config.url}/api/auth/facebook`, `AuthGoogle`, `width=500px,height=500px`);
   };
 
   useEffect(() => {
     if( window ) addEventListener('message', event => {
-      const { token, ...other} = event.data;
-      Cookie.set('token', token);
-      router.push('/home')
+      const { token, ...other } = event.data;
+      if(token) {
+        Cookie.set('token', token);
+        router.push('/home')
+      }
     });
   },[]);
 
@@ -73,11 +75,10 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
               <>
                 <ButtonSocial cb={clickEmail} text="Почта" icon='email' classes={style.popup_registration__btn_social} />
                 <ButtonSocial cb={clickGoogle} text="Google" icon='google' classes={style.popup_registration__btn_social}/>
-                <ButtonSocial cb={() => {}} text="Facebook" icon='facebook' classes={style.popup_registration__btn_social} />
+                <ButtonSocial cb={clickFacebook} text="Facebook" icon='facebook' classes={style.popup_registration__btn_social} />
                 <div className={`flex ${style.popup_registration__gorizont}`}>
-                  <ButtonSocial cb={() => {}}  icon='twitter' />
-                  <ButtonSocial cb={() => {}}  icon='vk' />
-                  <ButtonSocial cb={() => {}}  icon='apple' />
+                  <ButtonSocial cb={() => { alert('need make registration')}}  icon='twitter' />
+                  <ButtonSocial cb={() => { alert('need make registration')}}  icon='vk' />
                 </div>
               </>
             }

@@ -1,9 +1,22 @@
-import {Entity, Column, PrimaryGeneratedColumn, UpdateDateColumn, CreateDateColumn} from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { SettingsEntity } from '../settings/settings.entity';
 
-@Entity({name: 'user'})
+@Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToOne(() => SettingsEntity, (settings) => settings.user)
+  @JoinColumn()
+  settings: SettingsEntity;
 
   @Column()
   name: string;
@@ -12,7 +25,7 @@ export class UserEntity {
   email: string;
 
   @Column({ default: '' })
-  password: string
+  password: string;
 
   @Column({ default: '' })
   avatar: string;
@@ -20,7 +33,7 @@ export class UserEntity {
   @Column({ default: '' })
   cover: string;
 
-  @Column( "simple-array",{ nullable: true })
+  @Column('simple-array', { nullable: true })
   comments: string[];
 
   @Column({ default: 0 })

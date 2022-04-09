@@ -8,21 +8,35 @@ import InputSelect from "../input.select";
 import ButtonDefault from "../button.default";
 import InputDefault from "../input.default";
 import CheckList from "../check.list";
+import Validator from "../../helpers/validator";
+import {useDispatch} from "react-redux";
+import {changeDataUser} from "../../redux/user/userAction";
 
 interface ISettingsChange{
   user: IUser,
 }
 
+interface IProfile {
+  name: string,
+  email: string,
+}
+
 const SettingsChange: FC<ISettingsChange> = ({user}) => {
   const router = useRouter();
   const { nav } = router.query;
+  const dispatch = useDispatch();
+  const [profile, setProfile] = useState<IProfile>(
+    {name: user.name, email: user.email} as IProfile
+  );
+  const nameValidator = Validator.name(profile.name);
+  const emailValidator = Validator.email(profile.email);
   const list = [
     {name: 'Ответы на мои комментарии', checked: false},
     {name: 'Оценки записей и комментариев', checked: true},
     {name: 'Упоминания в комментариях к постам', checked: false},
     {name: 'Новые сообщения', checked: false},
     {name: 'Лучшее за неделю', checked: false},
-  ]
+  ];
   const message = [
     {name: 'Ответы на мои комментарии', checked: false},
     {name: 'Упоминания в комментариях к постам', checked: false},
@@ -47,6 +61,20 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
     console.log(name, checked)
   }
 
+  const changeUser = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    setProfile({...profile, [name]: e.target.value})
+  }
+
+  const sendUser = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement >) => {
+    if(nameValidator && emailValidator){
+      const form = new FormData();
+      if(profile.name !== user.name) form.append('name', profile.name);
+      if(profile.email !== user.email) form.append('email', profile.email);
+      dispatch(changeDataUser(form))
+    }
+  }
+
   return (
     <div className={style.settings_change}>
       <div className={` ${style.settings_change__cap_back}`}>
@@ -68,11 +96,11 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
       {( nav === 'basic' ) &&
         <>
           <div className={`flex flex-direction-column ${style.settings_change__basic}`}>
-            <InputDefault defaultValue={user.name} change={() => {}} name='name' label='Отображаемое имя'/>
-            <InputDefault defaultValue={user.email} change={() => {}} name='email' label='Почта и пароль'/>
+            <InputDefault warning={!nameValidator} defaultValue={user.name} change={changeUser} type='text' name='name' label='Отображаемое имя' />
+            <InputDefault warning={!emailValidator} defaultValue={user.email} change={changeUser} type='text' name='email' label='Почта и пароль'/>
             <div onClick={changePassword} className={`${style.settings_change__pass}`}>Изменить пароль</div>
           </div>
-          <ButtonDefault text='Сохранить' type='blue' cb={() => {}}/>
+          <ButtonDefault disabled={!(profile.name !== user.name || profile.email !== user.email)} text='Сохранить' type='blue' cb={sendUser}/>
         </>
       }
       {( nav === 'function' ) &&
@@ -114,10 +142,10 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
         <>
           <div className={`flex flex-direction-column ${style.settings_change__black_list}`}>
             <div className={`flex align-items-end`}>
-              <InputDefault wrapper={`${style.settings_change__input_filter}`} label='Фильтр ленты по словам' defaultValue='Ключевое слово или тег' name='filter' change={() => {}}/>
+              <InputDefault type='text' wrapper={`${style.settings_change__input_filter}`} label='Фильтр ленты по словам' defaultValue='Ключевое слово или тег' name='filter' change={() => {}}/>
               <ButtonDefault text='Добавить' type='def' cb={() => {}} classes={style.settings_change__btn_filter}/>
             </div>
-            <InputDefault label='Пользователи' defaultValue='Имя или ссылка' name='name' change={() => {}}/>
+            <InputDefault type='text' label='Пользователи' defaultValue='Имя или ссылка' name='name' change={() => {}}/>
           </div>
           <ButtonDefault text='Сохранить' type='blue' cb={() => {}}/>
         </>

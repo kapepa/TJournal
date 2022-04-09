@@ -1,6 +1,6 @@
 import {wrapper} from "../redux/store";
 import {getCookies} from "cookies-next";
-import RequestServer from "../helpers/request.server";
+import { RequestServer } from "../helpers/request.server";
 import {GetServerSideProps} from "next";
 
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req}) => {

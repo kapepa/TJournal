@@ -15,4 +15,15 @@ export class SettingsService {
     const settings = await this.settingsRepository.create();
     return await this.settingsRepository.save(settings);
   }
+
+  async findSettings(key: string, val: string): Promise<DtoSettings> {
+    return await this.settingsRepository.findOne({ [key]: val });
+  }
+
+  async updateSettings(key: string, val: string, data: any): Promise<any> {
+    const settings = await this.settingsRepository
+      .update({ [key]: val }, { ...data })
+      .then(async () => await this.findSettings(key, val));
+    return settings;
+  }
 }

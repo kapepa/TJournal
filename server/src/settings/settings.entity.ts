@@ -22,10 +22,10 @@ export class SettingsEntity {
   @Column({ default: false })
   online: boolean;
 
-  @Column({ default: 'popular' })
+  @Column({ default: 'default' })
   ribbon: string;
 
-  @Column({ default: 'default' })
+  @Column({ default: 'popular' })
   sorting: string;
 
   @Column({ default: 'all' })

@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import {Body, Controller, Post, Put, Query} from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { SettingsService } from './settings.service';
 
@@ -7,11 +7,11 @@ import { SettingsService } from './settings.service';
 export class SettingsController {
   constructor(private settingsService: SettingsService) {}
 
-  @Post('/set')
+  @Put('/set')
   @ApiCreatedResponse({
     description: 'The record has been successfully created.',
   })
-  async set(): Promise<any> {
-    return this.settingsService.createSettings();
+  async set(@Body() body, @Query('id') query): Promise<any> {
+    return await this.settingsService.updateSettings('id', query, body);
   }
 }

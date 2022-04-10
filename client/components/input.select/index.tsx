@@ -2,15 +2,16 @@ import React, {FC, useEffect, useState} from "react";
 import style from './style.module.scss';
 
 interface IInputSelect{
-  change: (data: {name: string, value: string}) => void,
+  change: (obj:{ name: string, val: string | boolean}) => void,
   label: string,
   name: string,
-  list: string[]
+  list: {name: string, val: boolean | string }[],
+  selected: string | boolean | undefined,
 }
 
-const InputSelect: FC<IInputSelect> = ({change, label,name, list}) => {
+const InputSelect: FC<IInputSelect> = ({change, label,name, list, selected}) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [select, setSelect] = useState<string>(list[0]);
+  const [select, setSelect] = useState<any>(list.find(el => {return el.val === selected}));
 
   const clickSelect = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -30,19 +31,20 @@ const InputSelect: FC<IInputSelect> = ({change, label,name, list}) => {
     <div className={`${style.input_select__wrapper}`}>
       <label className={`${style.input_select__label}`}>{label}</label>
       <div onClick={clickSelect} className={`${style.input_select} ${open ? style.input_select__open : ''}`}>
-        {select}
+        {select.name}
         {open &&
           <div className={`flex flex-direction-column ${style.input_select__drop}`}>
-            {list.map((el, i) => {
+            {list.map((item, i) => {
               return <div
                 key={`option-${i}`}
-                className={`${style.input_select__option} ${ select === el ? style.input_select__active : '' }`}
+                className={`${style.input_select__option} ${ select.val === item.val ? style.input_select__active : '' }`}
                 onClick={(e) => {
-                  setSelect(el);
-                  change({name, value: el});
+                  setSelect({ name: item.name, val: item.val });
+                  change({ name, val: item.val });
                 }}
-                data-option={name}
-              >{el}</div>
+                data-name={name}
+                data-val={item.val}
+              >{item.name}</div>
             })}
           </div>
         }

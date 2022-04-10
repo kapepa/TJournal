@@ -7,9 +7,10 @@ interface IInputTextarea{
   label?: string,
   classes?: string,
   name?: string,
+  defaultValue?: string
 }
 
-const InputTextarea: FC<IInputTextarea> = ({change, placeholder, label, classes, name}) => {
+const InputTextarea: FC<IInputTextarea> = ({defaultValue, change, placeholder, label, classes, name}) => {
   return (
     <div className={`${style.input_textarea__wrapper} ${classes ? classes : ''}`}>
       {label && <label className={`${style.input_textarea__label}`}>{label}</label>}
@@ -19,6 +20,7 @@ const InputTextarea: FC<IInputTextarea> = ({change, placeholder, label, classes,
         placeholder={placeholder}
         maxLength={160}
         name={name ? name : 'textarea'}
+        defaultValue={defaultValue}
       />
     </div>
   )

@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { SettingsEntity } from '../settings/settings.entity';
+import {ListEntity} from "../settings/list.entity";
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -17,6 +18,10 @@ export class UserEntity {
   @OneToOne(() => SettingsEntity, (settings) => settings.user)
   @JoinColumn()
   settings: SettingsEntity;
+
+  @OneToOne(() => ListEntity, (settings) => settings.user)
+  @JoinColumn()
+  list: ListEntity;
 
   @Column()
   name: string;

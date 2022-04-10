@@ -1,7 +1,8 @@
 import {
   Body,
   Controller,
-  Get, NotFoundException,
+  Get,
+  NotFoundException,
   Put,
   Query,
   Req,
@@ -30,7 +31,7 @@ export class UserController {
     type: DtoUser,
   })
   async Profile(@Req() req): Promise<DtoUser> {
-    const user = await this.userService.findUser('id', req.user.id);
+    const user = await this.userService.findFullUser('id', req.user.id);
     if (!user) throw new NotFoundException();
     const { password, ...other } = user;
     return other;

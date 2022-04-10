@@ -3,12 +3,16 @@ import { SettingsEntity } from './settings.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DtoSettings } from '../dto/dto.settings';
+import { ListEntity } from './list.entity';
+import { DtoList } from '../dto/dto.list';
 
 @Injectable()
 export class SettingsService {
   constructor(
     @InjectRepository(SettingsEntity)
     private settingsRepository: Repository<SettingsEntity>,
+    @InjectRepository(ListEntity)
+    private listRepository: Repository<ListEntity>,
   ) {}
 
   async createSettings(): Promise<DtoSettings> {
@@ -25,5 +29,10 @@ export class SettingsService {
       .update({ [key]: val }, { ...data })
       .then(async () => await this.findSettings(key, val));
     return settings;
+  }
+
+  async listSettings(): Promise<DtoList> {
+    const list = await this.listRepository.create();
+    return await this.listRepository.save(list);
   }
 }

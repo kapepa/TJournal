@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsDate, IsString, ValidateNested } from 'class-validator';
 import { DtoUser } from './dto.user';
 
-class Nested {
+class NestedData {
   @IsString()
   name: string;
 
@@ -19,24 +19,24 @@ export class DtoList {
   user?: DtoUser;
 
   @ApiProperty()
-  @ValidateNested({ each: true })
-  answer: Nested;
+  @ValidateNested()
+  answer: NestedData;
 
   @ApiProperty()
-  @ValidateNested({ each: true })
-  ratings: Nested;
+  @ValidateNested()
+  ratings: NestedData;
 
   @ApiProperty()
-  @ValidateNested({ each: true })
-  reminders: Nested;
+  @ValidateNested()
+  reminders: NestedData;
 
   @ApiProperty()
-  @ValidateNested({ each: true })
-  message: Nested;
+  @ValidateNested()
+  message: NestedData;
 
   @ApiProperty()
-  @ValidateNested({ each: true })
-  best: Nested;
+  @ValidateNested()
+  best: NestedData;
 
   @ApiProperty()
   @IsDate()

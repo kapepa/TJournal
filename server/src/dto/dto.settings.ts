@@ -41,4 +41,4 @@ export class DtoSettings {
   @ApiProperty()
   @IsDate()
   updated_at: Date;
-}
+};

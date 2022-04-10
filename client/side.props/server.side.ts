@@ -3,6 +3,8 @@ import {getCookies} from "cookies-next";
 import { RequestServer } from "../helpers/request.server";
 import {GetServerSideProps} from "next";
 
+const homeRedirect = () => { return { redirect: { permanent: false, destination: "/home" } } } ;
+
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({params, query, req}) => {
   const regist = query.registration;
   const token = getCookies({req}).token;
@@ -10,6 +12,9 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
 
   if(!store.getState().user.id && request) await request.Profile();
   const profile = store.getState().user;
+
+
+  // if(!profile.id) return { redirect: { permanent: false, destination: "/setting" } };
 
   return {
     props: {

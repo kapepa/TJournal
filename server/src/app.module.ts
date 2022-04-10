@@ -16,7 +16,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { GoogleStrategy } from './auth/google.strategy';
 import { FacebookStrategy } from './auth/facebook.strategy';
 import { SettingsModule } from './settings/settings.module';
-import {SettingsEntity} from "./settings/settings.entity";
+import { SettingsEntity } from './settings/settings.entity';
+import { ListEntity } from './settings/list.entity';
 
 config();
 
@@ -32,7 +33,7 @@ config();
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [UserEntity, ArticleEntity, SettingsEntity],
+      entities: [UserEntity, ArticleEntity, SettingsEntity, ListEntity],
       synchronize: true,
     }),
     AuthModule,

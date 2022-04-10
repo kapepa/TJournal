@@ -33,6 +33,7 @@ export class UserService {
     const user = await this.usersRepository.create({
       ...other,
       settings,
+      list: {},
       password: hash,
     });
     const profile = await this.usersRepository.save(user);
@@ -48,10 +49,12 @@ export class UserService {
     return await this.usersRepository.save(user);
   }
 
-  async findUser(key: string, val: string) {
-    const user = await this.usersRepository.findOne({ [key]: val });
+  async findUser(key: string, val: string): Promise<DtoUser> {
+    return await this.usersRepository.findOne({ [key]: val });
+  }
 
-    return user;
+  async findFullUser(key: string, val: string) {
+    return await this.usersRepository.findOne({ [key]: val }, { relations: ['settings'] } );
   }
 
   async updateUser(key: string, val: string, data: any): Promise<any> {

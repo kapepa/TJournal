@@ -18,7 +18,7 @@ const Setting: NextPage<ISetting> = ({user, query}) => {
     <LayoutDefault title='Setting' user={user} query={query} >
       <section className={`flex ${style.setting}`}>
         <main className={`${style.setting__main}`}>
-          <SettingsChange user={user} />
+          <SettingsChange />
         </main>
         <aside className={`flex ${style.setting__aside}`}>
           <NavSetting/>

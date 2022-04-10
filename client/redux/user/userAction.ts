@@ -23,12 +23,17 @@ export const changeDataUser =
         ...Axios.defaults.headers.common,
         'Content-Type': 'multipart/form-data',
       }
-      const data = await Axios.put(`/api/user/change`,form)
+      const data = await Axios.put(`/api/user/change`, form)
         .then(res => res.data)
         .catch(err => console.log(err));
       dispatch(userSlice.actions.changeData(data));
     };
 
-
-
-
+export const changeSettings =
+  (id: string, obj: any): AppThunk =>
+    async dispatch => {
+      const data = await Axios.put(`/api/settings/set?id=${id}`, obj)
+        .then(res => res.data)
+        .catch(err => console.log(err));
+      dispatch(userSlice.actions.changeSettings(data))
+    }

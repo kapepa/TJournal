@@ -1,7 +1,8 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import Link from 'next/link'
 import {IUser} from "../../dto/user";
+import {ISettings} from "../../dto/settings";
 import style from './style.module.scss';
 import InputTextarea from "../input.textarea";
 import InputSelect from "../input.select";
@@ -10,21 +11,20 @@ import InputDefault from "../input.default";
 import CheckList from "../check.list";
 import Validator from "../../helpers/validator";
 import {useDispatch} from "react-redux";
-import {changeDataUser} from "../../redux/user/userAction";
-
-interface ISettingsChange{
-  user: IUser,
-}
+import {changeDataUser, changeSettings} from "../../redux/user/userAction";
+import {DataContext} from "../../layout/layout.default";
 
 interface IProfile {
   name: string,
   email: string,
 }
 
-const SettingsChange: FC<ISettingsChange> = ({user}) => {
+const SettingsChange: FC = () => {
   const router = useRouter();
   const { nav } = router.query;
+  const { user } = useContext(DataContext);
   const dispatch = useDispatch();
+  const [settings, setSettings] = useState<ISettings | undefined>( user.settings );
   const [profile, setProfile] = useState<IProfile>(
     {name: user.name, email: user.email} as IProfile
   );
@@ -44,14 +44,6 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
     {name: 'Новые комментарии к постам', checked: false},
     {name: 'Новые подписчики', checked: false},
   ]
-
-  const changeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-
-  }
-
-  const changeSelect = (data: {name: string, value: string}) => {
-    console.log(data)
-  }
 
   const changePassword = () => {
     console.log('change password');
@@ -75,6 +67,27 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
     }
   }
 
+  const changeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const name = e.target.name;
+    if(settings) setSettings({...settings, [name]: e.target.value})
+  }
+
+  const sendSettings = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    const obj = {} as any;
+    if(settings?.description !== user.settings?.description) obj.description = settings?.description;
+    if(settings?.online !== user.settings?.online) obj.online = settings?.online;
+    if(settings?.ribbon !== user.settings?.ribbon) obj.ribbon = settings?.ribbon;
+    if(settings?.sorting !== user.settings?.sorting) obj.sorting = settings?.sorting;
+    if(settings?.entry !== user.settings?.entry) obj.entry = settings?.entry;
+    if(settings?.adult !== user.settings?.adult) obj.adult = settings?.adult;
+
+    if(settings?.id) dispatch(changeSettings(settings?.id, obj))
+  }
+
+  const changeSelect = (obj:{ name: string, val: string | boolean}) => {
+    if(settings) setSettings({...settings, [obj.name]: obj.val})
+  }
+
   return (
     <div className={style.settings_change}>
       <div className={` ${style.settings_change__cap_back}`}>
@@ -83,14 +96,62 @@ const SettingsChange: FC<ISettingsChange> = ({user}) => {
       {( !nav || nav === 'profile' ) &&
         <>
           <div className={`flex flex-direction-column ${style.settings_change__content}`}>
-            <InputTextarea change={changeText} placeholder='Пара слова о себе' label='Описание к блогу'/>
-            <InputSelect change={changeSelect} label='Статус онлайн' name='online' list={['Показывать когда я онлайн','Скрыть от всех']}/>
-            <InputSelect change={changeSelect} label='Лента по умолчанию' name='ribbon' list={['Популярное','Свежее','Моя лента']}/>
-            <InputSelect change={changeSelect} label='Сортировка «Моей ленты»' name='sort' list={['По популярности','По дате']}/>
-            <InputSelect change={changeSelect} label='Записи в блоге' name='show' list={['Показывать всем','Показывать только подписчикам']}/>
-            <InputSelect change={changeSelect} label='Контент для взрослых' name='old' list={['Блюрить записи 18+ в лентe','Показать всё']}/>
+            <InputTextarea
+              name='description'
+              defaultValue={settings?.description}
+              change={changeText}
+              placeholder='Пара слова о себе'
+              label='Описание к блогу'
+            />
+            <InputSelect
+              change={changeSelect}
+              label='Статус онлайн'
+              name='online'
+              list={[{name: 'Показывать когда я онлайн', val: true},{name:'Скрыть от всех', val: false}]}
+              selected={settings?.online}
+            />
+            <InputSelect
+              change={changeSelect}
+              label='Лента по умолчанию'
+              name='ribbon'
+              list={[{name:'Популярное', val: 'default'},{name:'Свежее', val: 'recently'},{name:'Моя лента', val: 'yourself'}]}
+              selected={settings?.ribbon}
+            />
+            <InputSelect
+              change={changeSelect}
+              label='Сортировка «Моей ленты»'
+              name='sorting'
+              list={[{name:'По популярности', val: 'popular'},{name:'По дате', val: 'date'}]}
+              selected={settings?.sorting}
+            />
+            <InputSelect
+              change={changeSelect}
+              label='Записи в блоге'
+              name='entry'
+              list={[{name:'Показывать всем', val: 'all'},{name:'Показывать только подписчикам', val: 'subscribers'}]}
+              selected={settings?.entry}
+            />
+            <InputSelect
+              change={changeSelect}
+              label='Контент для взрослых'
+              name='adult'
+              list={[{name:'Блюрить записи 18+ в лентe', val: 'adult'},{name:'Показать всё', val: 'all'}]}
+              selected={settings?.adult}
+            />
           </div>
-          <ButtonDefault text='Сохранить' type='blue' cb={() => {}}/>
+          <ButtonDefault
+            disabled={(
+              settings?.description === user.settings?.description &&
+              settings?.online === user.settings?.online &&
+              settings?.ribbon === user.settings?.ribbon &&
+              settings?.sorting === user.settings?.sorting &&
+              settings?.entry === user.settings?.entry &&
+              settings?.adult === user.settings?.adult
+            )}
+            text='Сохранить'
+            type='blue'
+            cb={sendSettings}
+          />
         </>
       }
       {( nav === 'basic' ) &&

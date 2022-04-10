@@ -1,5 +1,8 @@
+import {ISettings} from "./settings";
+
 interface IUser {
   id: string,
+  settings?: ISettings,
   name: string,
   email: string,
   password?: string,

@@ -1,8 +1,12 @@
 import {ISettings} from "./settings";
+import {IList} from "./list";
+import {IMessage} from "./message";
 
 interface IUser {
   id: string,
   settings?: ISettings,
+  list?: IList,
+  message: IMessage,
   name: string,
   email: string,
   password?: string,

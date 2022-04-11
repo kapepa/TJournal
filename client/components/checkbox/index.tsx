@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useRef, useState} from "react";
 import style from './style.module.scss';
+import {IList} from "../../dto/list";
 
 interface ICheckbox {
   name: string,

@@ -18,6 +18,7 @@ import { FacebookStrategy } from './auth/facebook.strategy';
 import { SettingsModule } from './settings/settings.module';
 import { SettingsEntity } from './settings/settings.entity';
 import { ListEntity } from './settings/list.entity';
+import { MessageEntity } from './settings/message.entity';
 
 config();
 
@@ -33,7 +34,13 @@ config();
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [UserEntity, ArticleEntity, SettingsEntity, ListEntity],
+      entities: [
+        UserEntity,
+        ArticleEntity,
+        SettingsEntity,
+        ListEntity,
+        MessageEntity,
+      ],
       synchronize: true,
     }),
     AuthModule,

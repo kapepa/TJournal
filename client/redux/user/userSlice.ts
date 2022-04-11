@@ -19,6 +19,9 @@ export const userSlice = createSlice({
     },
     changeSettings(state, action) {
       return {...state, settings: action.payload};
+    },
+    changeMessage(state, action) {
+      return {...state, ...action.payload};
     }
   },
   extraReducers: {
@@ -31,7 +34,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setProfile, changeData, changeSettings } = userSlice.actions;
+export const { setProfile, changeData, changeSettings, changeMessage } = userSlice.actions;
 
 
 

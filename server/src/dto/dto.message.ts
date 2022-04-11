@@ -12,7 +12,7 @@ class NestedData {
   checked: boolean;
 }
 
-export class DtoList {
+export class DtoMessage {
   @ApiProperty()
   @IsString()
   id: string;
@@ -34,11 +34,11 @@ export class DtoList {
 
   @ApiProperty()
   @ValidateNested()
-  message: NestedData;
+  comments: NestedData;
 
   @ApiProperty()
   @ValidateNested()
-  best: NestedData;
+  subscribers: NestedData;
 
   @ApiProperty()
   @IsDate()

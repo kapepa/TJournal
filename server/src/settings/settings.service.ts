@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { DtoSettings } from '../dto/dto.settings';
 import { ListEntity } from './list.entity';
 import { DtoList } from '../dto/dto.list';
+import { MessageEntity } from './message.entity';
+import { DtoMessage } from '../dto/dto.message';
 
 @Injectable()
 export class SettingsService {
@@ -13,6 +15,8 @@ export class SettingsService {
     private settingsRepository: Repository<SettingsEntity>,
     @InjectRepository(ListEntity)
     private listRepository: Repository<ListEntity>,
+    @InjectRepository(MessageEntity)
+    private messageRepository: Repository<MessageEntity>,
   ) {}
 
   async createSettings(): Promise<DtoSettings> {
@@ -31,8 +35,39 @@ export class SettingsService {
     return settings;
   }
 
-  async listSettings(): Promise<DtoList> {
+  async createList(): Promise<DtoList> {
     const list = await this.listRepository.create();
     return await this.listRepository.save(list);
+  }
+
+  async findList(key: string, val: string): Promise<DtoList> {
+    return await this.listRepository.findOne({ [key]: val });
+  }
+
+  async updateList(key: string, val: string, data: any): Promise<DtoList> {
+    const list = await this.listRepository
+      .update({ [key]: val }, { ...data })
+      .then(async () => await this.findList(key, val));
+    return list;
+  }
+
+  async createMessage(): Promise<DtoMessage> {
+    const message = await this.messageRepository.create();
+    return await this.messageRepository.save(message);
+  }
+
+  async findMessage(key: string, val: string): Promise<DtoMessage> {
+    return await this.messageRepository.findOne({ [key]: val });
+  }
+
+  async updateMessage(
+    key: string,
+    val: string,
+    data: any,
+  ): Promise<DtoMessage> {
+    const list = await this.messageRepository
+      .update({ [key]: val }, { ...data })
+      .then(async () => await this.findMessage(key, val));
+    return list;
   }
 }

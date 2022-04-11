@@ -1,7 +1,6 @@
-import React, {FC, useContext, useEffect, useState} from "react";
+import React, {FC, useContext, useState} from "react";
 import { useRouter } from "next/router";
 import Link from 'next/link'
-import {IUser} from "../../dto/user";
 import {ISettings} from "../../dto/settings";
 import style from './style.module.scss';
 import InputTextarea from "../input.textarea";
@@ -11,8 +10,10 @@ import InputDefault from "../input.default";
 import CheckList from "../check.list";
 import Validator from "../../helpers/validator";
 import {useDispatch} from "react-redux";
-import {changeDataUser, changeSettings} from "../../redux/user/userAction";
+import {changeDataUser, changeSettings, changeMessage} from "../../redux/user/userAction";
 import {DataContext} from "../../layout/layout.default";
+import {IList} from "../../dto/list";
+import {IMessage} from "../../dto/message";
 
 interface IProfile {
   name: string,
@@ -28,29 +29,21 @@ const SettingsChange: FC = () => {
   const [profile, setProfile] = useState<IProfile>(
     {name: user.name, email: user.email} as IProfile
   );
+  const [list, setList] = useState<IList>(() => {
+    if (!user.list) return {} as IList;
+    const { id, updated_at, created_at, ...other} = user.list;
+    return ( other as IList );
+  });
+  const [message, setMessage] = useState<IMessage>(() => {
+    if (!user.message) return {} as IMessage;
+    const { id, updated_at, created_at, ...other} = user.message;
+    return ( other as IMessage );
+  });
   const nameValidator = Validator.name(profile.name);
   const emailValidator = Validator.email(profile.email);
-  const list = [
-    {name: 'Ответы на мои комментарии', checked: false},
-    {name: 'Оценки записей и комментариев', checked: true},
-    {name: 'Упоминания в комментариях к постам', checked: false},
-    {name: 'Новые сообщения', checked: false},
-    {name: 'Лучшее за неделю', checked: false},
-  ];
-  const message = [
-    {name: 'Ответы на мои комментарии', checked: false},
-    {name: 'Упоминания в комментариях к постам', checked: false},
-    {name: 'Оценки записей и комментариев', checked: false},
-    {name: 'Новые комментарии к постам', checked: false},
-    {name: 'Новые подписчики', checked: false},
-  ]
 
   const changePassword = () => {
     console.log('change password');
-  }
-
-  const changeChecBox = (name: string, checked: boolean) => {
-    console.log(name, checked)
   }
 
   const changeUser = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +79,38 @@ const SettingsChange: FC = () => {
 
   const changeSelect = (obj:{ name: string, val: string | boolean}) => {
     if(settings) setSettings({...settings, [obj.name]: obj.val})
+  }
+
+  const changeChecBoxList = (name: keyof IList, checked: boolean) => {
+    const current = JSON.parse(JSON.stringify(list[name]))
+    setList({...list, [name]: {...current, checked} })
+  }
+
+  const changeChecBoxMessage = (name: keyof IMessage, checked: boolean) => {
+    const current = JSON.parse(JSON.stringify(message[name]))
+    setMessage({...message, [name]: {...current, checked} })
+  }
+
+  const sendMessage = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>): void => {
+    const obj = {} as {list: IList, message: IMessage};
+    const changelist = Object.keys(list).reduce((accum , field) => {
+      const key = (list[(field as keyof IList)] as { name: string, checked: boolean } ).checked;
+      const profile = ( user.list && ( user.list[(field as keyof IList)] as { name: string, checked: boolean } ).checked);
+
+      return key !== profile ? { [field]: list[(field as keyof IList)], ...accum } : accum;
+    },{} as IList);
+
+    const exchangeMessage = Object.keys(message).reduce((accum , field) => {
+      const key = (message[(field as keyof IMessage)] as { name: string, checked: boolean } ).checked;
+      const profile = ( user.message && ( user.message[(field as keyof IMessage)] as { name: string, checked: boolean } ).checked);
+
+      return key !== profile ? { [field]: message[(field as keyof IMessage)], ...accum } : accum;
+    },{} as IMessage);
+
+    if(changelist && user.list?.id) obj.list = {...changelist, id: user.list.id};
+    if(exchangeMessage && user.message?.id) obj.message = {...exchangeMessage, id: user.message.id};
+
+    if(user.list?.id) dispatch(changeMessage(obj));
   }
 
   return (
@@ -169,7 +194,7 @@ const SettingsChange: FC = () => {
           <div className={`flex flex-direction-column`}>
             <div className={`flex ${style.settings_change__up}`}>
               <div className={`flex ${style.settings_change__cap}`}>
-                <div className={`${style.settings_change__price}`}>{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB'}).format(75)}</div>
+                <div className={`${style.settings_change__price}`}>{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB'}).format(user.donate)}</div>
                 <div className={`flex justify-content-center align-items-center ${style.settings_change__price_desc}`}>в месяц за доступ к приятным функциям</div>
               </div>
               <div className={'flex justify-content-center align-items-center'}>
@@ -193,10 +218,26 @@ const SettingsChange: FC = () => {
       {( nav === 'message' ) &&
         <>
           <div className={`flex flex-direction-column ${style.settings_change__message}`}>
-            <CheckList list={list} title='Письма на почту' cb={changeChecBox}/>
-            <CheckList list={message} title='Уведомления на сайте' cb={changeChecBox}/>
+            <CheckList list={list} title='Письма на почту' cb={changeChecBoxList}/>
+            <CheckList list={message} title='Уведомления на сайте' cb={changeChecBoxMessage}/>
           </div>
-          <ButtonDefault text='Сохранить' type='blue' cb={() => {}}/>
+          <ButtonDefault
+            text='Сохранить'
+            type='blue'
+            cb={sendMessage}
+            disabled={(
+              user.list?.answer.checked === list.answer.checked &&
+              user.list?.ratings.checked === list.ratings.checked &&
+              user.list?.reminders.checked === list.reminders.checked &&
+              user.list?.message.checked === list.message.checked &&
+              user.list?.best.checked === list.best.checked &&
+              user.message.answer.checked === message.answer.checked &&
+              user.message.ratings.checked === message.ratings.checked &&
+              user.message.reminders.checked === message.reminders.checked &&
+              user.message.comments.checked === message.comments.checked &&
+              user.message.subscribers.checked === message.subscribers.checked
+            )}
+          />
         </>
       }
       {( nav === 'black_list' ) &&

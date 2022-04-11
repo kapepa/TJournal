@@ -39,5 +39,5 @@ export class SettingsController {
       );
 
     return obj;
-  }
+  };
 }

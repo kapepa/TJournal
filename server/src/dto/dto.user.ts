@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { DtoSettings } from './dto.settings';
 import { DtoList } from './dto.list';
+import { DtoMessage } from './dto.message';
 
 export class DtoUser {
   @ApiProperty()
@@ -21,6 +22,9 @@ export class DtoUser {
 
   @ApiProperty({ type: () => DtoList })
   list?: DtoList;
+
+  @ApiProperty({ type: () => DtoMessage })
+  message?: DtoMessage;
 
   @ApiProperty()
   @IsString()

@@ -30,10 +30,12 @@ export class UserService {
       Number(process.env.BCRYPT_ROUNDS),
     );
     const settings = await this.settingsService.createSettings();
-    const list = await this.settingsService.listSettings();
+    const list = await this.settingsService.createList();
+    const message = await this.settingsService.createMessage();
     const user = await this.usersRepository.create({
       ...other,
       settings,
+      message,
       list,
       password: hash,
     });
@@ -55,7 +57,7 @@ export class UserService {
   }
 
   async findFullUser(key: string, val: string) {
-    return await this.usersRepository.findOne({ [key]: val }, { relations: ['settings', 'list'] } );
+    return await this.usersRepository.findOne({ [key]: val }, { relations: ['settings', 'list', 'message'] } );
   }
 
   async updateUser(key: string, val: string, data: any): Promise<any> {

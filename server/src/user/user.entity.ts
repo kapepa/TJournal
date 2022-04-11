@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { SettingsEntity } from '../settings/settings.entity';
 import { ListEntity } from '../settings/list.entity';
+import { MessageEntity } from '../settings/message.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -22,6 +23,10 @@ export class UserEntity {
   @OneToOne(() => ListEntity, (list) => list.user)
   @JoinColumn()
   list: ListEntity;
+
+  @OneToOne(() => MessageEntity, (message) => message.user)
+  @JoinColumn()
+  message: MessageEntity;
 
   @Column()
   name: string;

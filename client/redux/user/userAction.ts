@@ -32,8 +32,17 @@ export const changeDataUser =
 export const changeSettings =
   (id: string, obj: any): AppThunk =>
     async dispatch => {
-      const data = await Axios.put(`/api/settings/set?id=${id}`, obj)
+      const data = await Axios.put(`/api/settings/change?id=${id}`, obj)
         .then(res => res.data)
         .catch(err => console.log(err));
       dispatch(userSlice.actions.changeSettings(data))
+    }
+
+export const changeMessage =
+  (obj: any): AppThunk =>
+    async dispatch => {
+      const data = await Axios.put(`/api/settings/message`, obj)
+        .then(res => res.data)
+        .catch(err => console.log(err));
+      dispatch(userSlice.actions.changeMessage(data))
     }

@@ -3,7 +3,7 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { SettingsService } from './settings.service';
 import { DtoList } from '../dto/dto.list';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import {DtoMessage} from "../dto/dto.message";
+import { DtoMessage } from "../dto/dto.message";
 
 @ApiTags('Settings')
 @Controller('/api/settings')

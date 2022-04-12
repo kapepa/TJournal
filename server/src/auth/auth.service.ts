@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { config } from 'dotenv';
 import { UserService } from '../user/user.service';
 import { DtoUser } from '../dto/dto.user';
 import { MailerService } from '../mailer/mailer.service';
+import fetch from 'node-fetch';
 
 config();
 
@@ -32,5 +33,18 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async CheckRecaptcha(recaptcha: string): Promise<boolean> {
+    try {
+      const res = await fetch(
+        `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`,
+        { method: 'POST' },
+      ).then((res: any) => res.json());
+
+      return res.success;
+    } catch (err) {
+      throw new BadRequestException();
+    }
   }
 }

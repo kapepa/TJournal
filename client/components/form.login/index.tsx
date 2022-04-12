@@ -4,9 +4,10 @@ import InputDefault from "../input.default";
 import ButtonDefault from "../button.default";
 import Validator from "../../helpers/validator";
 import {DataContext} from "../../layout/layout.default";
-import {SubmitLogin} from "../../helpers/request";
+import {CheckRecaptcha, SubmitLogin} from "../../helpers/request";
 import {useRouter} from "next/router";
 import Cookies from "js-cookie";
+import ReCAPTCHA from "react-google-recaptcha";
 
 interface ILogin{
   email: string,
@@ -16,6 +17,7 @@ interface ILogin{
 const FormLogin: FC = () => {
   const router = useRouter();
   const { wrong } = useContext(DataContext);
+  const recaptchaRef = React.createRef<ReCAPTCHA>();
   const [warning, setWarning] = useState<boolean>(false);
   const [login, setLogin] = useState<ILogin>({email: 'kapepa@mail.ru', password: '123456'} as ILogin);
   const emailValidator = Validator.email(login.email);
@@ -29,6 +31,16 @@ const FormLogin: FC = () => {
 
   const submitLogin = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
+    recaptchaRef.current?.execute();
+  }
+
+  const changeRecaptcha = async (captchaCode: string | null) => {
+    if( captchaCode ) await CheckRecaptcha(captchaCode)
+      .then((flag: boolean) => {if(flag) sendLogin()})
+    recaptchaRef.current?.reset()
+  };
+
+  const sendLogin = async () => {
     if(validate){
       setWarning(false);
       SubmitLogin(login, wrong).then(token => {
@@ -63,6 +75,12 @@ const FormLogin: FC = () => {
         type='password'
         defaultValue={login.password}
         warning={(warning && !passwordValidator)}
+      />
+      <ReCAPTCHA
+        sitekey={String(process.env.PUBLIC_RECAPTCHA_SITE_KEY)}
+        size="invisible"
+        ref={recaptchaRef}
+        onChange={changeRecaptcha}
       />
       <ButtonDefault
         text='Войти'

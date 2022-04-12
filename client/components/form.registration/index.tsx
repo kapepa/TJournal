@@ -1,6 +1,7 @@
-import React, {FC, useContext, useState} from "react";
-import { useRouter } from 'next/router'
+import React, {FC, useContext, useRef, useState} from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router'
 import style from './style.module.scss';
 import InputDefault from "../input.default";
 import ButtonDefault from "../button.default";
@@ -15,9 +16,13 @@ interface IState {
   confirme: string,
 }
 
+// 6Le5IGsfAAAAADUZV6u2jkJ7kVm-DU04kMnXgaJt
+// 6Le5IGsfAAAAAKroi6hQ3xzt0Bf1fkyiYkoYoWYj
+
 const FormRegistration: FC = () => {
   const router = useRouter();
   const data = useContext(DataContext);
+  const recaptchaRef = React.createRef<ReCAPTCHA>();
   const [warning, setWarning] = useState<boolean>(false);
   const [state, setState] = useState({} as IState);
   const nameValidator = Validator.name(state.name);
@@ -30,20 +35,25 @@ const FormRegistration: FC = () => {
     setState({...state, [name]: e.target.value})
   }
 
-  const submitRegist = (e: React.MouseEvent<HTMLFormElement>) => {
+  const submitRegist = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {confirme, ...other} = state;
-    if(validate){
-      setWarning(false);
-      SubmitRegistraition(other, data.wrong).then(token => {
-        if(!token) return;
-        Cookies.set('token', token);
-        router.push('/home', { query: {}});
-      });
-    } else {
-      setWarning(true);
-    }
+    // if(validate){
+    //   setWarning(false);
+    //   SubmitRegistraition(other, data.wrong).then(token => {
+    //     if(!token) return;
+    //     Cookies.set('token', token);
+    //     router.push('/home', { query: {}});
+    //   });
+    // } else {
+    //   setWarning(true);
+    // }
+    const token = await recaptchaRef.current?.executeAsync();
+
+    console.log(token)
+
   }
+
 
   return (
     <form onSubmit={submitRegist} className={`flex justify-content-center flex-direction-column ${style.form_regist}`}>
@@ -82,7 +92,13 @@ const FormRegistration: FC = () => {
         change={changeRegist}
         defaultValue={state.confirme}
       />
-      <div className={style.popup_registration__recaptcha}>need make recaptcha this</div>
+      <div className={style.popup_registration__recaptcha}>
+        <ReCAPTCHA
+          sitekey="6Le5IGsfAAAAADUZV6u2jkJ7kVm-DU04kMnXgaJt"
+          size="invisible"
+          ref={recaptchaRef}
+        />
+      </div>
       <ButtonDefault
         disabled={!validate}
         text='Зарегистрироваться'

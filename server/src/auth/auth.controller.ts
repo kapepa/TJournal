@@ -46,6 +46,14 @@ export class AuthController {
     return token;
   }
 
+  @Post('/recaptcha')
+  @ApiCreatedResponse({
+    description: 'Check recaptcha',
+  })
+  async Recaptcha(@Body() body): Promise<boolean>{
+    return await this.authService.CheckRecaptcha(body.recaptcha);
+  }
+
   @Get('/google')
   @UseGuards(AuthGuard('google'))
   @ApiCreatedResponse({

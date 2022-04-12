@@ -1,12 +1,12 @@
 import React, {FC, useContext, useRef, useState} from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA, {ReCAPTCHAProps} from "react-google-recaptcha";
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router'
 import style from './style.module.scss';
 import InputDefault from "../input.default";
 import ButtonDefault from "../button.default";
 import Validator from "../../helpers/validator";
-import {SubmitRegistraition} from "../../helpers/request";
+import {CheckRecaptcha, SubmitRegistraition} from "../../helpers/request";
 import {DataContext} from "../../layout/layout.default";
 
 interface IState {
@@ -15,9 +15,6 @@ interface IState {
   password: string,
   confirme: string,
 }
-
-// 6Le5IGsfAAAAADUZV6u2jkJ7kVm-DU04kMnXgaJt
-// 6Le5IGsfAAAAAKroi6hQ3xzt0Bf1fkyiYkoYoWYj
 
 const FormRegistration: FC = () => {
   const router = useRouter();
@@ -37,23 +34,28 @@ const FormRegistration: FC = () => {
 
   const submitRegist = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const {confirme, ...other} = state;
-    // if(validate){
-    //   setWarning(false);
-    //   SubmitRegistraition(other, data.wrong).then(token => {
-    //     if(!token) return;
-    //     Cookies.set('token', token);
-    //     router.push('/home', { query: {}});
-    //   });
-    // } else {
-    //   setWarning(true);
-    // }
-    const token = await recaptchaRef.current?.executeAsync();
-
-    console.log(token)
-
+    recaptchaRef.current?.execute();
   }
 
+  const changeRecaptcha = async (captchaCode: string | null) => {
+    if( captchaCode ) await CheckRecaptcha(captchaCode)
+      .then((flag: boolean) => {if(flag) sendForm()})
+    recaptchaRef.current?.reset()
+  };
+
+  const sendForm = async () => {
+    const {confirme, ...other} = state;
+    if(validate){
+      setWarning(false);
+      SubmitRegistraition(other, data.wrong).then(token => {
+        if(!token) return;
+        Cookies.set('token', token);
+        router.push('/home', { query: {}});
+      });
+    } else {
+      setWarning(true);
+    }
+  }
 
   return (
     <form onSubmit={submitRegist} className={`flex justify-content-center flex-direction-column ${style.form_regist}`}>
@@ -94,9 +96,10 @@ const FormRegistration: FC = () => {
       />
       <div className={style.popup_registration__recaptcha}>
         <ReCAPTCHA
-          sitekey="6Le5IGsfAAAAADUZV6u2jkJ7kVm-DU04kMnXgaJt"
+          sitekey={String(process.env.PUBLIC_RECAPTCHA_SITE_KEY)}
           size="invisible"
           ref={recaptchaRef}
+          onChange={changeRecaptcha}
         />
       </div>
       <ButtonDefault

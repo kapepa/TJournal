@@ -6,10 +6,12 @@ import {
   CreateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { SettingsEntity } from '../settings/settings.entity';
 import { ListEntity } from '../settings/list.entity';
 import { MessageEntity } from '../settings/message.entity';
+import { ArticleEntity } from '../article/article.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -27,6 +29,9 @@ export class UserEntity {
   @OneToOne(() => MessageEntity, (message) => message.user)
   @JoinColumn()
   message: MessageEntity;
+
+  @OneToMany(() => ArticleEntity, (article) => article.user)
+  article: ArticleEntity[];
 
   @Column()
   name: string;

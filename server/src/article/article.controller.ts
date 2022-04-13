@@ -37,9 +37,8 @@ export class ArticleController {
     description: 'create',
   })
   @UseInterceptors(FileInterceptor('file'))
-  async create(@UploadedFile() file: Express.Multer.File, @Body() body): Promise<any> {
-    const data = Object.assign({ file: file }, body);
-    console.log(data);
-    return 'create';
+  async create(@UploadedFile() file: Express.Multer.File, @Body() body, @Req() req): Promise<any> {
+    const article = Object.assign({ file: file }, body);
+    return await this.articleService.createArticle(req.user.id, article);
   }
 }

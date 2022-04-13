@@ -11,6 +11,7 @@ import {
 import { DtoSettings } from './dto.settings';
 import { DtoList } from './dto.list';
 import { DtoMessage } from './dto.message';
+import DtoArticle from './dto.article';
 
 export class DtoUser {
   @ApiProperty()
@@ -25,6 +26,9 @@ export class DtoUser {
 
   @ApiProperty({ type: () => DtoMessage })
   message?: DtoMessage;
+
+  @ApiProperty({ type: () => DtoArticle })
+  article?: DtoArticle[];
 
   @ApiProperty()
   @IsString()

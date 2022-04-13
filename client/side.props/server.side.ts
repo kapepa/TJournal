@@ -13,7 +13,6 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   if(!store.getState().user.id && request) await request.Profile();
   const profile = store.getState().user;
 
-
   // if(!profile.id) return { redirect: { permanent: false, destination: "/setting" } };
 
   return {

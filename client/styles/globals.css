@@ -90,5 +90,9 @@ ul, li{
 
 @media screen and (max-width: 860px) {}
 
-@media screen and (max-width: 720px) {}
+@media screen and (max-width: 720px) {
+  html, body{
+    font-size: 12px;
+  }
+}
 

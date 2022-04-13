@@ -11,6 +11,7 @@
   "dependencies": {
     "@editorjs/editorjs": "^2.23.2",
     "@editorjs/header": "^2.6.2",
+    "@editorjs/image": "^2.6.2",
     "@editorjs/paragraph": "^2.8.0",
     "@reduxjs/toolkit": "^1.8.1",
     "@types/js-cookie": "^3.0.1",

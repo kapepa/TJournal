@@ -46,9 +46,10 @@ export class UserService {
 
   async createSocial(body: DtoAuth): Promise<DtoUser> {
     const checkEmail = await this.findUser('email', body.email);
-    if (checkEmail) throw new ConflictException();
-
-    const user = await this.usersRepository.create(body);
+    // if (checkEmail) throw new ConflictException();
+    const user = checkEmail
+      ? await this.findUser('email', body.email)
+      : await this.usersRepository.create(body);
     return await this.usersRepository.save(user);
   }
 
@@ -57,7 +58,10 @@ export class UserService {
   }
 
   async findFullUser(key: string, val: string) {
-    return await this.usersRepository.findOne({ [key]: val }, { relations: ['settings', 'list', 'message'] } );
+    return await this.usersRepository.findOne(
+      { [key]: val },
+      { relations: ['settings', 'list', 'message'] },
+    );
   }
 
   async updateUser(key: string, val: string, data: any): Promise<any> {

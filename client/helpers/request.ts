@@ -22,3 +22,10 @@ export const SubmitLogin = async (data: ILogin, wrong: (message: string) => void
     .then(res => res.data)
     .catch((err) => {wrong(err.response.request.statusText)})
 }
+
+export const CreateArticle = async (form: any) => {
+  Axios.defaults.headers.common = {...Axios.defaults.headers.common, 'Content-Type': 'multipart/form-data'};
+  return Axios.post('/api/article/create',form)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+}

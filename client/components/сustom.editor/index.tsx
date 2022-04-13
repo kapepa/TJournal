@@ -1,14 +1,22 @@
 import React, {FC} from 'react';
 import EditorJs from 'react-editor-js';
+import {API} from "@editorjs/editorjs";
 const Header = require('@editorjs/header');
 const Paragraph = require('@editorjs/paragraph');
+const ImageTool = require('@editorjs/image');
 
 interface IRedactor{
-  refRedactor: any,
   classes?: string,
+  cb: (data: { title: string; text: string, file: File }) => void,
+  picture: (image: File) => Promise<any>,
 }
 
-const Redactor: FC<IRedactor> = ({ refRedactor, classes }) => {
+interface IEditor {
+  type: string,
+  data: any
+}
+
+const Redactor: FC<IRedactor> = ({ classes, cb, picture }) => {
   const data = {
     blocks: [
       {
@@ -45,15 +53,37 @@ const Redactor: FC<IRedactor> = ({ refRedactor, classes }) => {
       },
       inlineToolbar: true
     },
+    image: {
+      class: ImageTool,
+      config: {
+        uploader: {
+           uploadByFile(file: File) {
+            return  picture(file).then((url: string) => {
+              return {
+                success: 1,
+                file: { url }
+              }
+            })
+          }
+        }
+      }
+    },
   }
 
   return (
     <div className={`${classes ? classes : ''}`}>
       <EditorJs
-        ref={refRedactor}
         data={data}
         tools={tools}
         hideToolbar={true}
+        onChange={(api: API, data: any): void => {
+          const content = data.blocks?.reduce((accum: {title: string, text: string} , el: IEditor) => {
+            if(el.type === 'header' && el.data.text) accum.title = el.data.text;
+            if(el.type === 'paragraph' && el.data.text) accum.text = el.data.text;
+            return accum
+          }, {} as {title: string, text: string});
+          cb(content);
+        }}
       />
     </div>
   );

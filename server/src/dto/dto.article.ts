@@ -1,12 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { DtoUser } from './dto.user';
 
 export default class DtoArticle {
   @ApiProperty()
-  readonly id: string;
+  id: string;
+
+  @ApiProperty({ type: () => DtoUser })
+  user?: DtoUser;
 
   @ApiProperty()
-  readonly title: string;
+  title: string;
 
   @ApiProperty()
-  readonly comments: number;
+  type?: string;
+
+  @ApiProperty()
+  shortDesc?: string;
+
+  @ApiProperty()
+  text?: string;
+
+  @ApiProperty()
+  image?: string[];
+
+  @ApiProperty()
+  likes?: string;
+
+  @ApiProperty()
+  сhat?: string;
+
+  @ApiProperty()
+  comments?: number;
+
+  @ApiProperty()
+  created_at?: Date;
+
+  @ApiProperty()
+  updated_at?: Date;
 }

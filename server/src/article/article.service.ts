@@ -4,12 +4,23 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 
+interface ICreateArticle {
+  title: string;
+  text: string;
+  file: File;
+}
+
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
     private usersRepository: Repository<ArticleEntity>,
   ) {}
+
+  async createArticle(id: string, article: ICreateArticle): Promise<any> {
+    console.log(id, article);
+    return '';
+  }
 
   async getList(last: number): Promise<DtoArticle[]> {
     const list = [
@@ -65,6 +76,4 @@ export class ArticleService {
 
     return list.splice(last, 4);
   }
-
-
 }

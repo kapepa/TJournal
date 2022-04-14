@@ -49,7 +49,7 @@ export class UserController {
     @Req() req,
   ): Promise<{ img: string; name: string }> {
     return {
-      img: await this.fileService.LoadFile(req.user.id, query, file),
+      img: await this.fileService.LoadUser(req.user.id, query, file),
       name: query,
     };
   }

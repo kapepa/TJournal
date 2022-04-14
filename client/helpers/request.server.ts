@@ -8,9 +8,17 @@ export const RequestServer = (token: string, dispatch: any) => {
 
   return {
     async Profile () {
-      const profile = await Axios.get('/api/user').then( res => res.data ).catch(err => {});
+      const profile = await Axios.get('/api/user')
+        .then( res => res.data )
+        .catch(err => {});
       dispatch(setProfile(profile))
       return profile
     },
+    async Article (param: string) {
+      const article = await Axios.get(`/api/article/one/${param}`)
+        .then( res => res.data )
+        .catch( err => console.error(err) );
+
+    }
   }
 }

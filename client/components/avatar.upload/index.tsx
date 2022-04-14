@@ -14,8 +14,6 @@ interface IAvatarUpload {
 
 const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
   const fileRef = useRef<HTMLInputElement>(null);
-  const urlConfig = (user.avatar && /http/.test(user.avatar)) ? user.avatar : `${config.url}/${user.avatar}`;
-  const currentUrl = user.avatar ? icon?.reader ?? urlConfig : false;
 
   const clickAvatar = (e: React.MouseEvent<HTMLDivElement>) => {
     const reader = new FileReader();
@@ -32,6 +30,15 @@ const AvatarUpload: FC<IAvatarUpload> = ({user, icon,loadIcon, cb}) => {
       };
     }
   };
+
+  const avatarImge = () => {
+    if (icon?.reader) return icon?.reader;
+    if (user?.avatar) return (user.avatar && /http/.test(user.avatar)) ? user.avatar : `${config.url}/${user.avatar}`;
+    if (icon?.cover) return icon?.cover;
+    return false;
+  }
+
+  const currentUrl = avatarImge();
 
   return (
     <div

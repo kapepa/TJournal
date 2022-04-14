@@ -4,6 +4,7 @@ import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
 import ButtonDefault from "../button.default";
 import {CreateArticle} from "../../helpers/request";
+import {useRouter} from "next/router";
 
 let Redactor = dynamic(() => import('../сustom.editor/index'), {
   ssr: false
@@ -20,12 +21,13 @@ interface IPopupEditor {
 }
 
 const PopupEditor: FC<IPopupEditor> = ({cb}) => {
+  const route = useRouter()
   const [state, setState] = useState<IState>({} as IState);
 
   const sendArticle = async () => {
     const form = new FormData();
     Object.keys(state).forEach(key => form.append(key, state[(key as keyof IState)]));
-    await CreateArticle(form);
+    await CreateArticle(form).then(art => route.push(`/article/${art}`));
   }
 
   const writeArticle = (data: IState) => {setState({...state, ...data})};

@@ -9,7 +9,7 @@ export default class DtoArticle {
   user?: DtoUser;
 
   @ApiProperty()
-  title: string;
+  title?: string;
 
   @ApiProperty()
   type?: string;

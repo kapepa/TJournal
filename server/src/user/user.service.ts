@@ -46,7 +46,7 @@ export class UserService {
 
   async createSocial(body: DtoAuth): Promise<DtoUser> {
     const checkEmail = await this.findUser('email', body.email);
-    // if (checkEmail) throw new ConflictException();
+    if (checkEmail) throw new ConflictException();
     const user = checkEmail
       ? await this.findUser('email', body.email)
       : await this.usersRepository.create(body);

@@ -1,9 +1,9 @@
-import {forwardRef, Module} from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { FileService } from './file.service';
-import {UserModule} from "../user/user.module";
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [ forwardRef(() => UserModule),],
+  imports: [forwardRef(() => UserModule)],
   exports: [FileService],
   providers: [FileService],
 })

@@ -4,6 +4,7 @@ import {IArticle} from "../../dto/news";
 import NewsType from "../news.type";
 import ButtonDrop from "../button.drop";
 import InteractionsPanel from "../ interactions.panel";
+import config from "../../config";
 
 interface IShortNews{
   article: IArticle,
@@ -23,7 +24,7 @@ const ShortNews: FC<IShortNews> = ({article}) => {
         <span className={`${style.short_news__span}`}>{`${article.text.substring(0, 130)} ...`}</span>
       </div>
       <div className={`${style.short_news__picture}`}>
-        <img className={`${style.short_news__image}`} src={article.image[0]} alt={article.title}/>
+        <img className={`${style.short_news__image}`} src={`${config.url}/${article.image[0]}`} alt={article.title}/>
       </div>
       <InteractionsPanel article={article}/>
     </div>

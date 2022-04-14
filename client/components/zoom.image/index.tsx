@@ -1,5 +1,6 @@
 import React, {FC, useEffect, useState} from "react";
 import style from './style.module.scss';
+import config from "../../config";
 
 interface IZoomImage {
   image: string,
@@ -18,7 +19,8 @@ const ZoomImage: FC<IZoomImage> = ({ image,classes, alt }) => {
   useEffect(() => {
     window.addEventListener('wheel', wheelMove)
     return () => window.removeEventListener('wheel', wheelMove);
-  },[])
+  },[]);
+
 
   return (
     <>
@@ -27,10 +29,10 @@ const ZoomImage: FC<IZoomImage> = ({ image,classes, alt }) => {
           className={`${style.zoom_image} ${style.zoom_image__deploy}`}
           onClick={clickZoom}
         >
-          <img src={image} className={`${style.zoom_image__picture} ${classes ? classes : ''}`} alt={alt} />
+          <img src={`${config.url}/${image}`} className={`${style.zoom_image__picture} ${classes ? classes : ''}`} alt={alt} />
         </div>
       }
-      <img onClick={clickZoom} src={image} className={`${style.zoom_image__picture} ${classes ? classes : ''}`} alt={alt} />
+      <img onClick={clickZoom} src={`${config.url}/${image}`} className={`${style.zoom_image__picture} ${classes ? classes : ''}`} alt={alt} />
     </>
   )
 }

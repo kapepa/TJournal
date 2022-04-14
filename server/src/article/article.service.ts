@@ -16,7 +16,7 @@ interface ICreateArticle {
 export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
-    private usersRepository: Repository<ArticleEntity>,
+    private articRepository: Repository<ArticleEntity>,
     private userService: UserService,
     private fileService: FileService,
   ) {}
@@ -28,13 +28,21 @@ export class ArticleService {
   ): Promise<string> {
     const user = await this.userService.findUser('id', id);
     const fileName = await this.fileService.LoadFile(file);
-    const createArticle = await this.usersRepository.create({
+    const createArticle = await this.articRepository.create({
       ...article,
       image: [fileName],
       user,
     });
-    const saveArticle = await this.usersRepository.save(createArticle);
+    const saveArticle = await this.articRepository.save(createArticle);
     return saveArticle.id;
+  }
+
+  async findArticle(key: string, val: string): Promise<DtoArticle> {
+    return await this.articRepository.findOne({ [key]: val });
+  }
+
+  async allArticle(): Promise<DtoArticle[]> {
+    return await this.articRepository.find();
   }
 
   async getList(last: number): Promise<DtoArticle[]> {

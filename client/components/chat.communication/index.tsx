@@ -11,9 +11,9 @@ const ChatCommunication: FC<IChatCommunication> = ({article}) => {
 
   return (
     <div className={`flex flex-direction-column ${style.chat_communication}`}>
-      {article.сhat.map((el, i) => <ChatComment key={`comment-${i}`} comment={el}/>)}
+      {article.сhat && article.сhat.map((el, i) => <ChatComment key={`comment-${i}`} comment={el}/>)}
     </div>
   )
-}
+};
 
 export default ChatCommunication;

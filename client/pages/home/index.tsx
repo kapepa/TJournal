@@ -9,7 +9,7 @@ import ShortDesc from "../../components/short.desc";
 import ShortNews from "../../components/short.news";
 
 interface IHomePage {
-  article: IArticle
+  article: IArticle[]
   query: IQuery,
   user: IUser,
   listNews: IListNews[],
@@ -20,7 +20,7 @@ const Home: NextPage<IHomePage> = ({query, user, listNews, article}) => {
     <LayoutDefault title="Home" user={user} query={query}>
       <div className={`flex flex-direction-column ${style.home}`}>
         <ShortDesc list={listNews} />
-        <ShortNews article={article} />
+        {article.map((art: IArticle, i: number) => (<ShortNews key={`article-${i}`} article={art} />))}
       </div>
     </LayoutDefault>
   )

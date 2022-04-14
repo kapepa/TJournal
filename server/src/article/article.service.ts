@@ -3,6 +3,8 @@ import DtoArticle from '../dto/dto.article';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
+import { UserService } from '../user/user.service';
+import { FileService } from '../file/file.service';
 
 interface ICreateArticle {
   title: string;
@@ -15,11 +17,24 @@ export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
     private usersRepository: Repository<ArticleEntity>,
+    private userService: UserService,
+    private fileService: FileService,
   ) {}
 
-  async createArticle(id: string, article: ICreateArticle): Promise<any> {
-    console.log(id, article);
-    return '';
+  async createArticle(
+    id: string,
+    article: ICreateArticle,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    const user = await this.userService.findUser('id', id);
+    const fileName = await this.fileService.LoadFile(file);
+    const createArticle = await this.usersRepository.create({
+      ...article,
+      image: [fileName],
+      user,
+    });
+    const saveArticle = await this.usersRepository.save(createArticle);
+    return saveArticle.id;
   }
 
   async getList(last: number): Promise<DtoArticle[]> {

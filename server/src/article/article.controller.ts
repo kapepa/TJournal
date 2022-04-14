@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -37,8 +38,18 @@ export class ArticleController {
     description: 'create',
   })
   @UseInterceptors(FileInterceptor('file'))
-  async create(@UploadedFile() file: Express.Multer.File, @Body() body, @Req() req): Promise<any> {
-    const article = Object.assign({ file: file }, body);
-    return await this.articleService.createArticle(req.user.id, article);
+  async create(@UploadedFile() file: Express.Multer.File, @Body() body, @Req() req): Promise<string> {
+    const article = Object.assign({}, body);
+    return await this.articleService.createArticle(req.user.id, article, file);
+  }
+
+  @Get('/one/:id')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'receive one article',
+  })
+  async receiveOne(@Param() param): Promise<any> {
+    console.log(param);
+    return '';
   }
 }

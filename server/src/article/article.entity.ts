@@ -20,24 +20,24 @@ export class ArticleEntity {
   title: string;
 
   @Column()
+  text: string;
+
+  @Column({ default: '' })
   type: string;
 
-  @Column()
+  @Column({ default: '' })
   shortDesc: string;
-
-  @Column()
-  text: string;
 
   @Column('simple-array')
   image: string[];
 
-  @Column()
+  @Column({ default: '' })
   likes: string;
 
-  @Column()
+  @Column({ default: '' })
   сhat: string;
 
-  @Column()
+  @Column({ default: 0 })
   comments: number;
 
   @CreateDateColumn()

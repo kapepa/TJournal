@@ -13,12 +13,12 @@ const ShortDesc: FC<IShortDesc> = ({list}) => {
   const clickLoad = () => {
     LoadingList(state.length).then(list => setState([...state, ...list]));
   }
-
+  console.log()
   return (
     <div className={`flex flex-direction-column ${style.short_desc}`}>
       <div className={`flex flex-direction-column`}>
         {state.map((el, i) => (
-          <Link href={`/article/${el._id}`} key={`desc-${i}`}>
+          <Link href={`/article/${el.id}`} key={`desc-${i}`}>
             <a className={`${style.short_desc__link}`} >{el.title} <span className={`${style.short_desc__message}`}>{el.comments}</span></a>
           </Link>
         ))}

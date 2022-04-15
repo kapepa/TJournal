@@ -1,5 +1,6 @@
 .button_drop{
   position: relative;
+  z-index: 10;
   &__dot{
     width: 22px;
     height: 22px;

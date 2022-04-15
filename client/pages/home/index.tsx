@@ -15,12 +15,12 @@ interface IHomePage {
   listNews: IListNews[],
 }
 
-const Home: NextPage<IHomePage> = ({query, user, listNews, article}) => {
+const Home: NextPage<IHomePage> = ({query, user}) => {
   return (
     <LayoutDefault title="Home" user={user} query={query}>
       <div className={`flex flex-direction-column ${style.home}`}>
-        <ShortDesc list={listNews} />
-        {article.map((art: IArticle, i: number) => (<ShortNews key={`article-${i}`} article={art} />))}
+        <ShortDesc />
+        {/*{article.map((art: IArticle, i: number) => (<ShortNews key={`article-${i}`} article={art} />))}*/}
       </div>
     </LayoutDefault>
   )

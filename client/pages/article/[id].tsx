@@ -11,16 +11,14 @@ import React from "react";
 
 interface IArticlePage {
   query: IQuery,
-  user: IUser,
-  article: IArticle,
 }
 
-const Article: NextPage<IArticlePage> = ({query, user, article}) => {
+const Article: NextPage<IArticlePage> = ({query,}) => {
   return (
-    <LayoutDefault title={'Article'} query={query} user={user}>
+    <LayoutDefault title={'Article'} query={query}>
       <section className={`${style.article}`}>
-        <News article={article}/>
-        <Chat article={article}/>
+        <News />
+        <Chat />
       </section>
     </LayoutDefault>
   )

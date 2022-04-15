@@ -31,8 +31,8 @@ export class ArticleEntity {
   @Column('simple-array')
   image: string[];
 
-  @Column({ default: '' })
-  likes: string;
+  @Column({ default: 0 })
+  likes: number;
 
   @Column({ default: '' })
   сhat: string;

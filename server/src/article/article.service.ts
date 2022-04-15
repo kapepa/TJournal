@@ -45,6 +45,14 @@ export class ArticleService {
     return await this.articRepository.find();
   }
 
+  async shortArticle(number: number): Promise<DtoArticle[]> {
+    return await this.articRepository.find({
+      select: ['id', 'title', 'comments'],
+      take: 5,
+      skip: number,
+    });
+  }
+
   async getList(last: number): Promise<DtoArticle[]> {
     const list = [
       {

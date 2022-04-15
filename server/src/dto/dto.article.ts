@@ -24,7 +24,7 @@ export default class DtoArticle {
   image?: string[];
 
   @ApiProperty()
-  likes?: string;
+  likes?: number;
 
   @ApiProperty()
   сhat?: string;

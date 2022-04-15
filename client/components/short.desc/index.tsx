@@ -1,23 +1,21 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import Link from 'next/link';
 import {IListNews} from "../../dto/news";
 import style from './style.module.scss';
 import {LoadingList} from "../../helpers/request";
+import {DataContext} from "../../layout/layout.default";
 
-interface IShortDesc {
-  list: IListNews[],
-}
-
-const ShortDesc: FC<IShortDesc> = ({list}) => {
-  const [state, setState] = useState(list);
+const ShortDesc: FC = () => {
+  const { short } = useContext(DataContext);
+  const [state, setState] = useState(short);
   const clickLoad = () => {
-    LoadingList(state.length).then(list => setState([...state, ...list]));
+    state && LoadingList(state.length).then(short => setState([...state, ...short]));
   }
-  console.log()
+
   return (
     <div className={`flex flex-direction-column ${style.short_desc}`}>
       <div className={`flex flex-direction-column`}>
-        {state.map((el, i) => (
+        {state?.map((el, i) => (
           <Link href={`/article/${el.id}`} key={`desc-${i}`}>
             <a className={`${style.short_desc__link}`} >{el.title} <span className={`${style.short_desc__message}`}>{el.comments}</span></a>
           </Link>

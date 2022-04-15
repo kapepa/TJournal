@@ -1,15 +1,13 @@
-import React, {FC} from "react";
+import React, {FC, useContext} from "react";
 import style from './style.module.scss';
 import {IArticle} from "../../dto/news";
 import ButtonIcon from "../button.icon";
 import ChatTextarea from "../chat.textarea";
 import ChatCommunication from "../chat.communication";
+import {DataContext} from "../../layout/layout.default";
 
-interface IChat {
-  article: IArticle,
-}
-
-const Chat: FC<IChat> = ({article}) => {
+const Chat: FC = () => {
+  const { article } = useContext(DataContext)
   return (
     <div className={`${style.chat}`}>
       <div className={`flex flex-direction-column ${style.chat__frame} ${style.chat__area}`}>

@@ -4,11 +4,17 @@ import {HYDRATE} from "next-redux-wrapper";
 
 export const articleSlice = createSlice({
   name: 'article',
-  initialState: {} as IArticle,
+  initialState: {} as { detailed: IArticle, short: IArticle[], all: IArticle[] },
   reducers: {
     setArticle(state, action) {
-      return action.payload;
+      return { ...state, detailed: action.payload };
     },
+    setShort(state, action) {
+      return { ...state, short: action.payload };
+    },
+    allArticle(state, action) {
+      return { ...state, all: action.payload };
+    }
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -20,4 +26,4 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setArticle } = articleSlice.actions;
+export const { setArticle, setShort, allArticle } = articleSlice.actions;

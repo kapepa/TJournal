@@ -8,7 +8,7 @@ const makeStore = () =>
   configureStore({
     reducer: {
       [userSlice.name]: userSlice.reducer,
-      [articleSlice.name]: articleSlice.reducer
+      [articleSlice.name]: articleSlice.reducer,
     },
     devTools: true,
   });

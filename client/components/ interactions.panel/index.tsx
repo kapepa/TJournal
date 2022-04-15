@@ -4,7 +4,7 @@ import ButtonIcon from "../button.icon";
 import {IArticle} from "../../dto/news";
 
 interface IInteractionsPanel {
-  article: IArticle,
+  article: IArticle | undefined,
   classes?: string,
 }
 
@@ -20,7 +20,7 @@ const InteractionsPanel: FC<IInteractionsPanel> = ({article, classes}) => {
   return (
     <div className={`flex justify-content-between ${style.interactions_panel} ${classes ? classes : ''}`}>
       <div className={`flex ${style.interactions_panel__left}`}>
-        <ButtonIcon type='message' digit={article.comments}/>
+        <ButtonIcon type='message' digit={article?.comments}/>
         <ButtonIcon type='create'/>
         <ButtonIcon type='share'/>
       </div>

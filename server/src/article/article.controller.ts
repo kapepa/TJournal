@@ -46,6 +46,7 @@ export class ArticleController {
   @Get('/one/:id')
   @ApiCreatedResponse({
     description: 'receive one article',
+    type: DtoArticle,
   })
   async receiveOne(@Param() param): Promise<DtoArticle> {
     return await this.articleService.findArticle('id', param.id);
@@ -54,8 +55,17 @@ export class ArticleController {
   @Get('/all')
   @ApiCreatedResponse({
     description: 'receive all article',
+    type: DtoArticle,
   })
   async receiveAll(@Param() param): Promise<DtoArticle[]> {
     return await this.articleService.allArticle();
+  }
+
+  @Get('/short')
+  @ApiCreatedResponse({
+    description: 'short receive all article',
+  })
+  async Short(@Query('list') query): Promise<any> {
+    return await this.articleService.shortArticle(query);
   }
 }

@@ -1,6 +1,5 @@
 import React, {FC, useContext, useState} from 'react';
 import Link from 'next/link';
-import {IListNews} from "../../dto/news";
 import style from './style.module.scss';
 import {LoadingList} from "../../helpers/request";
 import {DataContext} from "../../layout/layout.default";

@@ -9,7 +9,7 @@ interface IInteractionsPanel {
 }
 
 const InteractionsPanel: FC<IInteractionsPanel> = ({article, classes}) => {
-  const [likes, setLikes] = useState<number>(article.likes);
+  const [likes, setLikes] = useState<number>(article ? article.likes : 0);
   const clickLikes = (e: React.MouseEvent<HTMLButtonElement>) => {
     const btn = (e.target as HTMLButtonElement);
     const data = btn.dataset.likes;

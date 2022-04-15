@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  Controller, Delete,
   Get,
   Param,
   Post,
@@ -65,7 +65,17 @@ export class ArticleController {
   @ApiCreatedResponse({
     description: 'short receive all article',
   })
-  async Short(@Query('list') query): Promise<any> {
+  async short(@Query('list') query): Promise<any> {
     return await this.articleService.shortArticle(query);
+  }
+
+  @Delete('/')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'Delete article on id',
+  })
+  async deleteOne(@Query('id') query): Promise<any> {
+    console.log(query);
+    return '';
   }
 }

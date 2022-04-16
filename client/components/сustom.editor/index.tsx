@@ -7,7 +7,7 @@ const ImageTool = require('@editorjs/image');
 
 interface IRedactor{
   classes?: string,
-  cb: (data: { title: string; text: string, file: File }) => void,
+  cb: (data: { title: string; text: string }) => void,
   picture: (image: File) => Promise<any>,
 }
 

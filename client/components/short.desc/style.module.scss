@@ -44,6 +44,13 @@
       color: #4086E0;
     }
   }
+  &__disabled{
+    color: gray;
+    cursor: default;
+    &:hover{
+      color: gray;
+    }
+  }
 }
 
 @media screen and (max-width: 720px){

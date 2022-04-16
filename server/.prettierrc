@@ -1,5 +1,6 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-  "extends": "eslint:recommended"
+  "extends": "eslint:recommended",
+  "printWidth": 120
 }

@@ -25,10 +25,7 @@ export class UserService {
     const checkEmail = await this.findUser('email', body.email);
     if (checkEmail) throw new ConflictException();
 
-    const hash = await bcrypt.hashSync(
-      password,
-      Number(process.env.BCRYPT_ROUNDS),
-    );
+    const hash = await bcrypt.hashSync(password, Number(process.env.BCRYPT_ROUNDS));
     const settings = await this.settingsService.createSettings();
     const list = await this.settingsService.createList();
     const message = await this.settingsService.createMessage();
@@ -47,9 +44,7 @@ export class UserService {
   async createSocial(body: DtoAuth): Promise<DtoUser> {
     const checkEmail = await this.findUser('email', body.email);
     if (checkEmail) throw new ConflictException();
-    const user = checkEmail
-      ? await this.findUser('email', body.email)
-      : await this.usersRepository.create(body);
+    const user = checkEmail ? await this.findUser('email', body.email) : await this.usersRepository.create(body);
     return await this.usersRepository.save(user);
   }
 
@@ -58,17 +53,16 @@ export class UserService {
   }
 
   async findFullUser(key: string, val: string) {
-    return await this.usersRepository.findOne(
-      { [key]: val },
-      { relations: ['settings', 'list', 'message'] },
-    );
+    return await this.usersRepository.findOne({ [key]: val }, { relations: ['settings', 'list', 'message'] });
+  }
+
+  async findRelate(key: string, val: string, relate: string[]): Promise<DtoUser> {
+    return await this.usersRepository.findOne({ [key]: val }, { relations: [...relate] });
   }
 
   async updateUser(key: string, val: string, data: any): Promise<any> {
-    return await this.usersRepository
-      .update({ [key]: val }, { ...data })
-      .then(async () => {
-        return await this.findUser(key, val);
-      });
+    return await this.usersRepository.update({ [key]: val }, { ...data }).then(async () => {
+      return await this.findUser(key, val);
+    });
   }
 }

@@ -21,11 +21,7 @@ export class ArticleService {
     private fileService: FileService,
   ) {}
 
-  async createArticle(
-    id: string,
-    article: ICreateArticle,
-    file: Express.Multer.File,
-  ): Promise<string> {
+  async createArticle(id: string, article: ICreateArticle, file: Express.Multer.File): Promise<string> {
     const user = await this.userService.findUser('id', id);
     const fileName = await this.fileService.LoadFile(file);
     const createArticle = await this.articRepository.create({
@@ -41,19 +37,25 @@ export class ArticleService {
     return await this.articRepository.findOne({ [key]: val });
   }
 
-  async allArticle(): Promise<DtoArticle[]> {
-    return await this.articRepository.find();
-  }
-
-  async shortArticle(number: number): Promise<DtoArticle[]> {
+  async allArticle(number: number): Promise<DtoArticle[]> {
     return await this.articRepository.find({
-      select: ['id', 'title', 'comments'],
+      order: { created_at: 'DESC' },
       take: 5,
       skip: number,
     });
   }
 
-  async getList(last: number): Promise<any> {
-    return 'getList';
+  async shortArticle(number: number): Promise<DtoArticle[]> {
+    return await this.articRepository.find({
+      select: ['id', 'title', 'comments'],
+      order: { created_at: 'DESC' },
+      take: 5,
+      skip: number,
+    });
+  }
+
+  async deleteArticle(articleID: string): Promise<any> {
+    await this.articRepository.delete({ id: articleID });
+    return await this.allArticle(0);
   }
 }

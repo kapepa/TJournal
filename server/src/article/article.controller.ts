@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -20,17 +21,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 @Controller(`/api/article`)
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
-
-  @Get('/list')
-  @UseGuards(JwtAuthGuard)
-  @ApiCreatedResponse({
-    description: 'The record has been successfully created.',
-    type: DtoArticle,
-  })
-  async getList(@Query() query, @Req() req): Promise<DtoArticle[]> {
-    const { last } = query;
-    return await this.articleService.getList(Number(last));
-  }
 
   @Post('/create')
   @UseGuards(JwtAuthGuard)
@@ -57,8 +47,9 @@ export class ArticleController {
     description: 'receive all article',
     type: DtoArticle,
   })
-  async receiveAll(@Param() param): Promise<DtoArticle[]> {
-    return await this.articleService.allArticle();
+  async receiveAll(@Query('list') query): Promise<DtoArticle[]> {
+    console.log(query);
+    return await this.articleService.allArticle(query);
   }
 
   @Get('/short')
@@ -75,7 +66,6 @@ export class ArticleController {
     description: 'Delete article on id',
   })
   async deleteOne(@Query('id') query): Promise<any> {
-    console.log(query);
-    return '';
+    return await this.articleService.deleteArticle(query);
   }
 }

@@ -20,10 +20,10 @@ export const RequestServer = (token: string, dispatch: any) => {
         .catch( err => console.error(err) );
       dispatch(setArticle(article))
     },
-    async AllArticle () {
-      const all = await Axios.get(`/api/article/all`)
+    async AllArticle (number: number) {
+      const all = await Axios.get(`/api/article/all?list=${number}`)
         .then( res => res.data )
-        .catch( err => console.error(err) );
+        .catch( err => console.error(err));
       dispatch(allArticle(all))
     },
     async ShortArticle ( number: number ) {

@@ -12,10 +12,10 @@ interface ISetting {
   query: IQuery,
 }
 
-const Setting: NextPage<ISetting> = ({user, query}) => {
+const Setting: NextPage<ISetting> = ({ query}) => {
 
   return (
-    <LayoutDefault title='Setting' user={user} query={query} >
+    <LayoutDefault title='Setting' query={query} >
       <section className={`flex ${style.setting}`}>
         <main className={`${style.setting__main}`}>
           <SettingsChange />

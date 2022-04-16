@@ -1,10 +1,11 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import dynamic from "next/dynamic";
 import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
 import ButtonDefault from "../button.default";
 import {CreateArticle} from "../../helpers/request";
 import {useRouter} from "next/router";
+import InputSelect from "../input.select";
 
 let Redactor = dynamic(() => import('../сustom.editor/index'), {
   ssr: false
@@ -13,6 +14,7 @@ let Redactor = dynamic(() => import('../сustom.editor/index'), {
 interface IState {
   title: string,
   text: string,
+  type: string,
   file: File,
 }
 
@@ -22,7 +24,8 @@ interface IPopupEditor {
 
 const PopupEditor: FC<IPopupEditor> = ({cb}) => {
   const route = useRouter()
-  const [state, setState] = useState<IState>({} as IState);
+  const [file, setFile] = useState<File>();
+  const [state, setState] = useState<IState>({type: 'news', file} as IState);
 
   const sendArticle = async () => {
     const form = new FormData();
@@ -30,10 +33,10 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
     await CreateArticle(form).then(art => route.push(`/article/${art}`));
   }
 
-  const writeArticle = (data: IState) => {setState({...state, ...data})};
+  const writeArticle = (data: {title: string, text: string}) => {setState({...state, ...data})};
 
-  const writeImage = async (file: File) => {
-    setState({...state, file: file})
+  const writeImage = (file: File) => {
+    setFile(file)
     return new Promise(resolve => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -42,6 +45,10 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
       }
     })
   }
+
+  useEffect(() => {
+    file && setState({...state, file});
+  },[file])
 
   return (
     <div
@@ -55,6 +62,15 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
         <ButtonXClose cd={cb} classes={style.popup_editor__close} />
         <div className={`flex flex-direction-column ${style.popup_editor__area}`}>
           <h4 className={`${style.popup_editor__title}`}>Редактор</h4>
+          <div className={`flex justify-content-center`}>
+            <InputSelect
+              classes={`${style.popup_editor__select}`}
+              name='type'
+              selected='news'
+              change={(data) => { setState({...state, type: String(data.val) }) }}
+              list={[{ name: 'Новости', val: 'news'},{ name: 'Интернет', val: 'network'},{ name: 'Разборы', val: 'break'},{ name: 'Истории', val: 'history'},{ name: 'Технологии', val: 'tehnolegy'},{ name: 'Гость', val: 'guest'},]}
+            />
+          </div>
           {Redactor && <Redactor
             classes={style.popup_editor__redactor}
             cb={writeArticle}

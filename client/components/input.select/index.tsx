@@ -3,13 +3,14 @@ import style from './style.module.scss';
 
 interface IInputSelect{
   change: (obj:{ name: string, val: string | boolean}) => void,
-  label: string,
+  label?: string,
   name: string,
   list: {name: string, val: boolean | string }[],
   selected: string | boolean | undefined,
+  classes?: string,
 }
 
-const InputSelect: FC<IInputSelect> = ({change, label,name, list, selected}) => {
+const InputSelect: FC<IInputSelect> = ({change, label,name, list, selected, classes}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [select, setSelect] = useState<any>(list.find(el => {return el.val === selected}));
 
@@ -28,8 +29,8 @@ const InputSelect: FC<IInputSelect> = ({change, label,name, list, selected}) => 
   },[])
 
   return (
-    <div className={`${style.input_select__wrapper}`}>
-      <label className={`${style.input_select__label}`}>{label}</label>
+    <div className={`${style.input_select__wrapper} ${classes ? classes : ''}`}>
+      { label && <label className={`${style.input_select__label}`}>{label}</label>}
       <div onClick={clickSelect} className={`${style.input_select} ${open ? style.input_select__open : ''}`}>
         {select.name}
         {open &&

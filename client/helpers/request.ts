@@ -1,10 +1,6 @@
 import Axios from "./axios";
 import {ILogin, IRegistraition} from "../dto/user";
 
-export const LoadingList = async (last: number) => {
-  return await Axios.get(`/api/article/list?last=${last}`).then(res => res.data);
-}
-
 export const CheckRecaptcha = async (recaptcha: string) => {
   return await Axios.post(`/api/auth/recaptcha`, {recaptcha})
     .then(res => res.data)

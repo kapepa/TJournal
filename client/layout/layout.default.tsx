@@ -2,14 +2,11 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import HeaderPanell from "../components/header.panel";
 import { IQuery } from "../dto/query";
-import {IUser} from "../dto/user";
+import { IUser } from "../dto/user";
 import {createContext, useEffect, useState} from "react";
 import PopupWrong from "../components/popup.wrong";
-import {useDispatch, useSelector} from "react-redux";
-import Cookies from "js-cookie";
-import {setProfile} from "../redux/user/userSlice";
-import Article from "../pages/article/[id]";
-import {IArticle} from "../dto/news";
+import { useSelector } from "react-redux";
+import { IArticle } from "../dto/news";
 
 interface IWrong {
   active: boolean,

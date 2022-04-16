@@ -17,12 +17,12 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
     await request.Profile();
   }
 
-  if(page === 'article' && params && request) {
+  if(/article/.test(page) && params && request) {
     await request.Article(String(params.id));
   }
 
-  if(page === 'home' && request) {
-    await request.AllArticle();
+  if(/home/.test(page) && request) {
+    await request.AllArticle(0);
     await request.ShortArticle(0);
   }
 

@@ -10,11 +10,10 @@ export const articleShort = (number: number): AppThunk => async dispatch => {
 };
 
 export const articleAll = (number: number): AppThunk => async dispatch => {
-  const all = await Axios.delete(`/api/article/all?list=${number}`)
+  const all = await Axios.get(`/api/article/all?list=${number}`)
     .then(res => res.data)
     .catch(err => console.error(err))
-  console.log(all)
-  // dispatch(articleSlice.actions.allArticle(all));
+  dispatch(articleSlice.actions.allArticle(all));
 };
 
 export const articleDelete = (id: string): AppThunk => async dispatch => {

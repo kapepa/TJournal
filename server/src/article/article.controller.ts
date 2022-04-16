@@ -48,7 +48,6 @@ export class ArticleController {
     type: DtoArticle,
   })
   async receiveAll(@Query('list') query): Promise<DtoArticle[]> {
-    console.log(query);
     return await this.articleService.allArticle(query);
   }
 

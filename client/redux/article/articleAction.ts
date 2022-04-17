@@ -10,8 +10,8 @@ export const articleShort = (number: number): AppThunk => async dispatch => {
   dispatch(articleSlice.actions.setShort(short));
 };
 
-export const articleAll = (number: number): AppThunk => async dispatch => {
-  const all = await Axios.get(`/api/article/all?list=${number}`)
+export const articleAll = (number: number, nav: string): AppThunk => async dispatch => {
+  const all = await Axios.get(`/api/article/all?list=${number}&nav=${nav}`)
     .then(res => res.data)
     .catch(err => console.error(err))
   dispatch(articleSlice.actions.allArticle(all));

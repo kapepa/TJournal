@@ -48,8 +48,9 @@ export class ArticleController {
     description: 'receive all article',
     type: DtoArticle,
   })
-  async receiveAll(@Query('list') query): Promise<DtoArticle[]> {
-    return await this.articleService.allArticle(query);
+  async receiveAll(@Query() query): Promise<DtoArticle[]> {
+    const { list, nav } = query;
+    return await this.articleService.allArticle(list, nav);
   }
 
   @Get('/short')

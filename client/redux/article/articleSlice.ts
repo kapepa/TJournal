@@ -18,13 +18,16 @@ export const articleSlice = createSlice({
     allArticle(state, action) {
       return { ...state, all: [...state.all, ...action.payload] };
     },
+    cleanerArticle(state, action){
+      return { ...state, all: action.payload };
+    },
     delArticleOne(state, action) {
       const all = state.all.splice(action.payload.index,1);
       return { ...state, all };
     },
     updateArticleOne(state, action) {
-      // const all = state.all.splice(action.payload.index,1,action.payload.article);
-      return { ...state,  };
+      const all = state.all.splice(action.payload.index,1,action.payload.article);
+      return { ...state, all };
     }
   },
   extraReducers: {
@@ -37,4 +40,4 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne } = articleSlice.actions;
+export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle } = articleSlice.actions;

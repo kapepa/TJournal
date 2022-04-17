@@ -22,7 +22,7 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   }
 
   if(/home/.test(page) && request) {
-    await request.AllArticle(0);
+    await request.AllArticle(0, query.nav ? String(query.nav) : 'all');
     await request.ShortArticle(0);
   }
 

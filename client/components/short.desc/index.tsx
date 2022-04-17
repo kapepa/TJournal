@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import Link from 'next/link';
 import style from './style.module.scss';
 import {useDispatch, useSelector} from "react-redux";

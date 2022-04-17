@@ -37,10 +37,13 @@ const ButtonIcon: FC<IButtonIcon> = ({classes, digit, href, type, cb= () => {}})
   return (
     <>
       {href && <Link href={href}><a
+        data-types={type}
         title={title}
         className={`flex align-items-center ${style.button_icon} ${icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
       />{digit ? digit : ''}</Link>}
-      {!href && <button onClick={cb}
+      {!href && <button
+        data-types={type}
+        onClick={cb}
         title={title}
         className={`flex align-items-center ${style.button_icon} ${icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
       >{digit ? digit : ''}</button>}

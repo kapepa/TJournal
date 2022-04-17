@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState, useContext} from 'react';
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import style from './style.module.scss';
 import ButtonHamburger from "../button.hamburger";
 import Logo from "../logo";
@@ -21,7 +21,7 @@ interface Ipopup{
 
 const HeaderPanel: FC = () => {
   const {query, user} = useContext(DataContext);
-  const router= useRouter();
+  const router = useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log('clickHamburger')
@@ -29,7 +29,7 @@ const HeaderPanel: FC = () => {
 
   const clickButtonDefault = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement | HTMLDivElement>) => {
     if(popup.registration){
-      Router.push({query: { registration: false }});
+      router.push({query: { ...router.query, registration: false }});
       setPopup({...popup, registration: false });
     } else {
       setPopup({...popup, registration: true })
@@ -38,12 +38,20 @@ const HeaderPanel: FC = () => {
 
   const clickButtonEditor = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement | HTMLDivElement>) => {
     if(popup.editor){
-      Router.push({query: { editor: false }});
+      router.push({query: Object.assign(router.query, { editor: false })});
       setPopup({...popup, editor: false });
     } else {
       setPopup({...popup, editor: true })
     }
   };
+
+  const collectorQuery = (name: string): string => {
+    const exist = router.query.hasOwnProperty(name)
+      ? router.asPath.replace(`${name}=false`,`${name}=true`)
+      : `${router.asPath}&${name}=true`;
+
+    return Object.keys(router.query).length ? exist : `${router.pathname}?${name}=true`;
+  }
 
   useEffect(() => {
     if(query) setPopup({...popup, registration: query.registration})
@@ -51,7 +59,7 @@ const HeaderPanel: FC = () => {
 
   useEffect(() => {
     if(!Object.keys(router.query).length){
-      setPopup({ navAside: false, registration: false, editor: false})
+      setPopup({ navAside: false, registration: false, editor: false })
     } else if (router.query.editor === 'true'){
       setPopup({ navAside: false, registration: false, editor: true })
     }
@@ -67,7 +75,7 @@ const HeaderPanel: FC = () => {
         <Search classes={style.header_panel__search}/>
         <ButtonDefault
           text='Новая запись'
-          path={ user.id ? `${router.pathname}?editor=true` : `${router.pathname}?registration=true`}
+          path={ user.id? collectorQuery('editor') : collectorQuery('registration') }
           cb={ user.id ? clickButtonEditor : clickButtonDefault}
           type='def'
         />

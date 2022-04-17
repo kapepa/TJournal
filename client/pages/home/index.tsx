@@ -9,6 +9,7 @@ import ShortNews from "../../components/short.news";
 import {useDispatch, useSelector, useStore} from "react-redux";
 import {useEffect, useRef, useState} from "react";
 import {articleAll} from "../../redux/article/articleAction";
+import {useRouter} from "next/router";
 
 interface IHomePage {
   query: IQuery,
@@ -17,6 +18,7 @@ interface IHomePage {
 const Home: NextPage<IHomePage> = ({query}) => {
   const store = useStore()
   const dispatch = useDispatch();
+  const router = useRouter();
   const { all } = useSelector(( store: any ) => store.article);
   const profile = useSelector(( store: any ) => store.user);
   const refScroll = useRef<number>(0);
@@ -33,7 +35,7 @@ const Home: NextPage<IHomePage> = ({query}) => {
     if(postion >= refScroll.current && refScroll.current !== 0){
       const artLen = store.getState().article.all.length
       if(refLength.current !== artLen){
-        dispatch(articleAll(artLen));
+        dispatch(articleAll(artLen, String(router.query.nav)));
         refLength.current = artLen;
       }
     }

@@ -3,8 +3,12 @@ import Link from 'next/link'
 import { useState, useRef } from "react";
 import style from './style.module.scss';
 import {useRouter} from "next/router";
+import {useDispatch} from "react-redux";
+import {articleAll} from "../../redux/article/articleAction";
+import {cleanerArticle} from "../../redux/article/articleSlice";
 
 const NavAside: FC = () => {
+  const dispatch = useDispatch();
   const listRef = useRef<HTMLUListElement>(null);
   const { asPath, pathname, push, query } = useRouter();
   const [fold, setFold] = useState(false);
@@ -18,25 +22,27 @@ const NavAside: FC = () => {
   }
 
   const collectorQuery = (name: string): string => {
-    const exist = query.hasOwnProperty(name)
-      ? asPath.replace(`nav=${name}`,`nav=${name}`)
+    const exist = /nav/.test(asPath)
+      ? asPath.replace(/&?nav=\w+/,`nav=${name}`)
       : `${asPath}&nav=${name}`;
 
     return Object.keys(query).length ? exist : `${pathname}?nav=${name}`;
   }
 
   useEffect(() => {
-    // console.log(query)
+    dispatch(cleanerArticle([]));
+    dispatch(articleAll(0, query.nav ? String(query.nav) : 'all'));
   },[query])
 
   return (
     <nav className={style.nav_aside}>
       <ul className={style.nav_aside__ul}>
         <li className={style.nav_aside__li}>
-          <Link href={ Object.keys(query).length ? `${asPath}&nav=flame` : `${pathname}?nav=flame` }>
+          <Link href={collectorQuery('all') }>
             <a
-              className={`flex align-items-center ${style.nav_aside__link} ${link === 'flame' ? style.nav_aside__link__active : ''}`}
-              data-link='flame'
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'all' ? style.nav_aside__link__active : ''}`}
+              onClick={clickSearch}
+              data-link='all'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 611.999 611.999" >
                 <g>
@@ -48,10 +54,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href={ collectorQuery('clock') }>
+          <Link href={ collectorQuery('created_at') }>
             <a
-              className={`flex align-items-center ${style.nav_aside__link} ${link === 'clock' ? style.nav_aside__link__active : ''}`}
-              data-link='clock'
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'created_at' ? style.nav_aside__link__active : ''}`}
+              onClick={clickSearch}
+              data-link='created_at'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" version="1.1"  xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 471.999 501.999" >
                 <g>
@@ -64,10 +71,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href={ collectorQuery('lightning') }>
+          <Link href={ collectorQuery('likes') }>
             <a
-              className={`flex align-items-center ${style.nav_aside__link} ${link === 'lightning' ? style.nav_aside__link__active : ''}`}
-              data-link='lightning'
+              className={`flex align-items-center ${style.nav_aside__link} ${link === 'likes' ? style.nav_aside__link__active : ''}`}
+              onClick={clickSearch}
+              data-link='likes'
             >
               <svg className={style.nav_aside__svg} height="24" width="24"  viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet"xmlns="http://www.w3.org/2000/svg">
                 <path className={style.nav_aside__path} d="M10.52,34h-3a1,1,0,0,1-.88-1.44L12.55,21H6a1,1,0,0,1-.85-1.54l10.68-17A1,1,0,0,1,16.64,2H30.07a1,1,0,0,1,.77,1.69L21.78,14h5.38a1,1,0,0,1,.73,1.66l-16.63,18A1,1,0,0,1,10.52,34ZM9.18,32h.91L24.86,16H19.59a1,1,0,0,1-.77-1.69L27.88,4H17.19L7.77,19H14.2a1,1,0,0,1,.88,1.44Z"></path>
@@ -77,10 +85,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href={ collectorQuery('document') }>
+          <Link href={ collectorQuery('comments') }>
             <a
-              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'document' ? style.nav_aside__link__active : ''}`}
-              data-link='document'
+              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'comments' ? style.nav_aside__link__active : ''}`}
+              onClick={clickSearch}
+              data-link='comments'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
                 <path className={style.nav_aside__path} d="M23.93,2H8.07a2.8,2.8,0,0,0-2.8,2.8V27.2A2.8,2.8,0,0,0,8.07,30H23.93a2.8,2.8,0,0,0,2.8-2.8V4.8A2.8,2.8,0,0,0,23.93,2Zm.94,25.2a.94.94,0,0,1-.94.93H8.07a.94.94,0,0,1-.94-.93V4.8a.94.94,0,0,1,.94-.93H23.93a.94.94,0,0,1,.94.93Z"/>
@@ -88,7 +97,7 @@ const NavAside: FC = () => {
                 <path className={style.nav_aside__path} d="M21.83,15.07H10.17a.93.93,0,1,0,0,1.86H21.83a.93.93,0,1,0,0-1.86Z"/>
                 <path className={style.nav_aside__path} d="M21.83,19.73H10.17a.94.94,0,1,0,0,1.87H21.83a.94.94,0,1,0,0-1.87Z"/>
               </svg>
-              <span className={style.nav_aside__span}>Популярное</span>
+              <span className={style.nav_aside__span}>Обсуждаемые</span>
             </a>
           </Link>
         </li>

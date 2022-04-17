@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   Req,
   UploadedFile,
@@ -57,6 +58,16 @@ export class ArticleController {
   })
   async short(@Query('list') query): Promise<any> {
     return await this.articleService.shortArticle(query);
+  }
+
+  @Put('/update')
+  @ApiCreatedResponse({
+    description: 'update one article',
+    type: DtoArticle,
+  })
+  async update(@Body() body): Promise<DtoArticle> {
+    const { id, ...other } = body;
+    return await this.articleService.updateArticle('id', id, other);
   }
 
   @Delete('/')

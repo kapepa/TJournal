@@ -16,7 +16,7 @@ interface ICreateArticle {
 export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
-    private articRepository: Repository<ArticleEntity>,
+    private articleRepository: Repository<ArticleEntity>,
     private userService: UserService,
     private fileService: FileService,
   ) {}
@@ -24,21 +24,21 @@ export class ArticleService {
   async createArticle(id: string, article: ICreateArticle, file: Express.Multer.File): Promise<string> {
     const user = await this.userService.findUser('id', id);
     const fileName = await this.fileService.LoadFile(file);
-    const createArticle = await this.articRepository.create({
+    const createArticle = await this.articleRepository.create({
       ...article,
       image: [fileName],
       user,
     });
-    const saveArticle = await this.articRepository.save(createArticle);
+    const saveArticle = await this.articleRepository.save(createArticle);
     return saveArticle.id;
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    return await this.articRepository.findOne({ [key]: val });
+    return await this.articleRepository.findOne({ [key]: val });
   }
 
   async allArticle(number: number): Promise<DtoArticle[]> {
-    return await this.articRepository.find({
+    return await this.articleRepository.find({
       order: { created_at: 'DESC' },
       take: 5,
       skip: number,
@@ -46,7 +46,7 @@ export class ArticleService {
   }
 
   async shortArticle(number: number): Promise<DtoArticle[]> {
-    return await this.articRepository.find({
+    return await this.articleRepository.find({
       select: ['id', 'title', 'comments'],
       order: { created_at: 'DESC' },
       take: 5,
@@ -54,8 +54,13 @@ export class ArticleService {
     });
   }
 
+  async updateArticle(key: string, val: string, article: DtoArticle): Promise<any> {
+    return await this.articleRepository
+      .update({ [key]: val }, { ...article })
+      .then(async () => await this.findArticle(key, val));
+  }
+
   async deleteArticle(articleID: string): Promise<any> {
-    await this.articRepository.delete({ id: articleID });
-    return await this.allArticle(0);
+    return await this.articleRepository.delete({ id: articleID });
   }
 }

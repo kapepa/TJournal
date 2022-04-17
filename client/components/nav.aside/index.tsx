@@ -1,21 +1,42 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import Link from 'next/link'
 import { useState, useRef } from "react";
 import style from './style.module.scss';
+import {useRouter} from "next/router";
 
 const NavAside: FC = () => {
   const listRef = useRef<HTMLUListElement>(null);
+  const { asPath, pathname, push, query } = useRouter();
   const [fold, setFold] = useState(false);
   const [link, setLing] = useState<string>('flame');
+
+  const clickSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const data = e.currentTarget.dataset.link;
+    push({query: {...query, nav: data}})
+    setLing(String(data));
+  }
+
+  const collectorQuery = (name: string): string => {
+    const exist = query.hasOwnProperty(name)
+      ? asPath.replace(`nav=${name}`,`nav=${name}`)
+      : `${asPath}&nav=${name}`;
+
+    return Object.keys(query).length ? exist : `${pathname}?nav=${name}`;
+  }
+
+  useEffect(() => {
+    // console.log(query)
+  },[query])
 
   return (
     <nav className={style.nav_aside}>
       <ul className={style.nav_aside__ul}>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ Object.keys(query).length ? `${asPath}&nav=flame` : `${pathname}?nav=flame` }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'flame' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('flame')}}
+              data-link='flame'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 611.999 611.999" >
                 <g>
@@ -27,10 +48,10 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('clock') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'clock' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('clock')}}
+              data-link='clock'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" version="1.1"  xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px" viewBox="0 0 471.999 501.999" >
                 <g>
@@ -43,10 +64,10 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('lightning') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'lightning' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('lightning')}}
+              data-link='lightning'
             >
               <svg className={style.nav_aside__svg} height="24" width="24"  viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet"xmlns="http://www.w3.org/2000/svg">
                 <path className={style.nav_aside__path} d="M10.52,34h-3a1,1,0,0,1-.88-1.44L12.55,21H6a1,1,0,0,1-.85-1.54l10.68-17A1,1,0,0,1,16.64,2H30.07a1,1,0,0,1,.77,1.69L21.78,14h5.38a1,1,0,0,1,.73,1.66l-16.63,18A1,1,0,0,1,10.52,34ZM9.18,32h.91L24.86,16H19.59a1,1,0,0,1-.77-1.69L27.88,4H17.19L7.77,19H14.2a1,1,0,0,1,.88,1.44Z"></path>
@@ -56,10 +77,10 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('document') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link}  ${link === 'document' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('document')}}
+              data-link='document'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
                 <path className={style.nav_aside__path} d="M23.93,2H8.07a2.8,2.8,0,0,0-2.8,2.8V27.2A2.8,2.8,0,0,0,8.07,30H23.93a2.8,2.8,0,0,0,2.8-2.8V4.8A2.8,2.8,0,0,0,23.93,2Zm.94,25.2a.94.94,0,0,1-.94.93H8.07a.94.94,0,0,1-.94-.93V4.8a.94.94,0,0,1,.94-.93H23.93a.94.94,0,0,1,.94.93Z"/>
@@ -75,10 +96,11 @@ const NavAside: FC = () => {
 
       <ul ref={listRef} className={`${style.nav_aside__ul} ${fold ? style.nav_aside__ul__avtive : ''}`}>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('news') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'news' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('news')}}
+              onClick={clickSearch}
+              data-link='news'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__news}`}/>
               <span className={style.nav_aside__span}>Новости</span>
@@ -86,10 +108,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('network') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'network' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('network')}}
+              onClick={clickSearch}
+              data-link='network'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__network}`}/>
               <span className={style.nav_aside__span}>Интернет</span>
@@ -97,10 +120,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('break') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link} ${link === 'break' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('break')}}
+              onClick={clickSearch}
+              data-link='break'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__break}`}/>
               <span className={style.nav_aside__span}>Разборы</span>
@@ -108,10 +132,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('history') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link}  ${link === 'history' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('history')}}
+              onClick={clickSearch}
+              data-link='history'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__history}`}/>
               <span className={style.nav_aside__span}>Истории</span>
@@ -119,10 +144,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('tehnolegy') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link}  ${link === 'tehnolegy' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('tehnolegy')}}
+              onClick={clickSearch}
+              data-link='tehnolegy'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__tehnolegy}`}/>
               <span className={style.nav_aside__span}>Технологии</span>
@@ -130,10 +156,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href="/">
+          <Link href={ collectorQuery('guest') }>
             <a
               className={`flex align-items-center ${style.nav_aside__link}  ${link === 'guest' ? style.nav_aside__link__active : ''}`}
-              onClick={() => {setLing('guest')}}
+              onClick={clickSearch}
+              data-link='guest'
             >
               <div className={`${style.nav_aside__image} ${style.nav_aside__image__guest}`}/>
               <span className={style.nav_aside__span}>Гость TJ</span>

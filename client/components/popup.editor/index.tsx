@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import dynamic from "next/dynamic";
 import style from './style.module.scss';
 import ButtonXClose from "../button.xclose";
@@ -6,6 +6,7 @@ import ButtonDefault from "../button.default";
 import {CreateArticle} from "../../helpers/request";
 import {useRouter} from "next/router";
 import InputSelect from "../input.select";
+import {DataContext} from "../../layout/layout.default";
 
 let Redactor = dynamic(() => import('../сustom.editor/index'), {
   ssr: false
@@ -23,12 +24,16 @@ interface IPopupEditor {
 }
 
 const PopupEditor: FC<IPopupEditor> = ({cb}) => {
-  const route = useRouter()
+  const route = useRouter();
+  const { wrong } = useContext(DataContext);
   const [file, setFile] = useState<File>();
   const [state, setState] = useState<IState>({type: 'news', file} as IState);
 
   const sendArticle = async () => {
     const form = new FormData();
+    if(!state.title) return wrong('Title');
+    if(!state.text) return wrong('Text');
+    if(!file) return wrong('Image');
     Object.keys(state).forEach(key => form.append(key, state[(key as keyof IState)]));
     await CreateArticle(form).then(art => route.push(`/article/${art}`));
   }

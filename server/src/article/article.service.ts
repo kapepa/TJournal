@@ -34,14 +34,19 @@ export class ArticleService {
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    return await this.articleRepository.findOne({ [key]: val });
+    const article = await this.articleRepository.findOne({ [key]: val }, { relations: ['user'] });
+    return article;
   }
 
   async allArticle(number: number, search: string): Promise<DtoArticle[]> {
-    const where = search !== 'all' ? { type: search } : {};
+    const props = { order: { created_at: 'DESC' } } as { where?: any; order?: any };
+    const checked = ['created_at', 'likes', 'comments'].includes(search);
+    const type = search !== 'all' ? { type: search } : {};
+
+    checked ? (props.order = { [search]: 'DESC' }) : (props.where = type);
+
     return await this.articleRepository.find({
-      where: { ...where },
-      order: { [['created_at', 'likes', 'comments'].includes(search) ? search : 'created_at']: 'DESC' },
+      ...props,
       take: 5,
       skip: number,
     });

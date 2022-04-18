@@ -34,13 +34,7 @@ export class ArticleService {
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    const article = await this.articleRepository.findOne(
-      {
-        [key]: val,
-      },
-      { relations: ['user'] },
-    );
-    console.log(article);
+    const article = await this.articleRepository.findOne({ [key]: val }, { relations: ['user'] });
     return article;
   }
 

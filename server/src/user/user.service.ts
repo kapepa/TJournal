@@ -53,7 +53,7 @@ export class UserService {
   }
 
   async findUser(key: string, val: string): Promise<DtoUser> {
-    return await this.usersRepository.findOne({ [key]: val });
+    return await this.usersRepository.findOne({ [key]: val }, { loadRelationIds: true });
   }
 
   async findFullUser(key: string, val: string) {

@@ -15,4 +15,8 @@ export class SubscribeService {
     const subscribe = await this.subscribeRepository.create();
     return await this.subscribeRepository.save(subscribe);
   }
+
+  async findSubscribe(key: string, val: string): Promise<DtoSubscribe> {
+    return await this.subscribeRepository.findOne({ [key]: val });
+  }
 }

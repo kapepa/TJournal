@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
+import { SubscribeEntity } from '../subscribe/subscribe.entity';
 
 @Entity({ name: 'article' })
 export class ArticleEntity {
@@ -8,6 +9,9 @@ export class ArticleEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.article)
   user: UserEntity;
+
+  @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.article)
+  subscribe: SubscribeEntity;
 
   @Column()
   title: string;

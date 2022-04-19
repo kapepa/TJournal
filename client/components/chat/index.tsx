@@ -7,6 +7,7 @@ import ChatCommunication from "../chat.communication";
 
 const Chat: FC = () => {
   const { detailed } = useSelector(( store: any ) => store.article);
+
   return (
     <div className={`${style.chat}`}>
       <div className={`flex flex-direction-column ${style.chat__frame} ${style.chat__area}`}>

@@ -13,10 +13,11 @@ import {articleDelete, articleUpdate} from "../../redux/article/articleAction";
 interface IShortNews{
   article: IArticle,
   user: IUser,
-  index: number
+  index: number,
+  query: string
 }
 
-const ShortNews: FC<IShortNews> = ({article, user, index}) => {
+const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<IArticle>(article);
   const clickComplaint = () => {console.log(`complaint`)};
@@ -36,7 +37,7 @@ const ShortNews: FC<IShortNews> = ({article, user, index}) => {
   return (
     <div className={`flex flex-direction-column ${style.short_news}`}>
       <div className={`flex justify-content-between ${style.short_news__head}`}>
-        <NewsType type={state.type}/>
+        <NewsType type={state.type} query={query}/>
         <ButtonDrop list={[
           {name: 'Пожаловаться', cb: clickComplaint},
           {name: 'Скрыть', cb: clickHide},

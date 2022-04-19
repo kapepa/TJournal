@@ -31,3 +31,11 @@ export const articleUpdate = (article: IArticle, index: number): AppThunk => asy
   dispatch(articleSlice.actions.updateArticleOne({article: update, index}));
 }
 
+export const articleRefresh = (article: IArticle): AppThunk => async dispatch => {
+  const update = await Axios.put(`/api/article/update`, article)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.setArticle(update));
+}
+
+

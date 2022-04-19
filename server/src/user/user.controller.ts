@@ -19,10 +19,7 @@ import { FileService } from '../file/file.service';
 
 @Controller('/api/user')
 export class UserController {
-  constructor(
-    readonly userService: UserService,
-    readonly fileService: FileService,
-  ) {}
+  constructor(readonly userService: UserService, readonly fileService: FileService) {}
 
   @Get('/')
   @UseGuards(JwtAuthGuard)

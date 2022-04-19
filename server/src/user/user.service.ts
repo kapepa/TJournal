@@ -8,6 +8,7 @@ import { DtoAuth } from '../dto/dto.auth';
 import { DtoUser } from '../dto/dto.user';
 import { MailerService } from '../mailer/mailer.service';
 import { SettingsService } from '../settings/settings.service';
+import { SubscribeService } from '../subscribe/subscribe.service';
 
 config();
 
@@ -18,6 +19,7 @@ export class UserService {
     private usersRepository: Repository<UserEntity>,
     private mailerService: MailerService,
     private settingsService: SettingsService,
+    private subscribeService: SubscribeService,
   ) {}
 
   async createUser(body: DtoAuth): Promise<DtoUser> {
@@ -29,8 +31,10 @@ export class UserService {
     const settings = await this.settingsService.createSettings();
     const list = await this.settingsService.createList();
     const message = await this.settingsService.createMessage();
+    const subscribe = await this.subscribeService.createSubscribe();
     const user = await this.usersRepository.create({
       ...other,
+      subscribe,
       settings,
       message,
       list,

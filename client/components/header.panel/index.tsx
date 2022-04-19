@@ -46,11 +46,12 @@ const HeaderPanel: FC = () => {
   };
 
   const collectorQuery = (name: string): string => {
+    const { id, ...other} = router.query;
     const exist = router.query.hasOwnProperty(name)
       ? router.asPath.replace(`${name}=false`,`${name}=true`)
       : `${router.asPath}&${name}=true`;
 
-    return Object.keys(router.query).length ? exist : `${router.pathname}?${name}=true`;
+    return Object.keys(other).length ? exist : `${router.asPath}?${name}=true`;
   }
 
   useEffect(() => {

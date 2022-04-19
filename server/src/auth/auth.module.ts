@@ -24,12 +24,6 @@ config();
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    GoogleStrategy,
-    FacebookStrategy,
-  ],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
 })
 export class AuthModule {}

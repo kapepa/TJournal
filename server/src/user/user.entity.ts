@@ -7,11 +7,14 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { SettingsEntity } from '../settings/settings.entity';
 import { ListEntity } from '../settings/list.entity';
 import { MessageEntity } from '../settings/message.entity';
 import { ArticleEntity } from '../article/article.entity';
+import { SubscribeEntity } from '../subscribe/subscribe.entity';
+import { DtoSubscribe } from '../dto/dto.subscribe';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -31,7 +34,16 @@ export class UserEntity {
   message: MessageEntity;
 
   @OneToMany(() => ArticleEntity, (article) => article.user)
+  @JoinColumn()
   article: ArticleEntity[];
+
+  @OneToOne(() => SubscribeEntity, (subscribe) => subscribe.user)
+  @JoinColumn()
+  subscribe: SubscribeEntity;
+
+  @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.subscribe)
+  @JoinColumn()
+  listening: SubscribeEntity;
 
   @Column()
   name: string;
@@ -52,13 +64,10 @@ export class UserEntity {
   comments: string[];
 
   @Column({ default: 0 })
-  subs: number;
-
-  @Column({ default: 0 })
-  listening: number;
-
-  @Column({ default: 0 })
   donate: number;
+
+  @Column({ default: 0 })
+  subs: number;
 
   @Column({ default: false })
   isActive: boolean;

@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import DtoArticle from '../dto/dto.article';
+import { DtoArticle } from '../dto/dto.article';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 

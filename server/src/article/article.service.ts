@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
-import { DtoUser } from '../dto/dto.user';
+import { SubscribeService } from '../subscribe/subscribe.service';
 
 interface ICreateArticle {
   title: string;
@@ -20,13 +20,16 @@ export class ArticleService {
     private articleRepository: Repository<ArticleEntity>,
     private userService: UserService,
     private fileService: FileService,
+    private subscribeService: SubscribeService,
   ) {}
 
   async createArticle(id: string, article: ICreateArticle, file: Express.Multer.File): Promise<string> {
     const user = await this.userService.findUser('id', id);
+    const subscribe = await this.subscribeService.findSubscribe('id', String(user.subscribe));
     const fileName = await this.fileService.LoadFile(file);
     const createArticle = await this.articleRepository.create({
       ...article,
+      subscribe,
       image: [fileName],
       user: user,
     });
@@ -35,7 +38,7 @@ export class ArticleService {
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    return await this.articleRepository.findOne({ [key]: val }, { relations: ['user'] });
+    return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe'] });
   }
 
   async allArticle(number: number, search: string): Promise<DtoArticle[]> {

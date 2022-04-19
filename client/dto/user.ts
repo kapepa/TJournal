@@ -1,17 +1,19 @@
 import {ISettings} from "./settings";
 import {IList} from "./list";
 import {IMessage} from "./message";
+import {ISubscribe} from "./subscribe";
 
 interface IUser {
   id: string,
   settings?: ISettings,
   list?: IList,
-  message: IMessage,
+  message?: IMessage,
+  subscribe?: ISubscribe,
+  listening?: ISubscribe,
   name: string,
   email: string,
   password?: string,
   subs: number,
-  listening: number,
   donate: number,
   avatar: string,
   cover: string,

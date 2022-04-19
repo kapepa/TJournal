@@ -35,8 +35,7 @@ const PopupEditor: FC<IPopupEditor> = ({cb}) => {
     if(!state.text) return wrong('Text');
     if(!file) return wrong('Image');
     Object.keys(state).forEach(key => form.append(key, state[(key as keyof IState)]));
-    // await CreateArticle(form).then(art => route.push(`/article/${art}`));
-    await CreateArticle(form);
+    await CreateArticle(form).then(art => route.push(`/article/${art}`));
   }
 
   const writeArticle = (data: {title: string, text: string}) => {setState({...state, ...data})};

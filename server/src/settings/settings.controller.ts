@@ -3,7 +3,7 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { SettingsService } from './settings.service';
 import { DtoList } from '../dto/dto.list';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { DtoMessage } from "../dto/dto.message";
+import { DtoMessage } from '../dto/dto.message';
 
 @ApiTags('Settings')
 @Controller('/api/settings')
@@ -24,20 +24,10 @@ export class SettingsController {
     description: 'The record has been successfully created.',
   })
   async message(@Body() body): Promise<any> {
-    const obj = {} as { list?: DtoList, message?: DtoMessage };
-    if (body.hasOwnProperty('list'))
-      obj.list = await this.settingsService.updateList(
-        'id',
-        body.list.id,
-        body.list,
-      );
+    const obj = {} as { list?: DtoList; message?: DtoMessage };
+    if (body.hasOwnProperty('list')) obj.list = await this.settingsService.updateList('id', body.list.id, body.list);
     if (body.hasOwnProperty('message'))
-      obj.message = await this.settingsService.updateMessage(
-        'id',
-        body.message.id,
-        body.message,
-      );
-
+      obj.message = await this.settingsService.updateMessage('id', body.message.id, body.message);
     return obj;
-  };
+  }
 }

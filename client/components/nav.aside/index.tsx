@@ -12,7 +12,7 @@ const NavAside: FC = () => {
   const listRef = useRef<HTMLUListElement>(null);
   const { asPath, pathname, push, query } = useRouter();
   const [fold, setFold] = useState(false);
-  const [link, setLing] = useState<string>('flame');
+  const [link, setLing] = useState<string>('all');
 
   const clickSearch = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -33,6 +33,10 @@ const NavAside: FC = () => {
     dispatch(cleanerArticle([]));
     dispatch(articleAll(0, query.nav ? String(query.nav) : 'all'));
   },[query])
+
+  useEffect(() => {
+    setLing( query.nav ? String(query.nav) : 'all');
+  },[query.nav]);
 
   return (
     <nav className={style.nav_aside}>

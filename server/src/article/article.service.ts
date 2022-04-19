@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import DtoArticle from '../dto/dto.article';
+import { DtoArticle } from '../dto/dto.article';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
+import { DtoUser } from '../dto/dto.user';
 
 interface ICreateArticle {
   title: string;
@@ -27,15 +28,14 @@ export class ArticleService {
     const createArticle = await this.articleRepository.create({
       ...article,
       image: [fileName],
-      user,
+      user: user,
     });
     const saveArticle = await this.articleRepository.save(createArticle);
     return saveArticle.id;
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    const article = await this.articleRepository.findOne({ [key]: val }, { relations: ['user'] });
-    return article;
+    return await this.articleRepository.findOne({ [key]: val }, { relations: ['user'] });
   }
 
   async allArticle(number: number, search: string): Promise<DtoArticle[]> {

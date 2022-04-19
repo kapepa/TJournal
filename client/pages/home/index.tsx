@@ -32,6 +32,7 @@ const Home: NextPage<IHomePage> = ({query}) => {
       const fullHeight = document.body.scrollHeight;
       refScroll.current = fullHeight - screenHeight;
     }
+
     if(postion >= refScroll.current && refScroll.current !== 0){
       const artLen = store.getState().article.all.length
       if(refLength.current !== artLen){
@@ -41,16 +42,32 @@ const Home: NextPage<IHomePage> = ({query}) => {
     }
   }
 
+  const collectorQuery = (name: string): string => {
+    const exist = /nav/.test(router.asPath)
+      ? router.asPath.replace(/&?nav=\w+/,`nav=${name}`)
+      : `${router.asPath}&nav=${name}`;
+
+    return query.hasOwnProperty('nav') ? `${router.pathname}?nav=${name}` : exist ;
+  }
+
   useEffect(() => {
+    refLength.current = 0;
+    refScroll.current = 0;
     if(window) window.addEventListener('scroll', scrollLoad);
     return () => window.removeEventListener('scroll', scrollLoad);
-  },[])
+  },[router.query.nav])
 
   return (
     <LayoutDefault title="Home" query={query}>
       <div className={`flex flex-direction-column ${style.home}`}>
         <ShortDesc />
-        {all.map((art: IArticle, i: number) => (<ShortNews key={`article-${i}`} index={i} article={art} user={profile} />))}
+        {all.map((art: IArticle, i: number) => (<ShortNews
+          key={`article-${i}`}
+          index={i}
+          article={art}
+          user={profile}
+          query={collectorQuery(art.type)}
+        />))}
       </div>
     </LayoutDefault>
   )

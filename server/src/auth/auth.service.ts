@@ -11,10 +11,7 @@ config();
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private userService: UserService,
-    private mailerService: MailerService,
-  ) {}
+  constructor(private userService: UserService, private mailerService: MailerService) {}
 
   async JwtToken(user: DtoUser): Promise<string> {
     const token = jwt.sign(

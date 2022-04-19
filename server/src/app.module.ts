@@ -19,6 +19,8 @@ import { SettingsModule } from './settings/settings.module';
 import { SettingsEntity } from './settings/settings.entity';
 import { ListEntity } from './settings/list.entity';
 import { MessageEntity } from './settings/message.entity';
+import { SubscribeModule } from './subscribe/subscribe.module';
+import { SubscribeEntity } from './subscribe/subscribe.entity';
 
 config();
 
@@ -34,13 +36,7 @@ config();
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [
-        UserEntity,
-        ArticleEntity,
-        SettingsEntity,
-        ListEntity,
-        MessageEntity,
-      ],
+      entities: [UserEntity, ArticleEntity, SettingsEntity, ListEntity, MessageEntity, SubscribeEntity],
       synchronize: true,
     }),
     AuthModule,
@@ -49,14 +45,8 @@ config();
     MailerModule,
     FileModule,
     SettingsModule,
+    SubscribeModule,
   ],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    GoogleStrategy,
-    FacebookStrategy,
-  ],
-  exports: [AuthService],
+  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
 })
 export class AppModule {}

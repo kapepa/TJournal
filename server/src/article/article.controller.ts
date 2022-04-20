@@ -35,12 +35,13 @@ export class ArticleController {
   }
 
   @Get('/one/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({
     description: 'receive one article',
     type: DtoArticle,
   })
-  async receiveOne(@Param() param): Promise<DtoArticle> {
-    return await this.articleService.findArticle('id', param.id);
+  async receiveOne(@Param() param, @Req() req): Promise<DtoArticle> {
+    return await this.articleService.receiveOne('id', param.id, req.user.id);
   }
 
   @Get('/all')

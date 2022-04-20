@@ -17,6 +17,9 @@ export class DtoSubscribe {
   @ApiProperty({ type: () => DtoArticle })
   article: DtoArticle[];
 
+  @ApiProperty()
+  sub: boolean;
+
   @ApiProperty({ default: 0 })
   subscribers: number;
 }

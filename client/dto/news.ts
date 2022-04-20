@@ -11,7 +11,6 @@ interface IArticle {
   id: string,
   user: IUser,
   subscribe: ISubscribe,
-  sub: boolean,
   title: string,
   comments: number,
   type: string,

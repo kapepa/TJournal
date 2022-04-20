@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IArticle} from "../../dto/news";
 import {HYDRATE} from "next-redux-wrapper";
+import {appendSubscribe} from "./articleAction";
 
 export const articleSlice = createSlice({
   name: 'article',
@@ -28,6 +29,9 @@ export const articleSlice = createSlice({
     updateArticleOne(state, action) {
       const all = state.all.splice(action.payload.index,1,action.payload.article);
       return { ...state, all };
+    },
+    updateSubscribe(state, action) {
+      return { ...state, detailed: {...state.detailed, subscribe: action.payload} };
     }
   },
   extraReducers: {

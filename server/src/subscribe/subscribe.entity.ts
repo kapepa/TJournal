@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
-import {ArticleEntity} from "../article/article.entity";
+import { ArticleEntity } from '../article/article.entity';
 
 @Entity({ name: 'subscribe' })
 export class SubscribeEntity {
@@ -10,11 +10,11 @@ export class SubscribeEntity {
   @OneToOne(() => UserEntity, (user) => user.subscribe)
   user: UserEntity;
 
-  @OneToMany(() => UserEntity, (user) => user.listening)
+  @ManyToMany(() => UserEntity, (user) => user.listening)
   subscribe: UserEntity[];
 
   @OneToMany(() => ArticleEntity, (article) => article.subscribe)
-  article: ArticleEntity;
+  article: ArticleEntity[];
 
   @Column({ default: 0 })
   subscribers: number;

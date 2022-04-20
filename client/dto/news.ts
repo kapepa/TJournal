@@ -1,3 +1,6 @@
+import {ISubscribe} from "./subscribe";
+import {IUser} from "./user";
+
 interface IListNews {
   id: string,
   title: string,
@@ -6,6 +9,9 @@ interface IListNews {
 
 interface IArticle {
   id: string,
+  user: IUser,
+  subscribe: ISubscribe,
+  sub: boolean,
   title: string,
   comments: number,
   type: string,

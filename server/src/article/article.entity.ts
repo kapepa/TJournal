@@ -19,6 +19,9 @@ export class ArticleEntity {
   @Column()
   text: string;
 
+  @Column({ default: false })
+  sub: boolean;
+
   @Column({ default: '' })
   type: string;
 

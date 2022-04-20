@@ -35,7 +35,7 @@ export class DtoUser {
   subscribe?: DtoSubscribe;
 
   @ApiProperty({ type: () => DtoSubscribe })
-  listening?: DtoSubscribe;
+  listening?: DtoSubscribe[];
 
   @ApiProperty()
   @IsString()

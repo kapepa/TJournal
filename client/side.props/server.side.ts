@@ -27,7 +27,6 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   }
 
   data.query = regist === 'true' ? Boolean(regist) : false;
-
   // if(!profile.id) return { redirect: { permanent: false, destination: "/setting" } };
 
   return { props: { ...data } };

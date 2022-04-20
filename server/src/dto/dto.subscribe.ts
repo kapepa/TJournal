@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 import { DtoUser } from './dto.user';
+import { DtoArticle } from './dto.article';
 
 export class DtoSubscribe {
   @ApiProperty()
@@ -12,6 +13,9 @@ export class DtoSubscribe {
 
   @ApiProperty({ type: () => DtoUser })
   subscribe?: DtoUser[];
+
+  @ApiProperty({ type: () => DtoArticle })
+  article: DtoArticle[];
 
   @ApiProperty({ default: 0 })
   subscribers: number;

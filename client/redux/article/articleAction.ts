@@ -2,6 +2,7 @@ import {AppThunk} from "../store";
 import {articleSlice} from "./articleSlice";
 import Axios from "../../helpers/axios";
 import {IArticle} from "../../dto/news";
+import {ISubscribe} from "../../dto/subscribe";
 
 export const articleShort = (number: number): AppThunk => async dispatch => {
   const short = await Axios.get(`/api/article/short?list=${number}`)
@@ -36,6 +37,13 @@ export const articleRefresh = (article: IArticle): AppThunk => async dispatch =>
     .then(res => res.data)
     .catch(err => console.error(err));
   dispatch(articleSlice.actions.setArticle(update));
+}
+
+export const appendSubscribe = (data: ISubscribe): AppThunk => async dispatch => {
+  const append = await Axios.put(`/api/subscribe/append`,data)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.updateSubscribe(append));
 }
 
 

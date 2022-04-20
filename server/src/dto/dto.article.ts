@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { DtoUser } from './dto.user';
+import { DtoSubscribe } from './dto.subscribe';
 
 export class DtoArticle {
   @ApiProperty()
@@ -7,6 +8,12 @@ export class DtoArticle {
 
   @ApiProperty({ type: () => DtoUser })
   user?: DtoUser;
+
+  @ApiProperty({ type: () => DtoSubscribe })
+  subscribe?: DtoSubscribe;
+
+  @ApiProperty()
+  sub: boolean;
 
   @ApiProperty()
   title?: string;

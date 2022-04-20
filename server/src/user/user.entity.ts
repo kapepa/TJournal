@@ -8,13 +8,14 @@ import {
   JoinColumn,
   OneToMany,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { SettingsEntity } from '../settings/settings.entity';
 import { ListEntity } from '../settings/list.entity';
 import { MessageEntity } from '../settings/message.entity';
 import { ArticleEntity } from '../article/article.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
-import { DtoSubscribe } from '../dto/dto.subscribe';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -41,9 +42,13 @@ export class UserEntity {
   @JoinColumn()
   subscribe: SubscribeEntity;
 
-  @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.subscribe)
-  @JoinColumn()
-  listening: SubscribeEntity;
+  @ManyToMany(() => SubscribeEntity, (subscribe) => subscribe.subscribe)
+  @JoinTable({
+    name: 'listening_subscribe',
+    joinColumns: [{ name: 'listeningId' }],
+    inverseJoinColumns: [{ name: 'subscribeId' }],
+  })
+  listening: SubscribeEntity[];
 
   @Column()
   name: string;

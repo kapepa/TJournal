@@ -38,6 +38,7 @@ export class SubscribeService {
     if (index !== -1) exist.subscribe.splice(index, 1);
 
     exist.subscribers = exist.subscribe.length;
+    exist.sub = index === -1;
     await this.subscribeRepository.save(exist);
     return await this.findFullSubscribe('id', id).then(async () => await this.findSubscribe('id', id));
   }

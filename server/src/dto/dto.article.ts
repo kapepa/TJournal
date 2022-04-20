@@ -13,9 +13,6 @@ export class DtoArticle {
   subscribe?: DtoSubscribe;
 
   @ApiProperty()
-  sub: boolean;
-
-  @ApiProperty()
   title?: string;
 
   @ApiProperty()

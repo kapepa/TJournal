@@ -17,6 +17,9 @@
       background-color: #e9b649;
     }
   }
+  &__btn{
+    min-width: 130px;
+  }
   &__news::before{
     background-image: url("../../public/news.webp");
   }
@@ -34,5 +37,13 @@
   }
   &__guest::before{
     background-image: url("../../public/guest.webp");
+  }
+}
+
+@media screen and (max-width: 998px){
+  .subscribe_panel{
+    &__btn{
+      min-width: auto;
+    }
   }
 }

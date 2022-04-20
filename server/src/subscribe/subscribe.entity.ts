@@ -16,6 +16,9 @@ export class SubscribeEntity {
   @OneToMany(() => ArticleEntity, (article) => article.subscribe)
   article: ArticleEntity[];
 
+  @Column({ default: false })
+  sub: boolean;
+
   @Column({ default: 0 })
   subscribers: number;
 }

@@ -16,6 +16,7 @@ const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
     case 'Image': text = 'Выберите картинку для статьи'; break;
     case 'Title': text = 'Выберите заголовок для статьии'; break;
     case 'Text': text = 'Выберите текст для статьии'; break;
+    case 'Auth': text = 'Авторизуйтесь для того чтобы прочитать'; break;
   }
 
   return (

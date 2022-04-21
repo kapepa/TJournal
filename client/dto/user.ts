@@ -2,6 +2,7 @@ import {ISettings} from "./settings";
 import {IList} from "./list";
 import {IMessage} from "./message";
 import {ISubscribe} from "./subscribe";
+import {IAnswer} from "./сhat";
 
 interface IUser {
   id: string,
@@ -10,6 +11,7 @@ interface IUser {
   message?: IMessage,
   subscribe?: ISubscribe,
   listening?: ISubscribe,
+  answer?: IAnswer,
   name: string,
   email: string,
   password?: string,
@@ -17,7 +19,6 @@ interface IUser {
   donate: number,
   avatar: string,
   cover: string,
-  comments: [],
   created_at: Date,
 }
 

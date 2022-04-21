@@ -16,6 +16,7 @@ import { ListEntity } from '../settings/list.entity';
 import { MessageEntity } from '../settings/message.entity';
 import { ArticleEntity } from '../article/article.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
+import { AnswerEntity } from '../chat/chat.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -50,6 +51,9 @@ export class UserEntity {
   })
   listening: SubscribeEntity[];
 
+  @OneToMany(() => AnswerEntity, (answer) => answer.user)
+  answer: AnswerEntity[];
+
   @Column()
   name: string;
 
@@ -64,9 +68,6 @@ export class UserEntity {
 
   @Column({ default: '' })
   cover: string;
-
-  @Column('simple-array', { nullable: true })
-  comments: string[];
 
   @Column({ default: 0 })
   donate: number;

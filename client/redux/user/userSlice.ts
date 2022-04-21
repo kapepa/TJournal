@@ -10,8 +10,8 @@ export const userSlice = createSlice({
       return action.payload;
     },
     changeAvatar(state, action) {
-      if(action.payload.name === 'avatar') state.avatar = action.payload.img;
-      if(action.payload.name === 'cover') state.cover = action.payload.img;
+      if(action.payload?.name === 'avatar') state.avatar = action.payload.img;
+      if(action.payload?.name === 'cover') state.cover = action.payload.img;
       return state
     },
     changeData(state, action) {

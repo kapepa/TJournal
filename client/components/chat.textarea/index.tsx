@@ -10,10 +10,12 @@ interface IState {
 interface IChatTextarea {
   classes?: string,
   placeholder: string,
+  cb: () => void,
+  change: (e: React.KeyboardEvent<HTMLSpanElement>) => void
 }
 
-const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder}) => {
-  const { win } = useContext(DataContext)
+const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change}) => {
+  const { win } = useContext(DataContext);
   const [state, setState] = useState<IState>({} as IState);
 
   const clickOpen = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -36,11 +38,14 @@ const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder}) => {
         suppressContentEditableWarning={true}
         className={style.chat_textarea__text}
         placeholder={placeholder}
+        onKeyDown={change}
+        data-to='chat'
       />
       {state.open && <div className={`flex ${style.chat_textarea__btn_wrapper}`}>
         <ButtonDefault text='Отправит' cb={(e) => {
           e.stopPropagation();
-          setState({...state, open: false})
+          // setState({...state, open: false})
+          cb()
         }} type='blue'/>
       </div>}
     </div>

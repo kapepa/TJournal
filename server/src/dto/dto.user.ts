@@ -1,18 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsArray,
-  IsBoolean,
-  IsDate,
-  IsEmail,
-  IsNumber,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsBoolean, IsDate, IsEmail, IsNumber, IsString, MinLength } from 'class-validator';
 import { DtoSettings } from './dto.settings';
 import { DtoList } from './dto.list';
 import { DtoMessage } from './dto.message';
 import { DtoArticle } from './dto.article';
 import { DtoSubscribe } from './dto.subscribe';
+import { DtoAnswer } from './dto.chat';
 
 export class DtoUser {
   @ApiProperty()
@@ -37,6 +30,9 @@ export class DtoUser {
   @ApiProperty({ type: () => DtoSubscribe })
   listening?: DtoSubscribe[];
 
+  @ApiProperty({ type: () => DtoAnswer })
+  answer?: DtoAnswer[];
+
   @ApiProperty()
   @IsString()
   name: string;
@@ -55,10 +51,6 @@ export class DtoUser {
 
   @ApiProperty()
   cover: string;
-
-  @ApiProperty()
-  // @IsArray()
-  comments: string[];
 
   @ApiProperty()
   @IsNumber()

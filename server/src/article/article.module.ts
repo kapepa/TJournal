@@ -6,9 +6,10 @@ import { ArticleEntity } from './article.entity';
 import { UserModule } from '../user/user.module';
 import { FileModule } from '../file/file.module';
 import { SubscribeModule } from '../subscribe/subscribe.module';
+import { ChatModule } from '../chat/chat.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArticleEntity]), UserModule, FileModule, SubscribeModule],
+  imports: [TypeOrmModule.forFeature([ArticleEntity]), UserModule, FileModule, SubscribeModule, ChatModule],
   controllers: [ArticleController],
   providers: [ArticleService],
 })

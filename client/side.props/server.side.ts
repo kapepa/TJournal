@@ -9,19 +9,19 @@ const homeRedirect = () => { return { redirect: { permanent: false, destination:
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({resolvedUrl, params, query, req}) => {
   const data = {} as { query: boolean, user: IUser };
   const regist = query.registration;
-  const token = getCookies({req}).token;
+  const token = getCookies({req}).token ? getCookies({req}).token : undefined;
   const page = resolvedUrl.split('/')[1];
-  const request = token ? RequestServer(token, store.dispatch) : false;
+  const request = RequestServer(token, store.dispatch);
 
-  if(!store.getState().user.id && request) {
+  if(!store.getState().user.id && token) {
     await request.Profile();
   }
 
-  if(/article/.test(page) && params && request) {
+  if(/article/.test(page) && params && token) {
     await request.Article(String(params.id));
   }
 
-  if(/home/.test(page) && request) {
+  if(/home/.test(page)) {
     await request.AllArticle(0, query.nav ? String(query.nav) : 'all');
     await request.ShortArticle(0);
   }

@@ -9,7 +9,7 @@ import ButtonDefault from "../button.default";
 import InputDefault from "../input.default";
 import CheckList from "../check.list";
 import Validator from "../../helpers/validator";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changeDataUser, changeSettings, changeMessage} from "../../redux/user/userAction";
 import {DataContext} from "../../layout/layout.default";
 import {IList} from "../../dto/list";
@@ -23,7 +23,7 @@ interface IProfile {
 const SettingsChange: FC = () => {
   const router = useRouter();
   const { nav } = router.query;
-  const { user } = useContext(DataContext);
+  const user = useSelector(( store: any ) => store.user);
   const dispatch = useDispatch();
   const [settings, setSettings] = useState<ISettings | undefined>( user.settings );
   const [profile, setProfile] = useState<IProfile>(

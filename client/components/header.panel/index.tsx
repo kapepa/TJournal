@@ -12,6 +12,7 @@ import PopupRegistration from "../popup.registration";
 import {DataContext} from "../../layout/layout.default";
 import PopupEditor from "../popup.editor";
 import Avatar from "../avatar";
+import {useSelector} from "react-redux";
 
 interface Ipopup{
   navAside: boolean;
@@ -20,7 +21,8 @@ interface Ipopup{
 }
 
 const HeaderPanel: FC = () => {
-  const {query, user} = useContext(DataContext);
+  const {query} = useContext(DataContext);
+  const user = useSelector(( store: any ) => store.user);
   const router = useRouter();
   const [popup, setPopup] = useState<Ipopup>({} as Ipopup);
   const clickHamburger = (e: React.MouseEvent<HTMLButtonElement>) => {

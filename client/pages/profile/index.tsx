@@ -13,12 +13,12 @@ interface IProfile {
   query: IQuery,
 }
 
-const Profile: NextPage<IProfile> = ({user, query}) => {
+const Profile: NextPage<IProfile> = ({query}) => {
   const router = useRouter();
   const { nav } = router.query;
 
   return (
-    <LayoutDefault title='Profile' user={user} query={query}>
+    <LayoutDefault title='Profile' query={query}>
       <section className={`flex flex-direction-column ${style.profile}`}>
         <ProfilePanel query={String(nav)} />
         <ProfileContent />

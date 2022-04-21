@@ -7,9 +7,7 @@ import { ListEntity } from './list.entity';
 import { MessageEntity } from './message.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SettingsEntity, ListEntity, MessageEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([SettingsEntity, ListEntity, MessageEntity])],
   providers: [SettingsService],
   controllers: [SettingsController],
   exports: [SettingsService],

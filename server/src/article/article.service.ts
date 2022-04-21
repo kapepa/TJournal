@@ -6,6 +6,7 @@ import { ArticleEntity } from './article.entity';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
 import { SubscribeService } from '../subscribe/subscribe.service';
+import { ChatService } from '../chat/chat.service';
 
 interface ICreateArticle {
   title: string;
@@ -21,19 +22,23 @@ export class ArticleService {
     private userService: UserService,
     private fileService: FileService,
     private subscribeService: SubscribeService,
+    private chatService: ChatService,
   ) {}
 
   async createArticle(id: string, article: ICreateArticle, file: Express.Multer.File): Promise<string> {
     const user = await this.userService.findUser('id', id);
     const subscribe = await this.subscribeService.findSubscribe('id', String(user.subscribe));
     const fileName = await this.fileService.LoadFile(file);
+    const chat = await this.chatService.createChat();
     const createArticle = await this.articleRepository.create({
       ...article,
+      chat: chat,
       subscribe,
       image: [fileName],
-      user: user,
+      user,
     });
     const saveArticle = await this.articleRepository.save(createArticle);
+    console.log(saveArticle);
     return saveArticle.id;
   }
 
@@ -65,7 +70,7 @@ export class ArticleService {
 
   async shortArticle(number: number): Promise<DtoArticle[]> {
     return await this.articleRepository.find({
-      select: ['id', 'title', 'comments'],
+      select: ['id', 'title'],
       order: { created_at: 'DESC' },
       take: 5,
       skip: number,

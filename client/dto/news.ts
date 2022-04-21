@@ -1,5 +1,6 @@
 import {ISubscribe} from "./subscribe";
 import {IUser} from "./user";
+import {IChat} from "./сhat";
 
 interface IListNews {
   id: string,
@@ -11,14 +12,13 @@ interface IArticle {
   id: string,
   user: IUser,
   subscribe: ISubscribe,
+  chat: IChat,
   title: string,
-  comments: number,
   type: string,
   shortDesc: string,
   text: string,
   image: string[],
   likes: number,
-  сhat: any[],
   created_at: Date,
 }
 

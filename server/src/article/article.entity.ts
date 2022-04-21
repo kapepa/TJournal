@@ -1,6 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
+import { ChatEntity } from '../chat/chat.entity';
 
 @Entity({ name: 'article' })
 export class ArticleEntity {
@@ -12,6 +21,9 @@ export class ArticleEntity {
 
   @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.article)
   subscribe: SubscribeEntity;
+
+  @OneToOne(() => ChatEntity, (chat) => chat.article)
+  chat: ChatEntity;
 
   @Column()
   title: string;
@@ -30,12 +42,6 @@ export class ArticleEntity {
 
   @Column({ default: 0 })
   likes: number;
-
-  @Column({ default: '' })
-  сhat: string;
-
-  @Column({ default: 0 })
-  comments: number;
 
   @CreateDateColumn()
   created_at: Date;

@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import Link from 'next/link';
 import style from './style.module.scss';
 import {IArticle} from "../../dto/news";
@@ -9,6 +9,7 @@ import InteractionsPanel from "../ interactions.panel";
 import config from "../../config";
 import {useDispatch} from "react-redux";
 import {articleDelete, articleUpdate} from "../../redux/article/articleAction";
+import {DataContext} from "../../layout/layout.default";
 
 interface IShortNews{
   article: IArticle,
@@ -19,6 +20,7 @@ interface IShortNews{
 
 const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   const dispatch = useDispatch();
+  const { wrong } = useContext(DataContext);
   const [state, setState] = useState<IArticle>(article);
   const clickComplaint = () => {console.log(`complaint`)};
   const clickHide = () => {console.log(`hide`)};
@@ -34,6 +36,13 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
     console.log(data)
   }
 
+  const checkAuth = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if(!user.id){
+      e.preventDefault();
+      wrong('Auth');
+    }
+  }
+
   return (
     <div className={`flex flex-direction-column ${style.short_news}`}>
       <div className={`flex justify-content-between ${style.short_news__head}`}>
@@ -45,12 +54,12 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
         ]} />
       </div>
       <Link href={`/article/${state.id}`}>
-        <a className={`${style.short_news__short_description}`}>
+        <a onClick={checkAuth} className={`${style.short_news__short_description}`}>
           <span className={`${style.short_news__span}`}>{`${state.text.substring(0, 130)} ...`}</span>
         </a>
       </Link>
       <Link href={`/article/${state.id}`}>
-        <a className={`${style.short_news__picture}`}>
+        <a onClick={checkAuth} className={`${style.short_news__picture}`}>
           <img className={`${style.short_news__image}`} src={`${config.url}/${state.image[0]}`} alt={state.title}/>
         </a>
       </Link>

@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { DtoUser } from './dto.user';
 import { DtoSubscribe } from './dto.subscribe';
+import { DtoChat } from './dto.chat';
 
 export class DtoArticle {
   @ApiProperty()
@@ -11,6 +12,9 @@ export class DtoArticle {
 
   @ApiProperty({ type: () => DtoSubscribe })
   subscribe?: DtoSubscribe;
+
+  @ApiProperty({ type: () => DtoChat })
+  chat?: DtoChat;
 
   @ApiProperty()
   title?: string;
@@ -29,12 +33,6 @@ export class DtoArticle {
 
   @ApiProperty()
   likes?: number;
-
-  @ApiProperty()
-  сhat?: string;
-
-  @ApiProperty()
-  comments?: number;
 
   @ApiProperty()
   created_at?: Date;

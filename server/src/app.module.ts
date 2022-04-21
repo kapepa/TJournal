@@ -21,6 +21,8 @@ import { ListEntity } from './settings/list.entity';
 import { MessageEntity } from './settings/message.entity';
 import { SubscribeModule } from './subscribe/subscribe.module';
 import { SubscribeEntity } from './subscribe/subscribe.entity';
+import { ChatModule } from './chat/chat.module';
+import { AnswerEntity, ChatEntity } from './chat/chat.entity';
 
 config();
 
@@ -36,7 +38,16 @@ config();
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      entities: [UserEntity, ArticleEntity, SettingsEntity, ListEntity, MessageEntity, SubscribeEntity],
+      entities: [
+        UserEntity,
+        ArticleEntity,
+        SettingsEntity,
+        ListEntity,
+        MessageEntity,
+        SubscribeEntity,
+        ChatEntity,
+        AnswerEntity,
+      ],
       synchronize: true,
     }),
     AuthModule,
@@ -46,6 +57,7 @@ config();
     FileModule,
     SettingsModule,
     SubscribeModule,
+    ChatModule,
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
 })

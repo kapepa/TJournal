@@ -46,4 +46,11 @@ export const appendSubscribe = (data: ISubscribe): AppThunk => async dispatch =>
   dispatch(articleSlice.actions.updateSubscribe(append));
 }
 
+export const messageChat = (data: any): AppThunk => async dispatch => {
+  const message = await Axios.put(`/api/chat/message`,data)
+    .then(res => res.data)
+    .catch(err => console.error(err))
+  console.log(message)
+}
+
 

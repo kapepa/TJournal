@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ArticleEntity } from '../article/article.entity';
 import { UserEntity } from '../user/user.entity';
 
@@ -7,13 +16,11 @@ export class ChatEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ default: '' })
-  name: string;
-
   @OneToOne(() => ArticleEntity, (article) => article.chat)
   article: ArticleEntity;
 
   @OneToMany(() => AnswerEntity, (answer) => answer.chat)
+  @JoinColumn()
   answer: AnswerEntity[];
 }
 
@@ -32,6 +39,7 @@ export class AnswerEntity {
   inner: AnswerEntity;
 
   @OneToMany(() => AnswerEntity, (answer) => answer.inner)
+  @JoinColumn()
   nested: AnswerEntity[];
 
   @Column({ default: '' })

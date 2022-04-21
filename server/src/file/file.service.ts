@@ -25,11 +25,7 @@ export class FileService {
     return createName;
   }
 
-  async LoadUser(
-    id: string,
-    name: string,
-    file: Express.Multer.File,
-  ): Promise<string> {
+  async LoadUser(id: string, name: string, file: Express.Multer.File): Promise<string> {
     const user = await this.userService.findUser('id', id);
     if (user[name]) await this.DeleteFile(user[name]);
 

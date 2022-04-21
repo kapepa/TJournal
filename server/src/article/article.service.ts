@@ -32,13 +32,12 @@ export class ArticleService {
     const chat = await this.chatService.createChat();
     const createArticle = await this.articleRepository.create({
       ...article,
-      chat: chat,
+      chat,
       subscribe,
       image: [fileName],
       user,
     });
     const saveArticle = await this.articleRepository.save(createArticle);
-    console.log(saveArticle);
     return saveArticle.id;
   }
 

@@ -1,12 +1,13 @@
 import type { NextPage } from 'next';
+import {createContext, useEffect, useState} from "react";
+import { useSelector } from "react-redux";
 import Head from 'next/head';
 import HeaderPanell from "../components/header.panel";
 import { IQuery } from "../dto/query";
 import { IUser } from "../dto/user";
-import {createContext, useEffect, useState} from "react";
-import PopupWrong from "../components/popup.wrong";
-import { useSelector } from "react-redux";
 import { IArticle } from "../dto/news";
+import PopupWrong from "../components/popup.wrong";
+import Cookies from "js-cookie";
 
 interface IWrong {
   active: boolean,
@@ -38,6 +39,7 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
   }
 
   useEffect(() => {
+    if(Cookies.get('token') && !profile.id) Cookies.remove('token');
     if(window) window.addEventListener('click', () => setWin(Date.now()))
   },[])
 

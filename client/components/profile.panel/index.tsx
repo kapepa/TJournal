@@ -1,7 +1,7 @@
 import React, {FC, useContext, useRef, useState} from "react";
 import Link from 'next/link';
 import Cookies from "js-cookie";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import style from './style.module.scss';
 import ButtonSocial from "../button.social";
 import ButtonDefault from "../button.default";
@@ -25,7 +25,7 @@ interface IProfilePanel {
 
 const ProfilePanel: FC<IProfilePanel> = ({query,}) => {
   const router = useRouter();
-  const {user} = useContext(DataContext);
+  const user = useSelector(( store: any ) => store.user);
   const dispatch = useDispatch();
   const fileRef = useRef<HTMLInputElement>(null);
   const data = new Date(user.created_at);

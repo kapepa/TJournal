@@ -18,19 +18,19 @@ export const RequestServer = (token: string | undefined , dispatch: any) => {
       const article = await Axios.get(`/api/article/one/${param}`)
         .then( res => res.data )
         .catch( err => console.error(err) );
-      dispatch(setArticle(article))
+      dispatch(setArticle(article ? article : {}))
     },
     async AllArticle (number: number, nav: string) {
       const all = await Axios.get(`/api/article/all?list=${number}&nav=${nav}`)
         .then( res => res.data )
         .catch( err => console.error(err));
-      dispatch(allArticle(all))
+      dispatch(allArticle(all ? all : []))
     },
     async ShortArticle ( number: number ) {
       const short = await Axios.get(`/api/article/short?list=${number}`)
         .then(res => res.data)
         .catch(err => console.error(err));
-      dispatch(setShort(short))
+      dispatch(setShort(short ? short : []))
     }
   }
 }

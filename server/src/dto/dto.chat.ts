@@ -6,9 +6,6 @@ export class DtoChat {
   @ApiProperty()
   id: string;
 
-  @ApiProperty()
-  name: string;
-
   @ApiProperty({ type: () => DtoArticle })
   article?: DtoArticle;
 

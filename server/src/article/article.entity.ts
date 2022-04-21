@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  OneToOne,
+  OneToOne, JoinColumn,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
@@ -23,6 +23,7 @@ export class ArticleEntity {
   subscribe: SubscribeEntity;
 
   @OneToOne(() => ChatEntity, (chat) => chat.article)
+  @JoinColumn()
   chat: ChatEntity;
 
   @Column()

@@ -10,6 +10,7 @@ import {IArticle} from "../../dto/news";
 interface IState {
   answer: string,
   to: string,
+  id: string,
 }
 
 interface IChat {
@@ -19,16 +20,15 @@ interface IChat {
 const Chat: FC<IChat> = ({article}) => {
   const dispatch = useDispatch();
   const [state, setState] = useState<IState>({} as IState);
+  const changeText = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    const to = e.currentTarget.dataset.to;
+    const answer = e.currentTarget.textContent;
+    if( answer && to === 'chat' ) setState({ id: article.chat.id, answer, to });
+  }
   const sendMessage = () => {
     dispatch(messageChat(state));
   }
-  const changeText = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-    const to = e.currentTarget.dataset.to;
-    const answer =e.currentTarget.textContent;
 
-    if( answer && to ) setState({ answer, to })
-  }
-  // console.log(article)
   return (
     <div className={`${style.chat}`}>
       <div className={`flex flex-direction-column ${style.chat__frame} ${style.chat__area}`}>

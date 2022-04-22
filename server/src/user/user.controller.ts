@@ -45,6 +45,7 @@ export class UserController {
     @Query('name') query,
     @Req() req,
   ): Promise<{ img: string; name: string }> {
+    console.log('id', req.user.id);
     return {
       img: await this.fileService.LoadUser(req.user.id, query, file),
       name: query,

@@ -5,6 +5,7 @@ interface IChat {
   id: string,
   article?: IArticle,
   answer?: IAnswer[],
+  count: number;
 }
 interface IAnswer {
   id: string,

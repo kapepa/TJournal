@@ -10,9 +10,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {IArticle} from "../../dto/news";
 import {articleRefresh} from "../../redux/article/articleAction";
 
-const News: FC = () => {
+interface INews {
+  article: IArticle;
+}
+
+const News: FC<INews> = ({article}) => {
   const dispatch = useDispatch();
-  const { detailed } = useSelector(( store: any ) => store.article);
   const splitText = (text: string) => {
     const step = 140;
     const list = [];
@@ -37,19 +40,19 @@ const News: FC = () => {
     <article className={`${style.article}`}>
       <div className={`${style.article__head} ${style.article__frame}`}>
         <div className={`flex ${style.article__info}`}>
-          <NewsType type={detailed?.type} query={`/home?nav=${detailed.type}`}/>
-          <TimeCreate time={detailed?.created_at}/>
+          <NewsType type={article?.type} query={`/home?nav=${article.type}`}/>
+          <TimeCreate time={article?.created_at}/>
         </div>
-        <h4 className={style.article__h4}>{detailed?.title}</h4>
-        <span className={style.article__short_desc}>{detailed?.shortDesc}</span>
+        <h4 className={style.article__h4}>{article?.title}</h4>
+        <span className={style.article__short_desc}>{article?.shortDesc}</span>
       </div>
-      {detailed?.image?.length && <ZoomImage image={detailed.image[0]} alt={detailed.title} classes={style.article__first_image} />}
+      {article?.image?.length && <ZoomImage image={article.image[0]} alt={article.title} classes={style.article__first_image} />}
       <div className={`${style.article__frame} ${style.article__text}`}>
-        {splitText(String(detailed?.text)).map((el,i) => <p key={`p-${i}`} className={`${style.article__p}`}>{el}</p>)}
+        {splitText(String(article?.text)).map((el,i) => <p key={`p-${i}`} className={`${style.article__p}`}>{el}</p>)}
       </div>
-      {detailed?.image?.length > 0 &&<ZoomSlider images={detailed?.image}/>}
-      <InteractionsPanel update={updateArticle} cb={() => {}} article={detailed} classes={`${style.article__frame}`}/>
-      <SubscribePanel article={detailed} classes={`${style.article__frame}`} query={`/home?nav=${detailed.type}`}/>
+      {article?.image?.length > 0 &&<ZoomSlider images={article?.image}/>}
+      <InteractionsPanel update={updateArticle} cb={() => {}} article={article} classes={`${style.article__frame}`}/>
+      <SubscribePanel article={article} classes={`${style.article__frame}`} query={`/home?nav=${article.type}`}/>
     </article>
   );
 };

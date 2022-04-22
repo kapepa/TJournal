@@ -22,6 +22,9 @@ export class ChatEntity {
   @OneToMany(() => AnswerEntity, (answer) => answer.chat)
   @JoinColumn()
   answer: AnswerEntity[];
+
+  @Column({ default: 0 })
+  count: number;
 }
 
 @Entity({ name: 'answer' })

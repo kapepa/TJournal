@@ -47,7 +47,7 @@ export class ArticleService {
     const sub = subscribe.some((el) => el.id === userID);
     const chat = await this.chatService.findChat('id', article.chat.id);
 
-    return { ...article, subscribe: { ...other, sub } };
+    return { ...article, subscribe: { ...other, sub }, chat };
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {

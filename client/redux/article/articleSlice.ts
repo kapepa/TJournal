@@ -32,6 +32,9 @@ export const articleSlice = createSlice({
     },
     updateSubscribe(state, action) {
       return { ...state, detailed: {...state.detailed, subscribe: action.payload} };
+    },
+    updateChat(state, action) {
+      return { ...state, detailed:{ ...state.detailed, chat: action.payload } };
     }
   },
   extraReducers: {
@@ -44,4 +47,4 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle } = articleSlice.actions;
+export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle, updateChat } = articleSlice.actions;

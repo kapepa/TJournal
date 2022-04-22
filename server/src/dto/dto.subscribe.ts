@@ -15,7 +15,7 @@ export class DtoSubscribe {
   subscribe?: DtoUser[];
 
   @ApiProperty({ type: () => DtoArticle })
-  article: DtoArticle[];
+  article?: DtoArticle[];
 
   @ApiProperty()
   sub: boolean;

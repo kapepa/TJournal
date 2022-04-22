@@ -11,6 +11,9 @@ export class DtoChat {
 
   @ApiProperty({ type: () => DtoAnswer })
   answer?: DtoAnswer[];
+
+  @ApiProperty()
+  count: number;
 }
 
 export class DtoAnswer {

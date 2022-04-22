@@ -6,9 +6,9 @@ import { IUser } from "../dto/user";
 
 const homeRedirect = () => { return { redirect: { permanent: false, destination: "/home" } } } ;
 
-const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({resolvedUrl, params, query, req}) => {
+const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({resolvedUrl, params, query, req, res}) => {
   const data = {} as { query: boolean, user: IUser };
-  const regist = query.registration;
+  const regist = query?.registration;
   const token = getCookies({req}).token ? getCookies({req}).token : undefined;
   const page = resolvedUrl.split('/')[1];
   const request = RequestServer(token, store.dispatch);
@@ -21,7 +21,7 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   }
 
   data.query = regist === 'true' ? Boolean(regist) : false;
-  // if(!profile.id) return { redirect: { permanent: false, destination: "/setting" } };
+  // if(!store.getState().user.id) return { props: { ...data }, redirect: { destination: '/home',  permanent: true } };
 
   return { props: { ...data } };
 });

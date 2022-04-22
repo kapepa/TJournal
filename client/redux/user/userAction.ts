@@ -1,4 +1,5 @@
 import {AppThunk} from "../store";
+import Cookie from "js-cookie";
 import Axios from "../../helpers/axios";
 import {userSlice} from "./userSlice";
 
@@ -6,13 +7,12 @@ export const changeIconUser =
   (form: FormData, query: string): AppThunk =>
     async dispatch => {
       Axios.defaults.headers.common = {
-        ...Axios.defaults.headers.common,
+        'Authorization': `Bearer ${Cookie.get('token')}`,
         'Content-Type': 'multipart/form-data',
-      }
+      };
       const image = await Axios.put(`/api/user/file?name=${query}`,form)
         .then(res => res.data)
         .catch(err => console.log(err));
-
       dispatch(userSlice.actions.changeAvatar(image));
     };
 

@@ -1,13 +1,15 @@
 import type { NextPage } from 'next';
+import Cookies from "js-cookie";
 import {createContext, useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import Head from 'next/head';
+import Axios from "../helpers/axios";
 import HeaderPanell from "../components/header.panel";
 import { IQuery } from "../dto/query";
 import { IUser } from "../dto/user";
 import { IArticle } from "../dto/news";
 import PopupWrong from "../components/popup.wrong";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 
 interface IWrong {
   active: boolean,
@@ -32,6 +34,7 @@ export const DataContext = createContext({} as IContext);
 
 const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
   const profile = useSelector(( store: any ) => store.user);
+  const token = Cookies.get('token');
   const [win, setWin] = useState<number>(Date.now());
   const [wrong, setWrong] = useState<IWrong>({} as IWrong);
   const wrongActive = (message: string): void => {
@@ -42,6 +45,10 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
     if(Cookies.get('token') && !profile.id) Cookies.remove('token');
     if(window) window.addEventListener('click', () => setWin(Date.now()))
   },[])
+
+  useEffect(() => {
+    Axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
+  },[token])
 
   return (
     <DataContext.Provider value={{user: profile, query, win, wrong: wrongActive}}>

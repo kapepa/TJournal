@@ -41,16 +41,17 @@ export class ArticleService {
     return saveArticle.id;
   }
 
-  async receiveOne(key: string, val: string, userID: string): Promise<any> {
+  async receiveOne(key: string, val: string, userID: string): Promise<DtoArticle> {
     const article = await this.findArticle(key, val);
     const { user, subscribe, ...other } = await this.subscribeService.findFullSubscribe('id', article.subscribe.id);
     const sub = subscribe.some((el) => el.id === userID);
+    const chat = await this.chatService.findChat('id', article.chat.id);
 
     return { ...article, subscribe: { ...other, sub } };
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
-    return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe'] });
+    return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe', 'chat'] });
   }
 
   async allArticle(number: number, search: string): Promise<DtoArticle[]> {

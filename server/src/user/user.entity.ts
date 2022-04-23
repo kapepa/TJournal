@@ -17,7 +17,9 @@ import { MessageEntity } from '../settings/message.entity';
 import { ArticleEntity } from '../article/article.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
 import { AnswerEntity } from '../chat/chat.entity';
+import { Exclude, Expose } from 'class-transformer';
 
+@Exclude()
 @Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -60,7 +62,7 @@ export class UserEntity {
   @Column()
   email: string;
 
-  @Column({ default: '' })
+  @Column()
   password: string;
 
   @Column({ default: '' })

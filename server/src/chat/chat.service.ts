@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AnswerEntity, ChatEntity } from './chat.entity';
-import { getRepository, Repository} from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { DtoAnswer, DtoChat } from '../dto/dto.chat';
 import { UserService } from '../user/user.service';
 import { DtoUser } from '../dto/dto.user';
@@ -33,10 +33,7 @@ export class ChatService {
   }
 
   async findChat(key: string, val: string): Promise<DtoChat> {
-    // const chat = await this.chatRepository.findOne({ [key]: val }, { relations: ['answer', 'answer.user'] });
-    const chat = await this.chatRepository.findOne({ [key]: val }, { relations: ['answer'], join: { alias: 'chat', innerJoin: { 'chat.answer.user': 'answer' } } });
-
-    console.log(chat);
+    const chat = await this.chatRepository.findOne({ [key]: val }, { relations: ['answer', 'answer.user'] });
 
     return chat;
   }

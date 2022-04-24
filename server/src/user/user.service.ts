@@ -38,6 +38,7 @@ export class UserService {
       settings,
       message,
       list,
+      isActive: false,
       password: hash,
     });
     const profile = await this.usersRepository.save(user);

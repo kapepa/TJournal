@@ -40,7 +40,7 @@ const News: FC<INews> = ({article}) => {
     <article className={`${style.article}`}>
       <div className={`${style.article__head} ${style.article__frame}`}>
         <div className={`flex ${style.article__info}`}>
-          <NewsType type={article?.type} query={`/home?nav=${article.type}`}/>
+          <NewsType type={article?.type} query={`/home?nav=${article?.type}`}/>
           <TimeCreate time={article?.created_at}/>
         </div>
         <h4 className={style.article__h4}>{article?.title}</h4>

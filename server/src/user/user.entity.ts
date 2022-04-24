@@ -59,10 +59,10 @@ export class UserEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Exclude({ toPlainOnly: true })
   email: string;
 
-  @Column()
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @Column({ default: '' })
@@ -77,12 +77,12 @@ export class UserEntity {
   @Column({ default: 0 })
   subs: number;
 
-  @Column({ default: false })
+  @Exclude({ toPlainOnly: true })
   isActive: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ select: false })
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }

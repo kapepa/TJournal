@@ -40,10 +40,9 @@ export class ChatService {
     const user = await this.userService.findUser('id', userID);
     if (user && body.to === 'chat') {
       const chat = await this.findChat('id', body.id);
-      chat.answer.unshift(await this.createAnswer(body.answer, user));
+      chat.answer.push(await this.createAnswer(body.answer, user));
       chat.count = chat.answer.length;
-      await this.chatRepository.save(chat);
-      return chat;
+      return await this.chatRepository.save(chat).then(async () => await this.findChat('id', body.id));
     }
     // if (user && body.to === 'answer') {}
   }

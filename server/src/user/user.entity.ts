@@ -59,6 +59,7 @@ export class UserEntity {
   @Column()
   name: string;
 
+  @Column({ unique: true })
   @Exclude({ toPlainOnly: true })
   email: string;
 

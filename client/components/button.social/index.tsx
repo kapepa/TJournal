@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import Link from 'next/link'
 import style from "./style.module.scss";
 
@@ -28,39 +28,23 @@ interface IButtonSocial {
 }
 
 const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }) => {
+  const sizeRef = useRef<string>();
+  const iconRef = useRef<string>();
 
-  const iconGenerate = (icon: string) => {
-    let image;
-    switch (icon){
-      case 'email' : image = style.button_social__icon__email;
-        break;
-      case 'vk' : image = style.button_social__icon__vk;
-        break;
-      case 'google' : image = style.button_social__icon__google;
-        break;
-      case 'facebook' : image = style.button_social__icon__facebook;
-        break;
-      case 'twitter' : image = style.button_social__icon__twitter;
-        break;
-      case 'apple' : image = style.button_social__icon__apple;
-        break;
-      case 'settings' : image = style.button_social__icon__settings;
-        break;
-    }
-    return image
+  switch (size){
+    case 'small' : sizeRef.current = style.button_social__small; break;
+    case 'fourty' : sizeRef.current = style.button_social__fourty; break;
+    default : sizeRef.current =  style.button_social__def; break;
   }
 
-  const sizeGenerate = (size: string | undefined) => {
-    let vol;
-    switch (size){
-      case 'small' : vol = style.button_social__small;
-        break;
-      case 'fourty' : vol = style.button_social__fourty;
-        break;
-      default : vol =  style.button_social__def;
-        break;
-    }
-    return vol
+  switch (icon){
+    case 'email' : iconRef.current = style.button_social__icon__email; break;
+    case 'vk' : iconRef.current = style.button_social__icon__vk; break;
+    case 'google' : iconRef.current = style.button_social__icon__google; break;
+    case 'facebook' : iconRef.current = style.button_social__icon__facebook; break;
+    case 'twitter' : iconRef.current = style.button_social__icon__twitter; break;
+    case 'apple' : iconRef.current = style.button_social__icon__apple; break;
+    case 'settings' : iconRef.current = style.button_social__icon__settings; break;
   }
 
   return (
@@ -69,10 +53,10 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }
         <button
           onClick={cb}
           data-btn={icon}
-          className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
+          className={`${style.button_social} ${sizeRef.current} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
         >
           <div
-            className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}
+            className={`${style.button_social__icon} ${iconRef.current} ${!text ? style.button_social__icon__static : ''}`}
           />
           {text && <span className={style.button_social__span}>{text}</span>}
         </button>
@@ -82,10 +66,10 @@ const ButtonSocial: FC<IButtonSocial> = ({ cb, link, classes, size, text, icon }
           <a
             onClick={cb}
             data-btn={icon}
-            className={`${style.button_social} ${sizeGenerate(size)} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
+            className={`${style.button_social} ${sizeRef.current} ${classes ? classes : ''} ${!text ? style.button_social__static : ''}`}
           >
             <div
-              className={`${style.button_social__icon} ${iconGenerate(icon)} ${!text ? style.button_social__icon__static : ''}`}
+              className={`${style.button_social__icon} ${iconRef.current} ${!text ? style.button_social__icon__static : ''}`}
             />
             {text && <span className={style.button_social__span}>{text}</span>}
           </a>

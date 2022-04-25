@@ -3,6 +3,7 @@ import {articleSlice} from "./articleSlice";
 import Axios from "../../helpers/axios";
 import {IArticle} from "../../dto/news";
 import {ISubscribe} from "../../dto/subscribe";
+import {IAnswer} from "../../dto/сhat";
 
 export const articleShort = (number: number): AppThunk => async dispatch => {
   const short = await Axios.get(`/api/article/short?list=${number}`)
@@ -50,8 +51,15 @@ export const messageChat = (data: any): AppThunk => async dispatch => {
   const message = await Axios.put(`/api/chat/message`, data)
     .then(res => res.data)
     .catch(err => console.error(err))
-  console.log(message);
   dispatch(articleSlice.actions.updateChat(message))
+}
+
+export const answerChange = (data: IAnswer, i: number): AppThunk => async dispatch => {
+  const answer = await Axios.put('/api/chat/change',data)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  console.log(data)
+  // dispatch(articleSlice.actions.updateAnswer({answer, i}))
 }
 
 

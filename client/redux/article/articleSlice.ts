@@ -1,7 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IArticle} from "../../dto/news";
 import {HYDRATE} from "next-redux-wrapper";
-import {appendSubscribe} from "./articleAction";
 
 export const articleSlice = createSlice({
   name: 'article',
@@ -35,6 +34,11 @@ export const articleSlice = createSlice({
     },
     updateChat(state, action) {
       return { ...state, detailed:{ ...state.detailed, chat: action.payload } };
+    },
+    updateAnswer(state, action) {
+      const answer = state.detailed.chat.answer?.splice(action.payload.i, 1, action.payload.answer)
+      console.log(state.detailed.chat.answer)
+      return { ...state, detailed: { ...state.detailed, chat: { ...state.detailed.chat, answer } } }
     }
   },
   extraReducers: {
@@ -47,4 +51,4 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle, updateChat } = articleSlice.actions;
+export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle, updateChat, updateAnswer } = articleSlice.actions;

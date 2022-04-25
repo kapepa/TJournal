@@ -33,14 +33,14 @@ const Chat: FC<IChat> = ({article}) => {
     <div className={`${style.chat}`}>
       <div className={`flex flex-direction-column ${style.chat__frame} ${style.chat__area}`}>
         <div className={`flex justify-content-between ${style.chat__head}`}>
-          <h5 className={`${style.chat__h5}`}>{`${article.chat.count} комментария`}</h5>
+          <h5 className={`${style.chat__h5}`}>{`${article.chat?.count} комментария`}</h5>
           <div className={`flex ${style.chat__action}`}>
             <ButtonIcon type="settings" cb={() => {}} />
             <ButtonIcon type="bell" cb={() => {}} />
           </div>
         </div>
         <ChatTextarea placeholder='Написать комментарий...' cb={sendMessage} change={changeText}/>
-        {/*<ChatCommunication article={article}/>*/}
+        <ChatCommunication article={article}/>
       </div>
     </div>
   );

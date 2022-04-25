@@ -36,7 +36,7 @@ const SubscribePanel: FC<ISubscribePanel> = ({classes, article, query}) => {
         <a className={`${style.subscribe_panel__link} ${classesStyle}`} title={alias}/>
       </Link>
       <ButtonDefault
-        text={ article.subscribe.sub ? 'Отписаться ':' Подписаться'}
+        text={ article.subscribe?.sub ? 'Отписаться ':' Подписаться'}
         type='blue'
         cb={clickSubscribe}
         classes={style.subscribe_panel__btn}

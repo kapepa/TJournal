@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import style from './style.module.scss';
-import ChatComment from "../chat.comment";
+import AnswerComment from "../chat.answer";
 import {IArticle} from "../../dto/news";
 
 interface IChatCommunication {
@@ -8,10 +8,9 @@ interface IChatCommunication {
 }
 
 const ChatCommunication: FC<IChatCommunication> = ({article}) => {
-
   return (
     <div className={`flex flex-direction-column ${style.chat_communication}`}>
-      {/*{article.сhat && article.сhat.map((el, i) => <ChatComment key={`comment-${i}`} comment={el}/>)}*/}
+      {article.chat?.answer?.length && article.chat.answer.map((el, i) => <AnswerComment key={`answer-${i}`} answer={el}/>)}
     </div>
   )
 };

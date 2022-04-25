@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import Link from 'next/link'
 import style from './style.module.scss';
 
@@ -19,16 +19,15 @@ interface IButtonDefault {
 }
 
 const ButtonDefault: FC<IButtonDefault> = ({text, path, classes, cb, disabled= false, type= 'def', data}) => {
-  const typeBtn = (type: string) => {
-    let view;
-    switch (type) {
-      case 'def': view = style.button_default__def; break;
-      case 'blue':view = style.button_default__blue; break;
-      case 'yellow':view = style.button_default__yellow; break;
-    }
-    return view;
+  const typeRef = useRef<string>();
+
+  switch (type) {
+    case 'def': typeRef.current = style.button_default__def; break;
+    case 'blue': typeRef.current = style.button_default__blue; break;
+    case 'yellow': typeRef.current = style.button_default__yellow; break;
   }
-  const classStr = `flex justify-content-center align-items-center ${ style.button_default } ${typeBtn(type)} ${classes ? classes : ''} ${disabled ? style.button_default__disabled : '' }`;
+
+  const classStr = `flex justify-content-center align-items-center ${ style.button_default } ${typeRef.current} ${classes ? classes : ''} ${disabled ? style.button_default__disabled : '' }`;
 
   return (
     <>

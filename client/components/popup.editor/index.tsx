@@ -8,7 +8,7 @@ import {useRouter} from "next/router";
 import InputSelect from "../input.select";
 import {DataContext} from "../../layout/layout.default";
 
-let Redactor = dynamic(() => import('../сustom.editor/index'), {
+const Redactor = dynamic(() => import('../сustom.editor/index'), {
   ssr: false
 });
 

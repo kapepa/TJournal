@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import style from './style.module.scss';
 
 enum BtnStyle {
@@ -14,20 +14,16 @@ interface IButtonLine{
 }
 
 const ButtonLine: FC<IButtonLine> = ({text, cb, classes, type}) => {
-  const iconBtn = (type: string) => {
-    let icon;
-    switch (type){
-      case 'anchor': icon = style.button_line__anchor
-        break;
-      case 'image': icon = style.button_line__image
-        break;
-    }
-    return icon;
+  const iconRef = useRef<string>()
+
+  switch (type){
+    case 'anchor': iconRef.current = style.button_line__anchor; break;
+    case 'image': iconRef.current = style.button_line__image; break;
   }
 
   return (
     <button
-      className={`${style.button_line} ${classes ? classes : ''} ${iconBtn(type)}`}
+      className={`${style.button_line} ${classes ? classes : ''} ${iconRef.current}`}
       onClick={cb}
     >{text}</button>
   )

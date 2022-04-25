@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useRef} from 'react';
 import Link from 'next/link'
 import style from './style.module.scss';
 import config from "../../config";
@@ -22,36 +22,36 @@ interface IAvatar{
 }
 
 const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
-  let sizeImage;
-  let view;
+  const sizeImageRef = useRef<string>();
+  const viewRef = useRef<string>();
   const symbol = name.charAt(0);
   const urlConfig = (image && /http/.test(image)) ? image : `${config.url}/${image}`
 
   switch (type){
-    case "circle": view = style.avatar__circle; break;
-    case "square": view = style.avatar__square; break;
-    default: view = style.avatar__square; break;
+    case "circle": viewRef.current = style.avatar__circle; break;
+    case "square": viewRef.current = style.avatar__square; break;
+    default: viewRef.current = style.avatar__square; break;
   }
 
   switch (size){
-    case 'thirty': sizeImage = style.avatar__thirty; break;
-    default: sizeImage = style.avatar__fourty
+    case 'thirty': sizeImageRef.current = style.avatar__thirty; break;
+    default: sizeImageRef.current = style.avatar__fourty
   }
 
   return (
     <>
       {path ?
         <Link href={path}>
-          <a className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImage}`}>
+          <a className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current}`}>
             {image ?
-              <img className={`${style.avatar__image} ${view} ${type}`} src={urlConfig} alt='avatar'/> :
+              <img className={`${style.avatar__image} ${viewRef.current} ${type}`} src={urlConfig} alt='avatar'/> :
               <span className={`${style.avatar__symbol}`}>{symbol}</span>
             }
           </a>
         </Link>:
-        <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImage}`}>
+        <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current}`}>
           {image ?
-            <img className={`${style.avatar__image} ${view} ${type}`} src={urlConfig} alt='avatar'/> :
+            <img className={`${style.avatar__image} ${viewRef.current} ${type}`} src={urlConfig} alt='avatar'/> :
             <span className={`${style.avatar__symbol}`}>{symbol}</span>
           }
         </div>

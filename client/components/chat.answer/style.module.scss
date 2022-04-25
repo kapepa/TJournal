@@ -15,7 +15,12 @@
   &__aliase{
     line-height: 15px;
     font-weight: 500;
-    align-items: center;
+  }
+  &__date{
+    font-size: 13px;
+    font-weight: 600;
+    padding-top: 2px;
+    color: gray;
   }
   &__likes{
     &:hover{

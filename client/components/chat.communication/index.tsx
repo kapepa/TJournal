@@ -10,7 +10,7 @@ interface IChatCommunication {
 const ChatCommunication: FC<IChatCommunication> = ({article}) => {
   return (
     <div className={`flex flex-direction-column ${style.chat_communication}`}>
-      {article.chat?.answer?.length && article.chat.answer.map((el, i) => <AnswerComment key={`answer-${i}`} answer={el}/>)}
+      {article.chat?.answer?.length && article.chat.answer.map((el, i) => <AnswerComment key={`answer-${i}`} i={i} answer={el}/>)}
     </div>
   )
 };

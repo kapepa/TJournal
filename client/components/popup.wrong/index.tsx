@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import style from './style.module.scss';
 import ButtonDefault from "../button.default";
 import ButtonXClose from "../button.xclose";
@@ -9,14 +9,15 @@ interface IPopupWrong {
 }
 
 const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
-  let text;
+  const textRef = useRef<string>();
+
   switch (message){
-    case 'Conflict': text = 'Такой email уже используется.'; break;
-    case 'Unauthorized': text = 'Неправильно введен пароль или логин.' ; break;
-    case 'Image': text = 'Выберите картинку для статьи'; break;
-    case 'Title': text = 'Выберите заголовок для статьии'; break;
-    case 'Text': text = 'Выберите текст для статьии'; break;
-    case 'Auth': text = 'Авторизуйтесь для того чтобы прочитать'; break;
+    case 'Conflict': textRef.current = 'Такой email уже используется.'; break;
+    case 'Unauthorized': textRef.current = 'Неправильно введен пароль или логин.' ; break;
+    case 'Image': textRef.current = 'Выберите картинку для статьи'; break;
+    case 'Title': textRef.current = 'Выберите заголовок для статьии'; break;
+    case 'Text': textRef.current = 'Выберите текст для статьии'; break;
+    case 'Auth': textRef.current = 'Авторизуйтесь для того чтобы прочитать'; break;
   }
 
   return (
@@ -29,7 +30,7 @@ const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
       <div className={`flex flex-direction-column ${style.popup_wrong__frame}`}>
         <ButtonXClose cd={close} classes={`${style.popup_wrong__xclose}`}/>
         <h5 className={`${style.popup_wrong__h5}`}>Ошибка</h5>
-        <span className={`${style.popup_wrong__span}`}>{text}</span>
+        <span className={`${style.popup_wrong__span}`}>{textRef}</span>
         <div className={`flex justify-content-center ${style.popup_wrong__area_btn}`}>
           <ButtonDefault text='OK' cb={close} type='blue' classes={`${style.popup_wrong__btn}`} />
         </div>

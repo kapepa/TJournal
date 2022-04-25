@@ -23,14 +23,14 @@ interface IInputDefault {
 }
 
 const InputDefault: FC<IInputDefault> = ({warning, wrapper,change, name, label, classes, classesLabel, placeholder, defaultValue, type}) => {
-  let errorName;
+  const errorNameRef = useRef<string>();
   const maxRef = useRef(30)
   const [simbol, setSimbol] = useState<number>(maxRef.current);
 
   switch (name) {
-    case 'name': errorName = 'имя'; break;
-    case 'email': errorName = 'email'; break;
-    case 'password': errorName = 'пароль'; break;
+    case 'name': errorNameRef.current = 'имя'; break;
+    case 'email': errorNameRef.current = 'email'; break;
+    case 'password': errorNameRef.current = 'пароль'; break;
   }
 
   return (
@@ -54,7 +54,7 @@ const InputDefault: FC<IInputDefault> = ({warning, wrapper,change, name, label, 
       </div>
       <span
         className={`${style.input_default__float_text} ${warning ? style.input_default__show_text : '' }`}
-      >{`Некорректный ${errorName}`}</span>
+      >{`Некорректный ${errorNameRef.current}`}</span>
     </div>
   )
 };

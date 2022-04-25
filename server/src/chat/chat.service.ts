@@ -56,4 +56,8 @@ export class ChatService {
     }
     // if (user && body.to === 'answer') {}
   }
+
+  async changeAnswer(key: string, val: string, data: IAnswer): Promise<any> {
+    return this.answerRepository.update({[key]: val}, data);
+  }
 }

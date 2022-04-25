@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import Link from 'next/link'
 import style from './style.module.scss';
 
@@ -19,33 +19,29 @@ interface IButtonIcon {
 }
 
 const ButtonIcon: FC<IButtonIcon> = ({classes, digit, href, type, cb= () => {}}) => {
-  const classType = (type: string) => {
-    let obj;
-    switch (type) {
-      case 'message' : obj = {icon: style.button_icon__message, title: 'сообщение'} ; break;
-      case 'create' : obj = {icon: style.button_icon__create, title: 'создать'}; break;
-      case 'share' : obj = {icon: style.button_icon__share, title: 'поделиться'}; break;
-      case 'bell' : obj = {icon: style.button_icon__bell, title: 'поделиться'}; break;
-      case 'settings' : obj = {icon: style.button_icon__settings, title: 'settings'}; break;
-      default: obj = {icon: '', title: ''};
-    }
-    return obj;
-  }
+  const typeRef = useRef<{ icon: string, title: string }>();
 
-  const {icon, title} = classType(type)
+  switch (type) {
+    case 'message' : typeRef.current = {icon: style.button_icon__message, title: 'сообщение'} ; break;
+    case 'create' : typeRef.current = {icon: style.button_icon__create, title: 'создать'}; break;
+    case 'share' : typeRef.current = {icon: style.button_icon__share, title: 'поделиться'}; break;
+    case 'bell' : typeRef.current = {icon: style.button_icon__bell, title: 'поделиться'}; break;
+    case 'settings' : typeRef.current = {icon: style.button_icon__settings, title: 'settings'}; break;
+    default: typeRef.current = {icon: '', title: ''};
+  }
 
   return (
     <>
       {href && <Link href={href}><a
         data-types={type}
-        title={title}
-        className={`flex align-items-center ${style.button_icon} ${icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
+        title={typeRef.current.title}
+        className={`flex align-items-center ${style.button_icon} ${typeRef.current.icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
       />{digit ? digit : ''}</Link>}
       {!href && <button
         data-types={type}
         onClick={cb}
-        title={title}
-        className={`flex align-items-center ${style.button_icon} ${icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
+        title={typeRef.current.title}
+        className={`flex align-items-center ${style.button_icon} ${typeRef.current.icon} ${classes ? classes : ''} ${digit ? style.button_icon__digit : ''}`}
       >{digit ? digit : ''}</button>}
     </>
   )

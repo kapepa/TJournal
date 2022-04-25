@@ -46,7 +46,7 @@ export class ArticleService {
     const { user, subscribe, ...other } = await this.subscribeService.findFullSubscribe('id', article.subscribe.id);
     const sub = subscribe.some((el) => el.id === userID);
     const chat = await this.chatService.findChat('id', article.chat.id);
-    const answer = await this.chatService.findAnswer(article.chat.id, 0);
+    const answer = await this.chatService.findAnswerAll(article.chat.id, 0);
 
     return { ...article, subscribe: { ...other, sub }, chat: { ...chat, answer } };
   }

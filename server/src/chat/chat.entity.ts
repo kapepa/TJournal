@@ -45,6 +45,10 @@ export class AnswerEntity {
   @JoinColumn()
   nested: AnswerEntity[];
 
+  @OneToMany(() => UserEntity, (user) => user.approve)
+  @JoinColumn()
+  approve: UserEntity[];
+
   @Column({ default: '' })
   text: string;
 

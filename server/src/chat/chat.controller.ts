@@ -23,9 +23,8 @@ export class ChatController {
   @ApiCreatedResponse({
     description: 'change data in comments',
   })
-  async likeAnswer(@Body() body): Promise<DtoAnswer> {
+  async likeAnswer(@Body() body, @Req() req): Promise<DtoAnswer> {
     const { id, user, ...other } = body;
-    await this.chatService.changeAnswer('id', id, other);
-    return body;
+    return await this.chatService.checkLike(id, req.user.id, other);
   }
 }

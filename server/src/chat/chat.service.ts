@@ -32,15 +32,25 @@ export class ChatService {
     return await this.answerRepository.save(answer);
   }
 
+  async findAnswer(id: string, skip: number): Promise<any> {
+    return await this.answerRepository.find({
+      where: { chat: { id } },
+      relations: ['user'],
+      order: { created_at: 'DESC' },
+      take: 5,
+      skip,
+    });
+  }
+
   async findChat(key: string, val: string): Promise<DtoChat> {
-    return await this.chatRepository.findOne({ [key]: val }, { relations: ['answer', 'answer.user'] });
+    return await this.chatRepository.findOne({ [key]: val });
   }
 
   async writeAnswer(body: IAnswer, userID: string): Promise<DtoChat> {
     const user = await this.userService.findUser('id', userID);
     if (user && body.to === 'chat') {
       const chat = await this.findChat('id', body.id);
-      chat.answer.push(await this.createAnswer(body.answer, user));
+      chat.answer.sort().push(await this.createAnswer(body.answer, user));
       chat.count = chat.answer.length;
       return await this.chatRepository.save(chat).then(async () => await this.findChat('id', body.id));
     }

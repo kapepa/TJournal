@@ -1,13 +1,14 @@
 import React, {FC, useState} from "react";
 import style from './style.module.scss';
 import ButtonTransparent from "../button.transparent";
+import Avatar from "../avatar";
 
-interface IChatComment{
-  comment: any
+interface IAnswerComment{
+  answer: any
 }
 
-const ChatComment: FC<IChatComment> = ({comment}) => {
-  const [likes, setLikes] = useState<number>(comment.likes)
+const AnswerComment: FC<IAnswerComment> = ({answer}) => {
+  const [likes, setLikes] = useState<number>(answer.likes)
   const clickLikes = (e: React.MouseEvent<HTMLButtonElement>) => {
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
@@ -20,9 +21,9 @@ const ChatComment: FC<IChatComment> = ({comment}) => {
     <div className={`${style.chat_comment}`}>
       <div className={`flex justify-content-between`}>
         <div className={`flex ${style.chat_comment__user}`}>
-          <img className={`${style.chat_comment__avatar}`} src={comment.avatar} alt='avatar'/>
+          <Avatar image={answer.user.avatar} name={answer.user.name} size='thirty' type='circle' />
           <div className={`flex ${style.chat_comment__nic}`}>
-            <span className={`${style.chat_comment__aliase}`}>{comment.name}</span>
+            <span className={`flex ${style.chat_comment__aliase}`}>{answer.user.name}</span>
           </div>
         </div>
         <div className={`flex align-items-center ${style.chat_comment__likes}`}>
@@ -32,11 +33,11 @@ const ChatComment: FC<IChatComment> = ({comment}) => {
         </div>
       </div>
       <div className={`${style.chat_comment__scope}`}>
-        <span className={`${style.chat_comment__span_text}`}>{comment.comments}</span>
+        <span className={`${style.chat_comment__span_text}`}>{answer.text}</span>
       </div>
       <ButtonTransparent text='Ответить' cb={() => {}} picture={true}/>
     </div>
   )
 };
 
-export default ChatComment;
+export default AnswerComment;

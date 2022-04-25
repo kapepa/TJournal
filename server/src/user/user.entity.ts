@@ -56,6 +56,9 @@ export class UserEntity {
   @OneToMany(() => AnswerEntity, (answer) => answer.user)
   answer: AnswerEntity[];
 
+  @ManyToOne(() => AnswerEntity, (answer) => answer.approve)
+  approve: AnswerEntity;
+
   @Column()
   name: string;
 

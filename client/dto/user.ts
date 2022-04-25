@@ -12,6 +12,7 @@ interface IUser {
   subscribe?: ISubscribe,
   listening?: ISubscribe,
   answer?: IAnswer,
+  approve?: IAnswer,
   name: string,
   email: string,
   password?: string,

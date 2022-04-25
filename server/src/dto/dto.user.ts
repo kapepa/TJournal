@@ -33,6 +33,9 @@ export class DtoUser {
   @ApiProperty({ type: () => DtoAnswer })
   answer?: DtoAnswer[];
 
+  @ApiProperty({ type: () => DtoAnswer })
+  approve?: DtoAnswer;
+
   @ApiProperty()
   @IsString()
   name: string;

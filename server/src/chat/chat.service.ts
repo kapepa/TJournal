@@ -32,7 +32,7 @@ export class ChatService {
     return await this.answerRepository.save(answer);
   }
 
-  async findAnswer(id: string, skip: number): Promise<any> {
+  async findAnswerAll(id: string, skip: number): Promise<DtoAnswer[]> {
     return await this.answerRepository.find({
       where: { chat: { id } },
       relations: ['user'],
@@ -40,6 +40,10 @@ export class ChatService {
       take: 5,
       skip,
     });
+  }
+
+  async findAnswerOne(key: string, val: string): Promise<DtoAnswer> {
+    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user'] });
   }
 
   async findChat(key: string, val: string): Promise<DtoChat> {
@@ -57,7 +61,13 @@ export class ChatService {
     // if (user && body.to === 'answer') {}
   }
 
+  async checkLike(answerID: string, userID: string, data: IAnswer): Promise<any> {
+    const user = await this.findAnswerOne('id', answerID);
+    console.log(user, 'make check method');
+    return await this.changeAnswer('id', answerID, data);
+  }
+
   async changeAnswer(key: string, val: string, data: IAnswer): Promise<any> {
-    return this.answerRepository.update({[key]: val}, data);
+    return this.answerRepository.update({ [key]: val }, data).then(() => this.findAnswerOne('id', val));
   }
 }

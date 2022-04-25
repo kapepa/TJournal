@@ -13,7 +13,6 @@ interface IAnswerComment{
 
 const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
   const dispatch = useDispatch();
-  const [likes, setLikes] = useState<number>(answer.likes)
   const monthRef = useRef<string>();
   const date = new Date(answer.created_at);
   const getDay = date.getDate();
@@ -22,10 +21,12 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
 
-    if(data === 'decrease' && likes > 0) setLikes(likes - 1);
+    if(data === 'decrease' && answer.likes > 0){
+      const decreaseLike = answer.likes - 1;
+      dispatch(answerChange({...answer, likes: decreaseLike}, i))
+    }
     if(data === 'increase'){
-      const increaseLike = likes + 1;
-      setLikes(increaseLike);
+      const increaseLike = answer.likes + 1;
       dispatch(answerChange({...answer, likes: increaseLike}, i))
     }
   }
@@ -57,7 +58,7 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
         </div>
         <div className={`flex align-items-center ${style.chat_comment__likes}`}>
           <button data-likes='decrease' className={`${style.chat_comment__btn}`} onClick={clickLikes}/>
-          <span className={`${style.chat_comment__number}`}>{likes}</span>
+          <span className={`${style.chat_comment__number}`}>{answer.likes}</span>
           <button data-likes='increase' className={`${style.chat_comment__btn}`} onClick={clickLikes}/>
         </div>
       </div>

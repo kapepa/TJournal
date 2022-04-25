@@ -57,9 +57,8 @@ export const messageChat = (data: any): AppThunk => async dispatch => {
 export const answerChange = (data: IAnswer, i: number): AppThunk => async dispatch => {
   const answer = await Axios.put('/api/chat/change',data)
     .then(res => res.data)
-    .catch(err => console.error(err));
-  console.log(data)
-  // dispatch(articleSlice.actions.updateAnswer({answer, i}))
+    .catch(err => console.error(err))
+  dispatch(articleSlice.actions.updateAnswer({answer, i}))
 }
 
 

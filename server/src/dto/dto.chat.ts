@@ -32,6 +32,9 @@ export class DtoAnswer {
   @ApiProperty({ type: () => DtoAnswer })
   nested?: DtoAnswer[];
 
+  @ApiProperty({ type: () => DtoUser })
+  approve?: DtoUser[];
+
   @ApiProperty()
   text: string;
 

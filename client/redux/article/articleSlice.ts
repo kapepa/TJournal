@@ -30,15 +30,15 @@ export const articleSlice = createSlice({
       return { ...state, all };
     },
     updateSubscribe(state, action) {
-      return { ...state, detailed: {...state.detailed, subscribe: action.payload} };
+      return { ...state, detailed: { ...state.detailed, subscribe: action.payload} };
     },
     updateChat(state, action) {
       return { ...state, detailed:{ ...state.detailed, chat: action.payload } };
     },
     updateAnswer(state, action) {
-      const answer = state.detailed.chat.answer?.splice(action.payload.i, 1, action.payload.answer)
-      console.log(state.detailed.chat.answer)
-      return { ...state, detailed: { ...state.detailed, chat: { ...state.detailed.chat, answer } } }
+      const answer = JSON.parse(JSON.stringify(state.detailed.chat.answer));
+      answer.splice(action.payload.i,1,action.payload.answer);
+      return { ...state, detailed: { ...state.detailed, chat: {...state.detailed.chat, answer } } }
     }
   },
   extraReducers: {

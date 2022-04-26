@@ -1,4 +1,4 @@
-import { Body, Controller, Put, Query, Req, UseGuards} from '@nestjs/common';
+import { Body, Controller, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { ChatService } from './chat.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';

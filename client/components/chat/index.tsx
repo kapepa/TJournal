@@ -23,7 +23,7 @@ const Chat: FC<IChat> = ({article}) => {
   const changeText = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     const to = e.currentTarget.dataset.to;
     const answer = e.currentTarget.textContent;
-    if( answer && to === 'chat' ) setState({ id: article.chat.id, answer, to });
+    if(article.chat &&  answer && to === 'chat' ) setState({ id: article.chat.id, answer, to });
   }
   const sendMessage = () => {
     dispatch(messageChat(state));

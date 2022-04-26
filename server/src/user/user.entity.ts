@@ -79,6 +79,7 @@ export class UserEntity {
   @Exclude({ toPlainOnly: true })
   email: string;
 
+  @Column({ default: '' })
   @Exclude({ toPlainOnly: true })
   password: string;
 

@@ -36,11 +36,13 @@ export const articleSlice = createSlice({
       return { ...state, detailed: { ...state.detailed, subscribe: action.payload} };
     },
     updateChat(state, action) {
-      return { ...state, detailed:{ ...state.detailed, chat: action.payload } };
+      const answer = JSON.parse(JSON.stringify(state.detailed.chat?.answer));
+      answer.unshift(...action.payload.answer);
+      return { ...state, detailed:{ ...state.detailed, chat: { ...action.payload.chat, answer } } };
     },
     updateAnswer(state, action) {
       // const answer = JSON.parse(JSON.stringify(state.detailed.chat.answer));
-      // answer.splice(action.payload.i,1,action.payload.answer);
+      // state.detailed.chat.answer.splice(action.payload.i,1,action.payload.answer);
       // return { ...state, detailed: { ...state.detailed, chat: {...state.detailed.chat, answer } } }
       return { ...state }
     }

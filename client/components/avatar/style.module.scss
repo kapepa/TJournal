@@ -31,6 +31,14 @@
   }
 }
 
+@media screen and (max-width: 998px) {
+  .avatar{
+    &__symbol{
+      font-size: 17px;
+    }
+  }
+}
+
 @media screen and (max-width: 720px) {
   .avatar{
     &__fourty{

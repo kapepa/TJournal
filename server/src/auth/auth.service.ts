@@ -13,6 +13,7 @@ export class AuthService {
   constructor(private userService: UserService) {}
 
   async JwtToken(user: DtoUser): Promise<string> {
+    console.log(user.id)
     const token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_TOKEN);
     return token;
   }

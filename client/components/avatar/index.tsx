@@ -55,7 +55,7 @@ const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
             }
           </a>
         </Link>:
-        <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current}`}>
+        <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current} ${image ? '' : style.avatar__color}`}>
           {image ?
             <img className={`${style.avatar__image} ${viewRef.current} ${type}`} src={urlConfig} alt='avatar'/> :
             <span className={`${style.avatar__symbol}`}>{symbol}</span>

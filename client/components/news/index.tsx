@@ -8,7 +8,7 @@ import InteractionsPanel from "../ interactions.panel";
 import SubscribePanel from "../subscribe.panel";
 import {useDispatch, useSelector} from "react-redux";
 import {IArticle} from "../../dto/news";
-import {articleRefresh} from "../../redux/article/articleAction";
+import {articleLikes} from "../../redux/article/articleAction";
 
 interface INews {
   article: IArticle;
@@ -32,8 +32,8 @@ const News: FC<INews> = ({article}) => {
     return list;
   };
 
-  const updateArticle = (article: IArticle) => {
-    dispatch(articleRefresh(article));
+  const likeArticle = (article: IArticle) => {
+    dispatch(articleLikes(article));
   };
 
   return (
@@ -41,7 +41,7 @@ const News: FC<INews> = ({article}) => {
       <div className={`${style.article__head} ${style.article__frame}`}>
         <div className={`flex ${style.article__info}`}>
           <NewsType type={article?.type} query={`/home?nav=${article?.type}`}/>
-          <TimeCreate time={article?.created_at}/>
+          {article.created_at && <TimeCreate time={article.created_at}/>}
         </div>
         <h4 className={style.article__h4}>{article?.title}</h4>
         <span className={style.article__short_desc}>{article?.shortDesc}</span>
@@ -51,7 +51,7 @@ const News: FC<INews> = ({article}) => {
         {splitText(String(article?.text)).map((el,i) => <p key={`p-${i}`} className={`${style.article__p}`}>{el}</p>)}
       </div>
       {article?.image?.length > 0 &&<ZoomSlider images={article?.image}/>}
-      <InteractionsPanel update={updateArticle} cb={() => {}} article={article} classes={`${style.article__frame}`}/>
+      <InteractionsPanel like={likeArticle} cb={() => {}} article={article} classes={`${style.article__frame}`}/>
       <SubscribePanel article={article} classes={`${style.article__frame}`} query={`/home?nav=${article.type}`}/>
     </article>
   );

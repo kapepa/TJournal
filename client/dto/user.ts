@@ -3,6 +3,7 @@ import {IList} from "./list";
 import {IMessage} from "./message";
 import {ISubscribe} from "./subscribe";
 import {IAnswer} from "./сhat";
+import {IArticle} from "./news";
 
 interface IUser {
   id: string,
@@ -10,17 +11,19 @@ interface IUser {
   list?: IList,
   message?: IMessage,
   subscribe?: ISubscribe,
-  listening?: ISubscribe,
-  answer?: IAnswer,
-  approve?: IAnswer,
+  listening?: ISubscribe[],
+  answer?: IAnswer[],
+  article?: IArticle[],
+  answerLikes?: IAnswer[],
+  articleLikes?: IArticle[],
   name: string,
   email: string,
   password?: string,
-  subs: number,
-  donate: number,
   avatar: string,
   cover: string,
-  created_at: Date,
+  donate: number,
+  subs: number,
+  created_at?: Date,
 }
 
 interface ILogin {

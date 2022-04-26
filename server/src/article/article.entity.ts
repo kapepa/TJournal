@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
+  ManyToMany,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
@@ -27,6 +28,15 @@ export class ArticleEntity {
   @JoinColumn()
   chat: ChatEntity;
 
+  @ManyToMany(() => UserEntity, (user) => user.articleLikes)
+  articleLikes: UserEntity[];
+
+  @Column({ default: false })
+  myLikes: boolean;
+
+  @Column({ default: 0 })
+  likes: number;
+
   @Column()
   title: string;
 
@@ -42,12 +52,9 @@ export class ArticleEntity {
   @Column('simple-array')
   image: string[];
 
-  @Column({ default: 0 })
-  likes: number;
-
   @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ select: false })
   updated_at: Date;
 }

@@ -13,7 +13,8 @@ interface IAnswer {
   user?: IUser,
   inner?: IAnswer,
   nested?: IAnswer[],
-  approve?: IUser[],
+  answerLikes?: IUser[],
+  myLikes: boolean;
   text: string,
   likes: number;
   created_at: Date;

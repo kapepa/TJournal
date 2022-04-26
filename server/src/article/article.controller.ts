@@ -72,6 +72,16 @@ export class ArticleController {
     return await this.articleService.updateArticle('id', id, other);
   }
 
+  @Put('/likes')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'update likes article',
+    type: DtoArticle,
+  })
+  async likes(@Body() body, @Req() req): Promise<DtoArticle> {
+    return await this.articleService.likesArticle(body, req.user.id);
+  }
+
   @Delete('/')
   @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({

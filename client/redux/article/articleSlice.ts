@@ -12,6 +12,9 @@ export const articleSlice = createSlice({
     setArticle(state, action) {
       return { ...state, detailed: action.payload };
     },
+    updateDetailed(state, action) {
+      return { ...state, detailed: { ...state.detailed, ...action.payload } };
+    },
     setShort(state, action) {
       return { ...state, short: [...state.short, ...action.payload] };
     },
@@ -36,9 +39,10 @@ export const articleSlice = createSlice({
       return { ...state, detailed:{ ...state.detailed, chat: action.payload } };
     },
     updateAnswer(state, action) {
-      const answer = JSON.parse(JSON.stringify(state.detailed.chat.answer));
-      answer.splice(action.payload.i,1,action.payload.answer);
-      return { ...state, detailed: { ...state.detailed, chat: {...state.detailed.chat, answer } } }
+      // const answer = JSON.parse(JSON.stringify(state.detailed.chat.answer));
+      // answer.splice(action.payload.i,1,action.payload.answer);
+      // return { ...state, detailed: { ...state.detailed, chat: {...state.detailed.chat, answer } } }
+      return { ...state }
     }
   },
   extraReducers: {

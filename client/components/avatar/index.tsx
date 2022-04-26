@@ -42,10 +42,16 @@ const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
     <>
       {path ?
         <Link href={path}>
-          <a className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current}`}>
+          <a className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current} ${image ? '' : style.avatar__color}`}>
             {image ?
-              <img className={`${style.avatar__image} ${viewRef.current} ${type}`} src={urlConfig} alt='avatar'/> :
-              <span className={`${style.avatar__symbol}`}>{symbol}</span>
+              <img
+                className={`${style.avatar__image} ${viewRef.current} ${type}`}
+                src={urlConfig}
+                alt='avatar'
+              /> :
+              <span
+                className={`${style.avatar__symbol}`}
+              >{symbol}</span>
             }
           </a>
         </Link>:

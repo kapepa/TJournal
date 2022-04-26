@@ -42,17 +42,26 @@ export class ArticleService {
   }
 
   async receiveOne(key: string, val: string, userID: string): Promise<DtoArticle> {
-    const article = await this.findArticle(key, val);
-    const { user, subscribe, ...other } = await this.subscribeService.findFullSubscribe('id', article.subscribe.id);
+    const { articleLikes, ...article } = await this.findArticleFull(key, val);
+    const { subscribe, ...other } = await this.subscribeService.findFullSubscribe('id', article.subscribe.id);
     const sub = subscribe.some((el) => el.id === userID);
     const chat = await this.chatService.findChat('id', article.chat.id);
     const answer = await this.chatService.findAnswerAll(article.chat.id, 0);
+    const myLikes = articleLikes.some((el) => el.id === userID);
 
-    return { ...article, subscribe: { ...other, sub }, chat: { ...chat, answer } };
+    return { ...article, subscribe: { ...other, sub }, chat: { ...chat, answer }, myLikes};
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {
     return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe', 'chat'] });
+  }
+
+  async findArticleRelation(key: string, val: string): Promise<DtoArticle> {
+    return await this.articleRepository.findOne({ [key]: val }, { loadRelationIds: true });
+  }
+
+  async findArticleFull(key: string, val: string): Promise<DtoArticle> {
+    return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe', 'chat', 'articleLikes'] });
   }
 
   async allArticle(number: number, search: string): Promise<DtoArticle[]> {
@@ -82,6 +91,20 @@ export class ArticleService {
     return await this.articleRepository
       .update({ [key]: val }, { ...article })
       .then(async () => await this.findArticle(key, val));
+  }
+
+  async likesArticle(article: DtoArticle, userID: string): Promise<DtoArticle> {
+    const user = await this.userService.findUser('id', userID);
+    const articleOne = await this.findArticleFull('id', article.id);
+    const exist = articleOne.articleLikes.findIndex((user) => user.id === userID);
+
+    if (article.myLikes && exist === -1) articleOne.articleLikes.push(user);
+    if (!article.myLikes && exist !== -1) articleOne.articleLikes.splice(exist, 1);
+
+    articleOne.likes = articleOne.articleLikes.length;
+    await this.articleRepository.save(articleOne);
+    const myLikes = articleOne.articleLikes.some((el) => el.id === userID);
+    return { ...(await this.findArticle('id', article.id)), myLikes };
   }
 
   async deleteArticle(articleID: string): Promise<any> {

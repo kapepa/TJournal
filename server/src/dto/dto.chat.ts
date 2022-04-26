@@ -33,7 +33,10 @@ export class DtoAnswer {
   nested?: DtoAnswer[];
 
   @ApiProperty({ type: () => DtoUser })
-  approve?: DtoUser[];
+  answerLikes?: DtoUser[];
+
+  @ApiProperty()
+  myLikes: boolean;
 
   @ApiProperty()
   text: string;

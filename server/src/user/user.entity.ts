@@ -17,7 +17,7 @@ import { MessageEntity } from '../settings/message.entity';
 import { ArticleEntity } from '../article/article.entity';
 import { SubscribeEntity } from '../subscribe/subscribe.entity';
 import { AnswerEntity } from '../chat/chat.entity';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 
 @Exclude()
 @Entity({ name: 'user' })
@@ -37,10 +37,6 @@ export class UserEntity {
   @JoinColumn()
   message: MessageEntity;
 
-  @OneToMany(() => ArticleEntity, (article) => article.user)
-  @JoinColumn()
-  article: ArticleEntity[];
-
   @OneToOne(() => SubscribeEntity, (subscribe) => subscribe.user)
   @JoinColumn()
   subscribe: SubscribeEntity;
@@ -56,8 +52,25 @@ export class UserEntity {
   @OneToMany(() => AnswerEntity, (answer) => answer.user)
   answer: AnswerEntity[];
 
-  @ManyToOne(() => AnswerEntity, (answer) => answer.approve)
-  approve: AnswerEntity;
+  @OneToMany(() => ArticleEntity, (article) => article.user)
+  @JoinColumn()
+  article: ArticleEntity[];
+
+  @ManyToMany(() => AnswerEntity, (answer) => answer.answerLikes)
+  @JoinTable({
+    name: 'answer_likes',
+    joinColumns: [{ name: 'answerLikes' }],
+    inverseJoinColumns: [{ name: 'answerLikes' }],
+  })
+  answerLikes: AnswerEntity[];
+
+  @ManyToMany(() => ArticleEntity, (answer) => answer.articleLikes)
+  @JoinTable({
+    name: 'article_likes',
+    joinColumns: [{ name: 'articleLikes' }],
+    inverseJoinColumns: [{ name: 'articleLikes' }],
+  })
+  articleLikes: ArticleEntity[];
 
   @Column()
   name: string;
@@ -84,7 +97,7 @@ export class UserEntity {
   @Exclude({ toPlainOnly: true })
   isActive: boolean;
 
-  @CreateDateColumn({ select: false })
+  @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn({ select: false })

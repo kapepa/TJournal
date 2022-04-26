@@ -10,16 +10,18 @@ interface IListNews {
 
 interface IArticle {
   id: string,
-  user: IUser,
-  subscribe: ISubscribe,
-  chat: IChat,
+  user?: IUser,
+  subscribe?: ISubscribe,
+  chat?: IChat,
+  articleLikes?: IUser[],
+  myLikes: boolean,
+  likes: number,
   title: string,
+  text: string,
   type: string,
   shortDesc: string,
-  text: string,
   image: string[],
-  likes: number,
-  created_at: Date,
+  created_at?: Date,
 }
 
 export type { IListNews, IArticle }

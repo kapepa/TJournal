@@ -16,8 +16,20 @@ export class DtoArticle {
   @ApiProperty({ type: () => DtoChat })
   chat?: DtoChat;
 
+  @ApiProperty({ type: () => DtoUser })
+  articleLikes?: DtoUser[];
+
+  @ApiProperty()
+  myLikes: boolean;
+
+  @ApiProperty()
+  likes: number;
+
   @ApiProperty()
   title?: string;
+
+  @ApiProperty()
+  text?: string;
 
   @ApiProperty()
   type?: string;
@@ -26,13 +38,7 @@ export class DtoArticle {
   shortDesc?: string;
 
   @ApiProperty()
-  text?: string;
-
-  @ApiProperty()
   image?: string[];
-
-  @ApiProperty()
-  likes?: number;
 
   @ApiProperty()
   created_at?: Date;

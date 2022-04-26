@@ -21,9 +21,6 @@ export class DtoUser {
   @ApiProperty({ type: () => DtoMessage })
   message?: DtoMessage;
 
-  @ApiProperty({ type: () => DtoArticle })
-  article?: DtoArticle[];
-
   @ApiProperty({ type: () => DtoSubscribe })
   subscribe?: DtoSubscribe;
 
@@ -33,8 +30,14 @@ export class DtoUser {
   @ApiProperty({ type: () => DtoAnswer })
   answer?: DtoAnswer[];
 
+  @ApiProperty({ type: () => DtoArticle })
+  article?: DtoArticle[];
+
   @ApiProperty({ type: () => DtoAnswer })
-  approve?: DtoAnswer;
+  answerLikes?: DtoAnswer[];
+
+  @ApiProperty({ type: () => DtoArticle })
+  articleLikes?: DtoArticle[];
 
   @ApiProperty()
   @IsString()
@@ -73,5 +76,5 @@ export class DtoUser {
 
   @ApiProperty()
   @IsDate()
-  updated_at: Date;
+  updated_at?: Date;
 }

@@ -2,7 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
+  JoinColumn, ManyToMany,
   ManyToOne,
   OneToMany,
   OneToOne,
@@ -45,7 +45,7 @@ export class AnswerEntity {
   @JoinColumn()
   nested: AnswerEntity[];
 
-  @ManyToOne(() => UserEntity, (user) => user.answerLikes)
+  @ManyToMany(() => UserEntity, (user) => user.answerLikes)
   answerLikes: UserEntity[];
 
   @Column({ default: false })

@@ -46,6 +46,10 @@ export class ChatService {
     return await this.answerRepository.findOne({ [key]: val }, { relations: ['user'] });
   }
 
+  async findAnswerFull(key: string, val: string): Promise<DtoAnswer> {
+    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user', 'answerLikes'] });
+  }
+
   async findChat(key: string, val: string): Promise<DtoChat> {
     return await this.chatRepository.findOne({ [key]: val });
   }
@@ -68,13 +72,18 @@ export class ChatService {
     // if (user && body.to === 'answer') {}
   }
 
-  async checkLike(answerID: string, userID: string, data: IAnswer): Promise<any> {
-    const user = await this.findAnswerOne('id', answerID);
-    console.log(user, 'make check method');
-    return await this.changeAnswer('id', answerID, data);
-  }
+  async checkLike(userID: string, data: DtoAnswer): Promise<any> {
+    const { id, myLikes } = data;
+    const user = await this.userService.findUser('id', userID);
+    const answer = await this.findAnswerFull('id', id);
+    const position = answer.answerLikes.findIndex((el) => el.id === userID);
 
-  async changeAnswer(key: string, val: string, data: IAnswer): Promise<any> {
-    return this.answerRepository.update({ [key]: val }, data).then(() => this.findAnswerOne('id', val));
+    if (myLikes && position === -1) answer.answerLikes.push(user);
+    if (!myLikes && position !== -1) answer.answerLikes.splice(position, 1);
+
+    answer.myLikes = myLikes;
+    answer.likes = answer.answerLikes.length;
+
+    return await this.answerRepository.save(answer).then(async () => await this.findAnswerOne('id', id));
   }
 }

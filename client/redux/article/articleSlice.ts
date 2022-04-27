@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {IArticle} from "../../dto/news";
 import {HYDRATE} from "next-redux-wrapper";
+import {IChat} from "../../dto/сhat";
 
 export const articleSlice = createSlice({
   name: 'article',
@@ -13,7 +14,14 @@ export const articleSlice = createSlice({
       return { ...state, detailed: action.payload };
     },
     updateDetailed(state, action) {
-      return { ...state, detailed: { ...state.detailed, ...action.payload } };
+      const { likes, myLikes } = action.payload;
+      return { ...state, detailed: {...state.detailed, likes, myLikes} };
+    },
+    appendAnswer(state, action) {
+      const answer = JSON.parse(JSON.stringify(state.detailed?.chat?.answer));
+      answer.push(...action.payload);
+      state.detailed.chat = { ...state.detailed.chat, answer } as IChat;
+      return state;
     },
     setShort(state, action) {
       return { ...state, short: [...state.short, ...action.payload] };
@@ -38,13 +46,14 @@ export const articleSlice = createSlice({
     updateChat(state, action) {
       const answer = JSON.parse(JSON.stringify(state.detailed.chat?.answer));
       answer.unshift(...action.payload.answer);
-      return { ...state, detailed:{ ...state.detailed, chat: { ...action.payload.chat, answer } } };
+      state.detailed.chat = {...action.payload, answer} as IChat;
+      return state;
     },
     updateAnswer(state, action) {
-      // const answer = JSON.parse(JSON.stringify(state.detailed.chat.answer));
-      // state.detailed.chat.answer.splice(action.payload.i,1,action.payload.answer);
-      // return { ...state, detailed: { ...state.detailed, chat: {...state.detailed.chat, answer } } }
-      return { ...state }
+      const answer = JSON.parse(JSON.stringify(state.detailed.chat?.answer));
+      answer.splice(action.payload.i,1,action.payload.answer);
+      state.detailed.chat = { ...state.detailed.chat, answer: answer } as IChat;
+      return state;
     }
   },
   extraReducers: {
@@ -57,4 +66,14 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setArticle, setShort, allArticle, delArticleOne, updateArticleOne, cleanerArticle, updateChat, updateAnswer } = articleSlice.actions;
+export const {
+  setArticle,
+  setShort,
+  allArticle,
+  appendAnswer,
+  delArticleOne,
+  updateArticleOne,
+  cleanerArticle,
+  updateChat,
+  updateAnswer
+} = articleSlice.actions;

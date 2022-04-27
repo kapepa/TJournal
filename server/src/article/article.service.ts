@@ -104,7 +104,8 @@ export class ArticleService {
     articleOne.likes = articleOne.articleLikes.length;
     await this.articleRepository.save(articleOne);
     const myLikes = articleOne.articleLikes.some((el) => el.id === userID);
-    return { ...(await this.findArticle('id', article.id)), myLikes };
+
+    return { ...(await this.findArticle('id', article.id)), myLikes, likes: articleOne.likes };
   }
 
   async deleteArticle(articleID: string): Promise<any> {

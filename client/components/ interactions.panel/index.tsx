@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC} from "react";
 import style from './style.module.scss';
 import ButtonIcon from "../button.icon";
 import {IArticle} from "../../dto/news";

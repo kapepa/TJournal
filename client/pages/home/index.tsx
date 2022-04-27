@@ -25,15 +25,15 @@ const Home: NextPage<IHomePage> = ({query}) => {
   const refLength = useRef<number>(0);
 
   const scrollLoad = (e: Event) => {
-    const postion = window.scrollY;
+    const position = window.scrollY;
 
-    if(postion >= refScroll.current){
+    if(position >= refScroll.current){
       const screenHeight = document.body.clientHeight;
       const fullHeight = document.body.scrollHeight;
       refScroll.current = fullHeight - screenHeight;
     }
 
-    if(postion >= refScroll.current && refScroll.current !== 0){
+    if(position >= refScroll.current && refScroll.current !== 0){
       const artLen = store.getState().article.all.length
       if(refLength.current !== artLen){
         dispatch(articleAll(artLen, String(router.query.nav)));

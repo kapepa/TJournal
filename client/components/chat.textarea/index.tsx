@@ -44,7 +44,7 @@ const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change}) => 
       {state.open && <div className={`flex ${style.chat_textarea__btn_wrapper}`}>
         <ButtonDefault text='Отправит' cb={(e) => {
           e.stopPropagation();
-          // setState({...state, open: false})
+          setState({...state, open: false})
           cb()
         }} type='blue'/>
       </div>}

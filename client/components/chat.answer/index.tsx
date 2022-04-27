@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import ButtonTransparent from "../button.transparent";
 import Avatar from "../avatar";
 import {IAnswer} from "../../dto/сhat";
-import {answerChange} from "../../redux/article/articleAction";
+import {answerLikes} from "../../redux/article/articleAction";
 
 interface IAnswerComment{
   answer: IAnswer
@@ -21,14 +21,8 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
 
-    if(data === 'decrease' && answer.likes > 0){
-      const decreaseLike = answer.likes - 1;
-      dispatch(answerChange({...answer, likes: decreaseLike}, i))
-    }
-    if(data === 'increase'){
-      const increaseLike = answer.likes + 1;
-      dispatch(answerChange({...answer, likes: increaseLike}, i))
-    }
+    if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, i))
+    if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, i))
   }
 
   switch (getMonth){

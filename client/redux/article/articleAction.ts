@@ -12,6 +12,13 @@ export const articleShort = (number: number): AppThunk => async dispatch => {
   dispatch(articleSlice.actions.setShort(short));
 };
 
+export const loadAnswer = (id: string, length: number): AppThunk => async dispatch => {
+  const answer = await Axios.get(`/api/chat/answer?id=${id}&length=${length}`)
+    .then(res => res.data)
+    .catch(err => console.error(err))
+  dispatch(articleSlice.actions.appendAnswer(answer));
+};
+
 export const articleAll = (number: number, nav: string): AppThunk => async dispatch => {
   const all = await Axios.get(`/api/article/all?list=${number}&nav=${nav}`)
     .then(res => res.data)
@@ -40,13 +47,6 @@ export const articleRefresh = (article: IArticle): AppThunk => async dispatch =>
   dispatch(articleSlice.actions.setArticle(update));
 }
 
-export const articleLikes = (article: IArticle): AppThunk => async dispatch => {
-  const update = await Axios.put(`/api/article/likes`, article)
-    .then(res => res.data)
-    .catch(err => console.error(err));
-  dispatch(articleSlice.actions.updateDetailed(update));
-}
-
 export const appendSubscribe = (data: ISubscribe | undefined): AppThunk => async dispatch => {
   const append = await Axios.put(`/api/subscribe/append`,data)
     .then(res => res.data)
@@ -61,8 +61,15 @@ export const messageChat = (data: any): AppThunk => async dispatch => {
   dispatch(articleSlice.actions.updateChat(message))
 }
 
-export const answerChange = (data: IAnswer, i: number): AppThunk => async dispatch => {
-  const answer = await Axios.put('/api/chat/change',data)
+export const articleLikes = (article: IArticle): AppThunk => async dispatch => {
+  const update = await Axios.put(`/api/article/likes`, article)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.updateDetailed(update));
+}
+
+export const answerLikes = (data: IAnswer, i: number): AppThunk => async dispatch => {
+  const answer = await Axios.put('/api/chat/likes', data)
     .then(res => res.data)
     .catch(err => console.error(err))
   dispatch(articleSlice.actions.updateAnswer({answer, i}))

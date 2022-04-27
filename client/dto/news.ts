@@ -22,6 +22,7 @@ interface IArticle {
   shortDesc: string,
   image: string[],
   created_at?: Date,
+  updated_at?: Date,
 }
 
 export type { IListNews, IArticle }

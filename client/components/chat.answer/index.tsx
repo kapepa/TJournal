@@ -1,10 +1,12 @@
-import React, {FC, useRef, useState} from "react";
+import React, {FC, useContext, useEffect, useRef, useState} from "react";
 import style from './style.module.scss';
 import {useDispatch} from "react-redux";
 import ButtonTransparent from "../button.transparent";
 import Avatar from "../avatar";
 import {IAnswer} from "../../dto/сhat";
 import {answerLikes} from "../../redux/article/articleAction";
+import ChatTextarea from "../chat.textarea";
+import {DataContext} from "../../layout/layout.default";
 
 interface IAnswerComment{
   answer: IAnswer
@@ -12,7 +14,9 @@ interface IAnswerComment{
 }
 
 const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
+  const { win } = useContext(DataContext);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState<boolean>(false);
   const monthRef = useRef<string>();
   const date = new Date(answer.created_at);
   const getDay = date.getDate();
@@ -24,6 +28,9 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
     if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, i))
     if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, i))
   }
+
+  const changeText = () => {};
+  const sendMessage = () => {};
 
   switch (getMonth){
     case 0 : monthRef.current = 'Январь'; break;
@@ -39,6 +46,10 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
     case 10 : monthRef.current = 'Ноябрь'; break;
     case 11 : monthRef.current = 'Декабрь'; break;
   }
+
+  useEffect(() => {
+    if (open) setOpen(false);
+  }, [win])
 
   return (
     <div className={`${style.chat_comment}`}>
@@ -59,7 +70,15 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
       <div className={`${style.chat_comment__scope}`}>
         <span className={`${style.chat_comment__span_text}`}>{answer.text}</span>
       </div>
-      <ButtonTransparent text='Ответить' cb={() => {}} picture={true}/>
+      <ButtonTransparent text='Ответить' cb={(e) => {
+        e.stopPropagation();
+        setOpen(true)
+      }} picture={true}/>
+      {open &&
+        <div className={`${style.chat_comment__text_area}`}>
+          <ChatTextarea placeholder='Написать комментарий...' cb={sendMessage} change={changeText} open={true} />
+        </div>
+      }
     </div>
   )
 };

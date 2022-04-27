@@ -11,10 +11,11 @@ interface IChatTextarea {
   classes?: string,
   placeholder: string,
   cb: () => void,
-  change: (e: React.KeyboardEvent<HTMLSpanElement>) => void
+  change: (e: React.KeyboardEvent<HTMLSpanElement>) => void,
+  open?: boolean,
 }
 
-const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change}) => {
+const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change, open}) => {
   const { win } = useContext(DataContext);
   const [state, setState] = useState<IState>({} as IState);
 
@@ -26,6 +27,10 @@ const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change}) => 
   useEffect(() => {
     if(state) setState({...state, open: false});
   },[win])
+
+  useEffect(() => {
+    if(open) setState({...state, open: true});
+  },[])
 
   return (
     <div

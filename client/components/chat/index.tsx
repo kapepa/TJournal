@@ -4,13 +4,15 @@ import style from './style.module.scss';
 import ButtonIcon from "../button.icon";
 import ChatTextarea from "../chat.textarea";
 import ChatCommunication from "../chat.communication";
-import {loadAnswer, messageChat} from "../../redux/article/articleAction";
+import {appendAnswer, loadAnswer, messageChat} from "../../redux/article/articleAction";
 import {IArticle} from "../../dto/news";
 
 interface IState {
-  answer: string,
-  to: string,
-  id: string,
+  [key: string]: {
+    answer: string,
+    to: string,
+    id: string,
+  }
 }
 
 interface IChat {
@@ -23,16 +25,16 @@ const Chat: FC<IChat> = ({article}) => {
   const [state, setState] = useState<IState>({} as IState);
   const refScroll = useRef<number>(0);
   const refLength = useRef<number>(0);
-  const refReset = useRef<HTMLSpanElement>();
   const changeText = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-    refReset.current = e.currentTarget;
     const to = e.currentTarget.dataset.to;
+    const id = String(e.currentTarget.dataset.id);
     const answer = e.currentTarget.textContent;
-    if(article.chat &&  answer && to === 'chat' ) setState({ id: article.chat.id, answer, to });
+
+    if(article.chat && answer && to) setState({...state, [id]: { id, answer, to }});
   }
-  const sendMessage = () => {
-    if(refReset.current) refReset.current.textContent = '';
-    dispatch(messageChat(state));
+  const sendMessage = (id: string, index: number | null) => {
+    index === null ? dispatch(messageChat(state[id])) : dispatch(appendAnswer(state[id], index));
+    setState({...state, [id]: { ...state[id], answer: '' }} );
   }
 
   const answerLoad = (e: Event) => {
@@ -69,8 +71,15 @@ const Chat: FC<IChat> = ({article}) => {
             <ButtonIcon type="bell" cb={() => {}} />
           </div>
         </div>
-        <ChatTextarea placeholder='Написать комментарий...' cb={sendMessage} change={changeText} />
-        <ChatCommunication article={article}/>
+        {article.chat?.id && <ChatTextarea
+          placeholder='Написать комментарий...'
+          send={sendMessage}
+          change={changeText}
+          to='chat'
+          id={article.chat?.id}
+          text={state[article.id]?.answer}
+        />}
+        <ChatCommunication article={article} send={sendMessage} change={changeText} textList={state} />
       </div>
     </div>
   );

@@ -26,8 +26,18 @@ export class ChatController {
     description: 'create',
     type: DtoChat,
   })
-  async messageChat(@Body() body, @Req() req): Promise<DtoChat> {
+  async messageChat(@Body() body, @Req() req): Promise<DtoChat | DtoAnswer> {
     return await this.chatService.writeAnswer(body, req.user.id);
+  }
+
+  @Put('/append')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'append answer',
+    type: DtoAnswer,
+  })
+  async answerChat(@Body() body, @Req() req): Promise<DtoAnswer> {
+    return await this.chatService.appendAnswer(body, req.user.id);
   }
 
   @Put('/likes')
@@ -36,7 +46,7 @@ export class ChatController {
     description: 'change data in comments',
     type: DtoAnswer,
   })
-  async likeAnswer(@Body() body, @Req() req): Promise<DtoAnswer> {
-    return await this.chatService.checkLike(req.user.id, body);
+  async likeAnswer(@Body() body, @Req() req, @Query('id') query): Promise<DtoAnswer> {
+    return await this.chatService.checkLike(req.user.id, query, body);
   }
 }

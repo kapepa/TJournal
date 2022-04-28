@@ -16,7 +16,7 @@ export const loadAnswer = (id: string, length: number): AppThunk => async dispat
   const answer = await Axios.get(`/api/chat/answer?id=${id}&length=${length}`)
     .then(res => res.data)
     .catch(err => console.error(err))
-  dispatch(articleSlice.actions.appendAnswer(answer));
+  dispatch(articleSlice.actions.addAnswer(answer));
 };
 
 export const articleAll = (number: number, nav: string): AppThunk => async dispatch => {
@@ -57,8 +57,15 @@ export const appendSubscribe = (data: ISubscribe | undefined): AppThunk => async
 export const messageChat = (data: any): AppThunk => async dispatch => {
   const message = await Axios.put(`/api/chat/message`, data)
     .then(res => res.data)
-    .catch(err => console.error(err))
-  dispatch(articleSlice.actions.updateChat(message))
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.updateChat(message));
+}
+
+export const appendAnswer = (data: any, i: number | null): AppThunk => async dispatch => {
+  const answer = await Axios.put(`/api/chat/append`, data)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.updateAnswer({answer,i}))
 }
 
 export const articleLikes = (article: IArticle): AppThunk => async dispatch => {
@@ -68,11 +75,11 @@ export const articleLikes = (article: IArticle): AppThunk => async dispatch => {
   dispatch(articleSlice.actions.updateDetailed(update));
 }
 
-export const answerLikes = (data: IAnswer, i: number): AppThunk => async dispatch => {
-  const answer = await Axios.put('/api/chat/likes', data)
+export const answerLikes = (data: IAnswer, query: string, i: number): AppThunk => async dispatch => {
+  const answer = await Axios.put(`/api/chat/likes?id=${query}`, data)
     .then(res => res.data)
     .catch(err => console.error(err))
-  dispatch(articleSlice.actions.updateAnswer({answer, i}))
+  dispatch(articleSlice.actions.updateAnswer({answer, i}));
 }
 
 

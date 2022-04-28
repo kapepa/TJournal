@@ -75,11 +75,11 @@ export class UserEntity {
   @Column()
   name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, select: false })
   @Exclude({ toPlainOnly: true })
   email: string;
 
-  @Column({ default: '' })
+  @Column({ default: '', select: false })
   @Exclude({ toPlainOnly: true })
   password: string;
 

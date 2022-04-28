@@ -57,6 +57,10 @@ export class UserService {
     return await this.usersRepository.findOne({ [key]: val }, { loadRelationIds: true });
   }
 
+  async loginUser(key: string, val: string): Promise<DtoUser> {
+    return await this.usersRepository.findOne({ [key]: val }, { select: ['email', 'password'] });
+  }
+
   async findFullUser(key: string, val: string) {
     return await this.usersRepository.findOne(
       { [key]: val },

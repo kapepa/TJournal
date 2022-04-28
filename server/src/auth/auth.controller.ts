@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DtoAuth } from '../dto/dto.auth';
 import { AuthService } from './auth.service';
@@ -8,6 +19,7 @@ import { MailerService } from '../mailer/mailer.service';
 
 @ApiTags('Auth')
 @Controller('/api/auth')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(
     private authService: AuthService,
@@ -41,7 +53,7 @@ export class AuthController {
   @ApiCreatedResponse({
     description: 'Check recaptcha',
   })
-  async Recaptcha(@Body() body): Promise<boolean>{
+  async Recaptcha(@Body() body): Promise<boolean> {
     return await this.authService.CheckRecaptcha(body.recaptcha);
   }
 

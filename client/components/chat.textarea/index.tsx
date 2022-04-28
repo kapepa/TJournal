@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from "react";
+import React, {FC, useContext, useEffect, useRef, useState} from "react";
 import style from './style.module.scss';
 import ButtonDefault from "../button.default";
 import {DataContext} from "../../layout/layout.default";
@@ -7,29 +7,43 @@ interface IState {
   open: boolean,
 }
 
+enum ETo {
+  answer,
+  chat
+}
+
 interface IChatTextarea {
   classes?: string,
   placeholder: string,
-  cb: () => void,
+  send: (id: string, index: number | null) => void,
   change: (e: React.KeyboardEvent<HTMLSpanElement>) => void,
+  to: keyof typeof ETo,
+  id: string,
   open?: boolean,
+  text?: string | undefined,
 }
 
-const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change, open}) => {
+const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, send, change, open, to, id, text}) => {
   const { win } = useContext(DataContext);
+  const refSpan = useRef<HTMLSpanElement>(null);
   const [state, setState] = useState<IState>({} as IState);
 
   const clickOpen = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setState({...state, open: true});
+    if(refSpan.current?.textContent === placeholder) refSpan.current.textContent = '';
   }
 
   useEffect(() => {
-    if(state) setState({...state, open: false});
+    if(state.open){
+      setState({...state, open: false});
+      if(refSpan.current?.textContent === '') refSpan.current.textContent = placeholder;
+    }
   },[win])
 
   useEffect(() => {
     if(open) setState({...state, open: true});
+    if(refSpan.current) refSpan.current.textContent = text ? text : placeholder;
   },[])
 
   return (
@@ -44,13 +58,16 @@ const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, cb, change, open
         className={style.chat_textarea__text}
         placeholder={placeholder}
         onKeyDown={change}
-        data-to='chat'
+        data-to={to}
+        data-id={id}
+        ref={refSpan}
       />
       {state.open && <div className={`flex ${style.chat_textarea__btn_wrapper}`}>
         <ButtonDefault text='Отправит' cb={(e) => {
           e.stopPropagation();
           setState({...state, open: false})
-          cb()
+          send(id, null);
+          if(refSpan.current) refSpan.current.textContent = text ? text : placeholder;
         }} type='blue'/>
       </div>}
     </div>

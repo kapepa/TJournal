@@ -17,7 +17,7 @@ export const articleSlice = createSlice({
       const { likes, myLikes } = action.payload;
       return { ...state, detailed: {...state.detailed, likes, myLikes} };
     },
-    appendAnswer(state, action) {
+    addAnswer(state, action) {
       const answer = JSON.parse(JSON.stringify(state.detailed?.chat?.answer));
       answer.push(...action.payload);
       state.detailed.chat = { ...state.detailed.chat, answer } as IChat;
@@ -70,7 +70,7 @@ export const {
   setArticle,
   setShort,
   allArticle,
-  appendAnswer,
+  addAnswer,
   delArticleOne,
   updateArticleOne,
   cleanerArticle,

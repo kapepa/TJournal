@@ -11,9 +11,14 @@ import {DataContext} from "../../layout/layout.default";
 interface IAnswerComment{
   answer: IAnswer
   i: number
+  send: (id: string, index: number | null) => void,
+  change: (e: React.KeyboardEvent<HTMLSpanElement>) => void,
+  text?: string | undefined,
+  nested?: boolean,
+  query: string,
 }
 
-const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
+const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, nested, query, children}) => {
   const { win } = useContext(DataContext);
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
@@ -25,12 +30,9 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
 
-    if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, i))
-    if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, i))
+    if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, query, i))
+    if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, query, i))
   }
-
-  const changeText = () => {};
-  const sendMessage = () => {};
 
   switch (getMonth){
     case 0 : monthRef.current = 'Январь'; break;
@@ -70,15 +72,30 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i}) => {
       <div className={`${style.chat_comment__scope}`}>
         <span className={`${style.chat_comment__span_text}`}>{answer.text}</span>
       </div>
-      <ButtonTransparent text='Ответить' cb={(e) => {
-        e.stopPropagation();
-        setOpen(true)
-      }} picture={true}/>
+      {!nested &&
+        <ButtonTransparent
+          text='Ответить'
+          picture={true}
+          cb={(e) => {
+            e.stopPropagation();
+            setOpen(true)
+          }}
+        />
+      }
       {open &&
         <div className={`${style.chat_comment__text_area}`}>
-          <ChatTextarea placeholder='Написать комментарий...' cb={sendMessage} change={changeText} open={true} />
+          <ChatTextarea
+            placeholder='Написать комментарий...'
+            send={(id: string) => { send(id, i); setOpen(false);}}
+            change={change}
+            open={true}
+            to='answer'
+            id={answer.id}
+            text={text}
+          />
         </div>
       }
+      {children && <div className={`flex flex-direction-column ${style.chat_comment__nested}`}>{children}</div>}
     </div>
   )
 };

@@ -35,7 +35,7 @@ export class ChatService {
   async findAnswerAll(id: string, skip: number): Promise<DtoAnswer[]> {
     return await this.answerRepository.find({
       where: { chat: { id } },
-      relations: ['user'],
+      relations: ['user', 'nested', 'nested.user'],
       order: { created_at: 'DESC' },
       take: 5,
       skip,
@@ -43,11 +43,11 @@ export class ChatService {
   }
 
   async findAnswerOne(key: string, val: string): Promise<DtoAnswer> {
-    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user'] });
+    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user', 'nested', 'nested.user'] });
   }
 
   async findAnswerFull(key: string, val: string): Promise<DtoAnswer> {
-    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user', 'answerLikes'] });
+    return await this.answerRepository.findOne({ [key]: val }, { relations: ['user', 'answerLikes', 'nested'] });
   }
 
   async findChat(key: string, val: string): Promise<DtoChat> {
@@ -58,21 +58,27 @@ export class ChatService {
     return await this.chatRepository.findOne({ [key]: val }, { relations: ['answer'] });
   }
 
-  async writeAnswer(body: IAnswer, userID: string): Promise<DtoChat> {
+  async writeAnswer(body: IAnswer, userID: string): Promise<DtoChat | DtoAnswer> {
     const user = await this.userService.findUser('id', userID);
-    if (user && body.to === 'chat') {
-      const chat = await this.findChatFull('id', body.id);
-      const answer = await this.createAnswer(body.answer, user);
-      chat.answer.push(answer);
-      chat.count = chat.answer.length;
-      return await this.chatRepository.save(chat).then(async () => {
-        return { ...(await this.findChat('id', body.id)), answer: [answer] };
-      });
-    }
-    // if (user && body.to === 'answer') {}
+    const chat = await this.findChatFull('id', body.id);
+    const answer = await this.createAnswer(body.answer, user);
+    chat.answer.push(answer);
+    chat.count = chat.answer.length;
+    return await this.chatRepository.save(chat).then(async () => {
+      return { ...(await this.findChat('id', body.id)), answer: [answer] };
+    });
   }
 
-  async checkLike(userID: string, data: DtoAnswer): Promise<any> {
+  async appendAnswer(body: IAnswer, userID: string): Promise<DtoAnswer> {
+    const user = await this.userService.findUser('id', userID);
+    const answer = await this.findAnswerFull('id', body.id);
+    const create = await this.createAnswer(body.answer, user);
+    answer.nested.push(create);
+    await this.answerRepository.save(answer);
+    return await this.findAnswerOne('id', body.id);
+  }
+
+  async checkLike(userID: string, answerID, data: DtoAnswer): Promise<any> {
     const { id, myLikes } = data;
     const user = await this.userService.findUser('id', userID);
     const answer = await this.findAnswerFull('id', id);
@@ -84,6 +90,6 @@ export class ChatService {
     answer.myLikes = myLikes;
     answer.likes = answer.answerLikes.length;
 
-    return await this.answerRepository.save(answer).then(async () => await this.findAnswerOne('id', id));
+    return await this.answerRepository.save(answer).then(async () => await this.findAnswerOne('id', answerID));
   }
 }

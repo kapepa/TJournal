@@ -23,7 +23,7 @@ const ShortDesc: FC<IShortDesc> = ({user}) => {
   }
 
   const checkAuth = (e: React.MouseEvent<HTMLAnchorElement>):void => {
-    if(Boolean(Object.keys(user))){
+    if(!Boolean(Object.keys(user).length)){
       e.preventDefault();
       wrong('Auth');
     }

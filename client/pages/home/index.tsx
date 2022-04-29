@@ -62,7 +62,7 @@ const Home: NextPage<IHomePage> = ({query}) => {
       <div className={`flex flex-direction-column ${style.home}`}>
         <ShortDesc user={profile} />
         {all.map((art: IArticle, i: number) => (<ShortNews
-          key={`article-${i}`}
+          key={`article-short-${art.id}`}
           index={i}
           article={art}
           user={profile}

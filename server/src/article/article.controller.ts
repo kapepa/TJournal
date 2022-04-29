@@ -96,7 +96,7 @@ export class ArticleController {
   @ApiCreatedResponse({
     description: 'do make exclude when take articles',
   })
-  async excludeArticle(@Query('id') query, @Req() req): Promise<any> {
+  async excludeArticle(@Query('id') query, @Req() req): Promise<DtoArticle> {
     return this.articleService.excludeArticle(query, req.user.id);
   }
 }

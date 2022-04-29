@@ -19,6 +19,9 @@ export class DtoArticle {
   @ApiProperty({ type: () => DtoUser })
   articleLikes?: DtoUser[];
 
+  @ApiProperty({ type: () => DtoUser })
+  exclude?: DtoUser[];
+
   @ApiProperty()
   myLikes: boolean;
 

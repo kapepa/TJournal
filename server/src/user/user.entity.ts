@@ -64,7 +64,7 @@ export class UserEntity {
   })
   answerLikes: AnswerEntity[];
 
-  @ManyToMany(() => ArticleEntity, (answer) => answer.articleLikes)
+  @ManyToMany(() => ArticleEntity, (article) => article.articleLikes)
   @JoinTable({
     name: 'article_likes',
     joinColumns: [{ name: 'articleLikes' }],
@@ -72,15 +72,21 @@ export class UserEntity {
   })
   articleLikes: ArticleEntity[];
 
+  @ManyToMany(() => ArticleEntity, (article) => article.exclude)
+  @JoinTable({
+    name: 'exclude_article',
+    joinColumns: [{ name: 'exclude' }],
+    inverseJoinColumns: [{ name: 'exclude' }],
+  })
+  exclude: ArticleEntity[];
+
   @Column()
   name: string;
 
-  @Column({ unique: true, select: false })
-  @Exclude({ toPlainOnly: true })
+  @Column({ unique: true, select: true })
   email: string;
 
-  @Column({ default: '', select: false })
-  @Exclude({ toPlainOnly: true })
+  @Column({ default: '', select: true })
   password: string;
 
   @Column({ default: '' })
@@ -95,7 +101,7 @@ export class UserEntity {
   @Column({ default: 0 })
   subs: number;
 
-  @Exclude({ toPlainOnly: true })
+  @Column({ default: false, select: false })
   isActive: boolean;
 
   @CreateDateColumn()

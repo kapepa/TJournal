@@ -14,6 +14,7 @@ interface IArticle {
   subscribe?: ISubscribe,
   chat?: IChat,
   articleLikes?: IUser[],
+  exclude?: IUser[],
   myLikes: boolean,
   likes: number,
   title: string,

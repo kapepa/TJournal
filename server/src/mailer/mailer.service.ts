@@ -6,15 +6,15 @@ config();
 
 @Injectable()
 export class MailerService {
-  async Transporter () {
-    let transporter = nodemailer.createTransport({
+  async Transporter() {
+    const transporter = nodemailer.createTransport({
       service: 'gmail',
-      auth: { user: process.env.MAILER_GMAIL, pass: process.env.MAILER_PASSWORD},
-    })
+      auth: { user: process.env.MAILER_GMAIL, pass: process.env.MAILER_PASSWORD },
+    });
     return transporter;
   }
 
-  async SendEmailRegistration (email: string) {
+  async SendEmailRegistration(email: string) {
     const transporter = await this.Transporter();
 
     await transporter.sendMail({
@@ -22,7 +22,7 @@ export class MailerService {
       to: email,
       subject: 'Registration',
       text: 'You have successfully registered .',
-      html:'<div><strong>You have successfully registered.</strong></div>',
-    })
+      html: '<div><strong>You have successfully registered.</strong></div>',
+    });
   }
-};
+}

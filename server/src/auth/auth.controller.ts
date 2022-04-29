@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpStatus,
@@ -8,24 +7,17 @@ import {
   Req,
   Res,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DtoAuth } from '../dto/dto.auth';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { AuthGuard } from '@nestjs/passport';
-import { MailerService } from '../mailer/mailer.service';
 
 @ApiTags('Auth')
 @Controller('/api/auth')
-@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private mailerService: MailerService,
-  ) {}
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   @Post('/create')
   @ApiCreatedResponse({
@@ -45,7 +37,6 @@ export class AuthController {
   })
   async login(@Req() req) {
     const token = await this.authService.JwtToken(req.user);
-    await this.mailerService.SendEmailRegistration(req.user.email);
     return token;
   }
 

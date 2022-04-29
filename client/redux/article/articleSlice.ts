@@ -26,6 +26,11 @@ export const articleSlice = createSlice({
     setShort(state, action) {
       return { ...state, short: [...state.short, ...action.payload] };
     },
+    excludeArticle(state, action){
+      state.short.splice(action.payload.index, 1);
+      state.all.splice(action.payload.index, 1);
+      return state;
+    },
     allArticle(state, action) {
       return { ...state, all: [...state.all, ...action.payload] };
     },
@@ -70,6 +75,7 @@ export const {
   setArticle,
   setShort,
   allArticle,
+  excludeArticle,
   addAnswer,
   delArticleOne,
   updateArticleOne,

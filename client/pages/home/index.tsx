@@ -7,7 +7,7 @@ import style from './style.module.scss';
 import ShortDesc from "../../components/short.desc";
 import ShortNews from "../../components/short.news";
 import {useDispatch, useSelector, useStore} from "react-redux";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {articleAll} from "../../redux/article/articleAction";
 import {useRouter} from "next/router";
 
@@ -60,7 +60,7 @@ const Home: NextPage<IHomePage> = ({query}) => {
   return (
     <LayoutDefault title="Home" query={query}>
       <div className={`flex flex-direction-column ${style.home}`}>
-        <ShortDesc />
+        <ShortDesc user={profile} />
         {all.map((art: IArticle, i: number) => (<ShortNews
           key={`article-${i}`}
           index={i}

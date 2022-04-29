@@ -30,7 +30,7 @@ const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
       <div className={`flex flex-direction-column ${style.popup_wrong__frame}`}>
         <ButtonXClose cd={close} classes={`${style.popup_wrong__xclose}`}/>
         <h5 className={`${style.popup_wrong__h5}`}>Ошибка</h5>
-        <span className={`${style.popup_wrong__span}`}>{textRef}</span>
+        <span className={`${style.popup_wrong__span}`}>{textRef.current}</span>
         <div className={`flex justify-content-center ${style.popup_wrong__area_btn}`}>
           <ButtonDefault text='OK' cb={close} type='blue' classes={`${style.popup_wrong__btn}`} />
         </div>

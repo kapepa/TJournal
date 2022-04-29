@@ -90,4 +90,13 @@ export class ArticleController {
   async deleteOne(@Query('id') query): Promise<any> {
     return await this.articleService.deleteArticle(query);
   }
+
+  @Put('/exclude')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'do make exclude when take articles',
+  })
+  async excludeArticle(@Query('id') query, @Req() req): Promise<any> {
+    return this.articleService.excludeArticle(query, req.user.id);
+  }
 }

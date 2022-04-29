@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   NotFoundException,
@@ -19,7 +18,6 @@ import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { FileService } from '../file/file.service';
 
 @Controller('/api/user')
-@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(readonly userService: UserService, readonly fileService: FileService) {}
 

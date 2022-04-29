@@ -16,6 +16,7 @@ interface IUser {
   article?: IArticle[],
   answerLikes?: IAnswer[],
   articleLikes?: IArticle[],
+  exclude?: IAnswer[],
   name: string,
   email: string,
   password?: string,

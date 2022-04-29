@@ -8,8 +8,9 @@ import ButtonDrop from "../button.drop";
 import InteractionsPanel from "../ interactions.panel";
 import config from "../../config";
 import {useDispatch} from "react-redux";
-import {articleDelete, articleUpdate} from "../../redux/article/articleAction";
+import {articleDelete, articleUpdate, excludeArticleUser} from "../../redux/article/articleAction";
 import {DataContext} from "../../layout/layout.default";
+import {excludeArticle} from "../../redux/article/articleSlice";
 
 interface IShortNews{
   article: IArticle,
@@ -20,12 +21,15 @@ interface IShortNews{
 
 const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   const dispatch = useDispatch();
+  const existUser = Boolean(Object.keys(user).length);
   const { wrong } = useContext(DataContext);
   const [state, setState] = useState<IArticle>(article);
-  const clickComplaint = () => {console.log(`complaint`)};
-  const clickHide = () => {console.log(`hide`)};
 
-  const clickDelete = async () => dispatch(articleDelete( article.id, index ))
+  const clickDelete = async () => dispatch(articleDelete( article.id, index ));
+
+  const clickHide = () => {
+    existUser ? dispatch(excludeArticleUser(article.id, index)) : dispatch(excludeArticle({index}));
+  };
 
   const updateArticle = (article: IArticle) => {
     dispatch(articleUpdate(article, index))
@@ -36,8 +40,8 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
     console.log(data)
   }
 
-  const checkAuth = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if(!user.id){
+  const checkAuth = (e: React.MouseEvent<HTMLAnchorElement>):void => {
+    if(Boolean(Object.keys(user))){
       e.preventDefault();
       wrong('Auth');
     }
@@ -48,7 +52,6 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
       <div className={`flex justify-content-between ${style.short_news__head}`}>
         <NewsType type={state.type} query={query}/>
         <ButtonDrop list={[
-          {name: 'Пожаловаться', cb: clickComplaint},
           {name: 'Скрыть', cb: clickHide},
           {name: 'Удалить', cb: clickDelete},
         ]} />
@@ -63,7 +66,7 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
           <img className={`${style.short_news__image}`} src={`${config.url}/${state.image[0]}`} alt={state.title}/>
         </a>
       </Link>
-      <InteractionsPanel article={state} update={updateArticle} cb={interaction}/>
+      <InteractionsPanel article={state} user={user} like={updateArticle} cb={interaction}/>
     </div>
   )
 }

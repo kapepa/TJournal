@@ -82,4 +82,11 @@ export const answerLikes = (data: IAnswer, query: string, i: number): AppThunk =
   dispatch(articleSlice.actions.updateAnswer({answer, i}));
 }
 
+export const excludeArticleUser = (id:string, index: number): AppThunk => async dispatch => {
+  const exclude = await Axios.put(`/api/article/exclude?id=${id}`)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  console.log(exclude);
+}
+
 

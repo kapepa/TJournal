@@ -16,6 +16,7 @@ interface INews {
 
 const News: FC<INews> = ({article}) => {
   const dispatch = useDispatch();
+  const user = useSelector(( store: any ) => store.user);
   const splitText = (text: string) => {
     const step = 140;
     const list = [];
@@ -51,7 +52,7 @@ const News: FC<INews> = ({article}) => {
         {splitText(String(article?.text)).map((el,i) => <p key={`p-${i}`} className={`${style.article__p}`}>{el}</p>)}
       </div>
       {article?.image?.length > 0 &&<ZoomSlider images={article?.image}/>}
-      <InteractionsPanel like={likeArticle} cb={() => {}} article={article} classes={`${style.article__frame}`}/>
+      <InteractionsPanel like={likeArticle} user={user} cb={() => {}} article={article} classes={`${style.article__frame}`}/>
       <SubscribePanel article={article} classes={`${style.article__frame}`} query={`/home?nav=${article.type}`}/>
     </article>
   );

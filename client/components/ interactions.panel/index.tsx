@@ -2,21 +2,25 @@ import React, {FC} from "react";
 import style from './style.module.scss';
 import ButtonIcon from "../button.icon";
 import {IArticle} from "../../dto/news";
+import {useSelector} from "react-redux";
+import {IUser} from "../../dto/user";
 
 interface IInteractionsPanel {
   article: IArticle,
   classes?: string,
   like: (article: IArticle) => void,
   cb: (e: React.MouseEvent<HTMLButtonElement>) => void,
+  user: IUser,
 }
 
-const InteractionsPanel: FC<IInteractionsPanel> = ({article, classes, like, cb}) => {
+const InteractionsPanel: FC<IInteractionsPanel> = ({article, classes, like, cb, user}) => {
   const clickLikes = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const existUser = Boolean(Object.keys(user).length);
     const { subscribe, chat, ...other } = article;
     const btn = (e.target as HTMLButtonElement);
     const data = btn.dataset.likes;
-    if(data === 'decrease' && article.myLikes) like({ ...other, myLikes: false });
-    if(data === 'increase' && !article.myLikes) like({ ...other, myLikes: true });
+    if(existUser && data === 'decrease' && article.myLikes) like({ ...other, myLikes: false });
+    if(existUser && data === 'increase' && !article.myLikes) like({ ...other, myLikes: true });
   }
 
   return (

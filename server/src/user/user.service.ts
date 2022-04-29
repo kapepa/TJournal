@@ -58,7 +58,7 @@ export class UserService {
   }
 
   async loginUser(key: string, val: string): Promise<DtoUser> {
-    return await this.usersRepository.findOne({ [key]: val }, { select: ['email', 'password'] });
+    return await this.usersRepository.findOne({ [key]: val }, { select: ['id', 'email', 'password', 'name'] });
   }
 
   async findFullUser(key: string, val: string) {

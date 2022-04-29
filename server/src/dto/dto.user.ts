@@ -39,6 +39,9 @@ export class DtoUser {
   @ApiProperty({ type: () => DtoArticle })
   articleLikes?: DtoArticle[];
 
+  @ApiProperty({ type: () => DtoAnswer })
+  exclude?: DtoArticle[];
+
   @ApiProperty()
   @IsString()
   name: string;

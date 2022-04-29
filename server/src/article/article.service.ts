@@ -111,4 +111,9 @@ export class ArticleService {
   async deleteArticle(articleID: string): Promise<any> {
     return await this.articleRepository.delete({ id: articleID });
   }
+
+  async excludeArticle(articleID: string, userID): Promise<any> {
+    console.log(userID);
+    return '';
+  }
 }

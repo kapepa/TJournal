@@ -31,6 +31,9 @@ export class ArticleEntity {
   @ManyToMany(() => UserEntity, (user) => user.articleLikes)
   articleLikes: UserEntity[];
 
+  @ManyToMany(() => UserEntity, (user) => user.exclude)
+  exclude: UserEntity[];
+
   @Column({ default: false })
   myLikes: boolean;
 

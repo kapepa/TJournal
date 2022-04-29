@@ -9,7 +9,6 @@ import { IQuery } from "../dto/query";
 import { IUser } from "../dto/user";
 import { IArticle } from "../dto/news";
 import PopupWrong from "../components/popup.wrong";
-import Cookie from "js-cookie";
 
 interface IWrong {
   active: boolean,
@@ -38,7 +37,7 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
   const [win, setWin] = useState<number>(Date.now());
   const [wrong, setWrong] = useState<IWrong>({} as IWrong);
   const wrongActive = (message: string): void => {
-    setWrong({ active: true, message});
+    setWrong({ active: true, message });
   }
 
   useEffect(() => {

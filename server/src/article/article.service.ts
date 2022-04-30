@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DtoArticle } from '../dto/dto.article';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Not, Repository} from 'typeorm';
+import { In, Like, Not, Repository } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
@@ -68,14 +68,16 @@ export class ArticleService {
     return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe', 'chat', 'articleLikes'] });
   }
 
-  async allArticle(number: number, search: string, userID: string | undefined): Promise<DtoArticle[]> {
+  async allArticle(number: number, search: string, word: string, userID: string | undefined): Promise<DtoArticle[]> {
     const props = { order: { created_at: 'DESC' } } as { where?: any; order?: any };
     const checked = ['created_at', 'likes', 'comments', 'exclude'].includes(search);
     const type = search !== 'all' ? { type: search } : {};
 
+    if (word) props.where = { ...props.where, title: Like(word) };
+
     if (userID) {
       const { exclude } = await this.userService.findUser('id', userID);
-      props.where = { id: Not(In(exclude)) };
+      props.where = { ...props.where, id: Not(In(exclude)) };
     }
 
     checked ? (props.order = { [search]: 'DESC' }) : (props.where = { ...props.where, ...type });

@@ -52,8 +52,20 @@ export class ArticleController {
     type: DtoArticle,
   })
   async receiveAll(@Query() query, @Req() req): Promise<DtoArticle[]> {
-    const { list, nav } = query;
-    return await this.articleService.allArticle(list, nav, req.user?.id);
+    const { list, nav, word } = query;
+    return await this.articleService.allArticle(list, nav, word, req.user?.id);
+  }
+
+  @Get('/search')
+  @UseGuards(JwtCheckGuard)
+  @ApiCreatedResponse({
+    description: 'search article',
+    type: DtoArticle,
+  })
+  async searchArticle(@Query('word') query, @Req() req): Promise<any> {
+    const art = await this.articleService.allArticle(0, 'all', req.user.id, query);
+    console.log(art);
+    return art;
   }
 
   @Get('/short')

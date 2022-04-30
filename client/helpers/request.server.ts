@@ -5,7 +5,7 @@ import {allArticle, setArticle, setShort} from "../redux/article/articleSlice";
 
 export const RequestServer = (token: string | undefined , dispatch: any) => {
   Axios.defaults.baseURL = config.url;
-  if(token) Axios.defaults.headers.common = { Authorization: `Bearer ${token}`};
+  Axios.defaults.headers.common = { Authorization: `Bearer ${token}`};
 
   return {
     async Profile () {

@@ -18,6 +18,7 @@ const PopupWrong: FC<IPopupWrong> = ({close, message}) => {
     case 'Title': textRef.current = 'Выберите заголовок для статьии'; break;
     case 'Text': textRef.current = 'Выберите текст для статьии'; break;
     case 'Auth': textRef.current = 'Авторизуйтесь для того чтобы прочитать'; break;
+    case 'Coincidence': textRef.current = 'Пароли не совпадают!'; break;
   }
 
   return (

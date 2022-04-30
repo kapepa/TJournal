@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from "react";
+import React, {FC, useState} from "react";
 import { useRouter } from "next/router";
 import Link from 'next/link'
 import {ISettings} from "../../dto/settings";
@@ -11,9 +11,10 @@ import CheckList from "../check.list";
 import Validator from "../../helpers/validator";
 import {useDispatch, useSelector} from "react-redux";
 import {changeDataUser, changeSettings, changeMessage} from "../../redux/user/userAction";
-import {DataContext} from "../../layout/layout.default";
 import {IList} from "../../dto/list";
 import {IMessage} from "../../dto/message";
+import {ResetArticle} from "../../helpers/request";
+import PopupPassword from "../popup.password";
 
 interface IProfile {
   name: string,
@@ -26,6 +27,7 @@ const SettingsChange: FC = () => {
   const user = useSelector(( store: any ) => store.user);
   const dispatch = useDispatch();
   const [settings, setSettings] = useState<ISettings | undefined>( user.settings );
+  const [password, setPassword] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>(
     {name: user.name, email: user.email} as IProfile
   );
@@ -42,8 +44,10 @@ const SettingsChange: FC = () => {
   const nameValidator = Validator.name(profile.name);
   const emailValidator = Validator.email(profile.email);
 
-  const changePassword = () => {
-    console.log('change password');
+  const changePassword = () => {setPassword(true) }
+
+  const resetAllArticle = async (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement >) => {
+    await ResetArticle().then(() => router.push('/home'));
   }
 
   const changeUser = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,6 +119,7 @@ const SettingsChange: FC = () => {
 
   return (
     <div className={style.settings_change}>
+      {password && <PopupPassword close={() => {setPassword(false)} } />}
       <div className={` ${style.settings_change__cap_back}`}>
         <Link href='/profile'><a className={`flex align-items-center ${style.settings_change__link}`}>{user.name}</a></Link>
       </div>
@@ -248,6 +253,10 @@ const SettingsChange: FC = () => {
               <ButtonDefault text='Добавить' type='def' cb={() => {}} classes={style.settings_change__btn_filter}/>
             </div>
             <InputDefault type='text' label='Пользователи' defaultValue='Имя или ссылка' name='name' change={() => {}}/>
+            <div className={`flex align-items-center`}>
+              <span className={`${style.settings_change__reset_span}`}>Cбросить все скрытые статьи</span>
+              <ButtonDefault text='Cбросить' type='def' cb={resetAllArticle} classes={style.settings_change__rest_btn}/>
+            </div>
           </div>
           <ButtonDefault text='Сохранить' type='blue' cb={() => {}}/>
         </>

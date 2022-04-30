@@ -1,0 +1,26 @@
+.popup_password{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  padding: 15px;
+  &__frame{
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 300px;
+    position: relative;
+  }
+  &__h5{
+    font-size: 19px;
+    text-align: center;
+    margin-bottom: 17px;
+  }
+  &__close{
+    top: 15px;
+    right: 15px;
+  }
+}

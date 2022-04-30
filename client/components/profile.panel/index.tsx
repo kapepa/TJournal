@@ -13,6 +13,7 @@ import {useRouter} from "next/router";
 import {setProfile} from "../../redux/user/userSlice";
 import config from "../../config";
 import Cover from "../cover";
+import Axios from "../../helpers/axios";
 
 interface IState{
   file: IFile,
@@ -71,6 +72,7 @@ const ProfilePanel: FC<IProfilePanel> = ({query,}) => {
 
   const exitProfile = async (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     Cookies.remove('token');
+    Axios.defaults.headers.common = {'Authorization': ``};
     await router.push('/home')
     dispatch(setProfile({}))
   }

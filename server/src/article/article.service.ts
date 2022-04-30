@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { DtoArticle } from '../dto/dto.article';
 import { InjectRepository } from '@nestjs/typeorm';
-import {Not, Repository} from 'typeorm';
+import { In, Not, Repository} from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
 import { SubscribeService } from '../subscribe/subscribe.service';
 import { ChatService } from '../chat/chat.service';
-import {ArrayContains} from "class-validator";
 
 interface ICreateArticle {
   title: string;
@@ -69,12 +68,17 @@ export class ArticleService {
     return await this.articleRepository.findOne({ [key]: val }, { relations: ['subscribe', 'chat', 'articleLikes'] });
   }
 
-  async allArticle(number: number, search: string): Promise<DtoArticle[]> {
+  async allArticle(number: number, search: string, userID: string | undefined): Promise<DtoArticle[]> {
     const props = { order: { created_at: 'DESC' } } as { where?: any; order?: any };
     const checked = ['created_at', 'likes', 'comments', 'exclude'].includes(search);
     const type = search !== 'all' ? { type: search } : {};
 
-    checked ? (props.order = { [search]: 'DESC' }) : (props.where = type);
+    if (userID) {
+      const { exclude } = await this.userService.findUser('id', userID);
+      props.where = { id: Not(In(exclude)) };
+    }
+
+    checked ? (props.order = { [search]: 'DESC' }) : (props.where = { ...props.where, ...type });
 
     return await this.articleRepository.find({
       ...props,
@@ -117,10 +121,16 @@ export class ArticleService {
     return await this.articleRepository.delete({ id: articleID });
   }
 
-  async excludeArticle(articleID: string, userID): Promise<DtoArticle> {
+  async excludeArticle(articleID: string, userID: string): Promise<DtoArticle> {
     const user = await this.userService.findUser('id', userID);
     const article = await this.findArticleRelations('id', articleID, ['exclude']);
     article.exclude.push(user);
     return await this.articleRepository.save(article);
+  }
+
+  async resetArticle(userID: string): Promise<any> {
+    const user = await this.userService.findUserRelations('id', userID, ['exclude']);
+    user.exclude = [];
+    return await this.userService.saveUser(user);
   }
 }

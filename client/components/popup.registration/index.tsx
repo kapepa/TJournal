@@ -56,7 +56,10 @@ const PopupRegistration: FC<IPopupRegistration> = ({cb, classes}) => {
 
   return (
     <div
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => {if((e.target as HTMLDivElement).classList.contains(style.popup_registration)) cb(e) }}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        if((e.target as HTMLDivElement).classList.contains(style.popup_registration)) cb(e);
+      }}
       className={`flex justify-content-center align-items-center ${style.popup_registration} ${classes ? classes : ''}`}
     >
       <div className={`flex ${style.popup_registration__frame}`}>

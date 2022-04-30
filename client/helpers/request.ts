@@ -25,3 +25,15 @@ export const CreateArticle = async (form: any) => {
     .then(res => res.data)
     .catch(err => console.error(err));
 }
+
+export const ResetArticle = async () => {
+  return Axios.put(`/api/article/reset`)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+}
+
+export const SwapPassword = async (data: {password: string}) => {
+  return Axios.put(`/api/user/swap`, data)
+    .then(res => res.data)
+    .catch(err => console.error(err))
+}

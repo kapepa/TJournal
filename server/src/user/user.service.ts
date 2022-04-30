@@ -57,6 +57,10 @@ export class UserService {
     return await this.usersRepository.findOne({ [key]: val }, { loadRelationIds: true });
   }
 
+  async findUserRelations(key: string, val: string, relations: string[]): Promise<DtoUser> {
+    return await this.usersRepository.findOne({ [key]: val }, { relations });
+  }
+
   async loginUser(key: string, val: string): Promise<DtoUser> {
     return await this.usersRepository.findOne({ [key]: val }, { select: ['id', 'email', 'password', 'name'] });
   }
@@ -68,13 +72,20 @@ export class UserService {
     );
   }
 
-  async findRelate(key: string, val: string, relate: string[]): Promise<DtoUser> {
-    return await this.usersRepository.findOne({ [key]: val }, { relations: [...relate] });
-  }
-
   async updateUser(key: string, val: string, data: any): Promise<any> {
     return await this.usersRepository.update({ [key]: val }, { ...data }).then(async () => {
       return await this.findUser(key, val);
     });
+  }
+
+  async saveUser(user: DtoUser): Promise<DtoUser> {
+    return await this.usersRepository.save(user);
+  }
+
+  async swapPassword(password: string, userID): Promise<DtoUser> {
+    const user = await this.usersRepository.findOne({ id: userID });
+    const hash = await bcrypt.hashSync(password, Number(process.env.BCRYPT_ROUNDS));
+    user.password = hash;
+    return await this.usersRepository.save(user);
   }
 }

@@ -45,6 +45,7 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
+    padding-bottom: 7px;
   }
   &__cap{
     margin-bottom: 24px;
@@ -92,6 +93,20 @@
   &__input_filter{
     width: 100%;
     padding-right: 12px;
+  }
+  &__reset_span{
+    padding-right: 20px;
+  }
+  &__rest_btn{
+    max-height: 35px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .settings_change{
+    &__black_list{
+      gap: 5px;
+    }
   }
 }
 

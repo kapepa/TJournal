@@ -17,6 +17,7 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DtoArticle } from '../dto/dto.article';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtCheckGuard } from '../auth/jwt-check.guard';
 
 @ApiTags('Article')
 @Controller(`/api/article`)
@@ -45,13 +46,14 @@ export class ArticleController {
   }
 
   @Get('/all')
+  @UseGuards(JwtCheckGuard)
   @ApiCreatedResponse({
     description: 'receive all article',
     type: DtoArticle,
   })
-  async receiveAll(@Query() query): Promise<DtoArticle[]> {
+  async receiveAll(@Query() query, @Req() req): Promise<DtoArticle[]> {
     const { list, nav } = query;
-    return await this.articleService.allArticle(list, nav);
+    return await this.articleService.allArticle(list, nav, req.user?.id);
   }
 
   @Get('/short')
@@ -98,5 +100,14 @@ export class ArticleController {
   })
   async excludeArticle(@Query('id') query, @Req() req): Promise<DtoArticle> {
     return this.articleService.excludeArticle(query, req.user.id);
+  }
+
+  @Put('/reset')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'reset all articles',
+  })
+  async resetArticle(@Req() req): Promise<any> {
+    return await this.articleService.resetArticle(req.user.id);
   }
 }

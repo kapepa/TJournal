@@ -57,8 +57,17 @@ export class UserController {
     description: 'Change data in user',
   })
   @UseInterceptors(AnyFilesInterceptor())
-  async ChangeData(@Body() body, @Req() req): Promise<any> {
+  async ChangeData(@Body() body, @Req() req): Promise<DtoUser> {
     const data = JSON.parse(JSON.stringify(body));
     return await this.userService.updateUser('id', req.user.id, data);
+  }
+
+  @Put('/swap')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'Change password user',
+  })
+  async SwapPassword(@Body() body, @Req() req): Promise<DtoUser> {
+    return this.userService.swapPassword(body.password, req.user.id);
   }
 }

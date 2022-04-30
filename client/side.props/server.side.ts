@@ -9,7 +9,7 @@ const homeRedirect = () => { return { redirect: { permanent: false, destination:
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({resolvedUrl, params, query, req, res}) => {
   const data = {} as { query: boolean, user: IUser };
   const regist = query?.registration;
-  const token = getCookies({req}).token ? getCookies({req}).token : undefined;
+  const token = getCookies({req}).token;
   const page = resolvedUrl.split('/')[1];
   const request = RequestServer(token, store.dispatch);
 

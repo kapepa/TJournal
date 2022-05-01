@@ -22,24 +22,41 @@ const Search: FC<ISearch> = ({classes}) => {
 
   const searchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const val = (e.target as HTMLInputElement).value;
-    const { word, ...other } = query;
-    const calcQuery = Boolean(val) ? {...query, word: val} : other;
 
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
+      const { word, ...other } = query;
+      const calcQuery = Boolean(val) ? {...query, word: val} : other;
       const nav = query.nav ? String(query.nav) : 'all';
+
       push({query: calcQuery});
       dispatch(cleanerArticle([]));
       dispatch(articleAll(0, nav, val));
     },2000)
   }
 
+  const searchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+  }
+
+  useEffect(() => {
+    if(query.word && inputRef.current) inputRef.current.value = String(query.word);
+  },[])
+
   return (
     <>
       <div className={`${style.search__btn} ${classes ? classes : ''}`} onClick={clickSearch} />
       <div className={`${style.search__wrapper} ${trigger ? style.search__wrapper__active : '' }`}>
         <label className={`${style.search__label} ${classes ? classes : ''}`} >
-          <input onInput={searchInput} ref={inputRef} className={style.search__input} name='search' type='text' placeholder='Поиск'/>
+          <input
+            onInput={searchInput}
+            onKeyPress={searchEnter}
+            ref={inputRef}
+            className={style.search__input}
+            name='search'
+            type='text'
+            placeholder='Поиск'
+          />
         </label>
       </div>
     </>

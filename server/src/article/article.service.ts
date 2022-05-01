@@ -70,7 +70,7 @@ export class ArticleService {
 
   async allArticle(number: number, search: string, word: string, userID: string | undefined): Promise<DtoArticle[]> {
     const props = { order: { created_at: 'DESC' } } as { where?: any; order?: any };
-    const checked = ['created_at', 'likes', 'comments', 'exclude'].includes(search);
+    const checked = ['created_at', 'likes', 'chat', 'exclude'].includes(search);
     const type = search !== 'all' ? { type: search } : {};
 
     if (word) props.where = { ...props.where, title: Like(`%${word}%`) };
@@ -80,12 +80,15 @@ export class ArticleService {
       props.where = { ...props.where, id: Not(In(exclude)) };
     }
 
-    checked ? (props.order = { [search]: 'DESC' }) : (props.where = { ...props.where, ...type });
+    checked
+      ? (props.order = { [search]: search === 'chat' ? { count: 'DESC' } : 'DESC' })
+      : (props.where = { ...props.where, ...type });
 
     return await this.articleRepository.find({
       ...props,
       take: 5,
       skip: number,
+      relations: ['chat'],
     });
   }
 

@@ -36,7 +36,7 @@ const Home: NextPage<IHomePage> = ({query}) => {
     if(position >= refScroll.current && refScroll.current !== 0){
       const artLen = store.getState().article.all.length
       if(refLength.current !== artLen){
-        dispatch(articleAll(artLen, String(router.query.nav)));
+        dispatch(articleAll(artLen, String(router.query.nav), String(router.query.word)));
         refLength.current = artLen;
       }
     }

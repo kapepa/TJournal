@@ -73,7 +73,7 @@ export class ArticleService {
     const checked = ['created_at', 'likes', 'comments', 'exclude'].includes(search);
     const type = search !== 'all' ? { type: search } : {};
 
-    if (word) props.where = { ...props.where, title: Like(word) };
+    if (word) props.where = { ...props.where, title: Like(`%${word}%`) };
 
     if (userID) {
       const { exclude } = await this.userService.findUser('id', userID);

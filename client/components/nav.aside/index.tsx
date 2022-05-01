@@ -31,7 +31,7 @@ const NavAside: FC = () => {
 
   useEffect(() => {
     dispatch(cleanerArticle([]));
-    dispatch(articleAll(0, query.nav ? String(query.nav) : 'all'));
+    dispatch(articleAll(0, query.nav ? String(query.nav) : 'all', query.word ? String(query.word) : ''));
   },[query])
 
   useEffect(() => {
@@ -89,11 +89,11 @@ const NavAside: FC = () => {
           </Link>
         </li>
         <li className={style.nav_aside__li}>
-          <Link href={ collectorQuery('comments') }>
+          <Link href={ collectorQuery('chat') }>
             <a
-              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'comments' ? style.nav_aside__link__active : ''}`}
+              className={`flex align-items-center ${style.nav_aside__link}  ${link === 'chat' ? style.nav_aside__link__active : ''}`}
               onClick={clickSearch}
-              data-link='comments'
+              data-link='chat'
             >
               <svg className={style.nav_aside__svg} height="24" width="24" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg">
                 <path className={style.nav_aside__path} d="M23.93,2H8.07a2.8,2.8,0,0,0-2.8,2.8V27.2A2.8,2.8,0,0,0,8.07,30H23.93a2.8,2.8,0,0,0,2.8-2.8V4.8A2.8,2.8,0,0,0,23.93,2Zm.94,25.2a.94.94,0,0,1-.94.93H8.07a.94.94,0,0,1-.94-.93V4.8a.94.94,0,0,1,.94-.93H23.93a.94.94,0,0,1,.94.93Z"/>

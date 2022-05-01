@@ -20,8 +20,8 @@ export const RequestServer = (token: string | undefined , dispatch: any) => {
         .catch( err => console.error(err) );
       dispatch(setArticle(article ? article : {}))
     },
-    async AllArticle (number: number, nav: string) {
-      const all = await Axios.get(`/api/article/all?list=${number}&nav=${nav}`)
+    async AllArticle (number: number, nav: string, word: string) {
+      const all = await Axios.get(`/api/article/all?list=${number}&nav=${nav}&word=${word}`)
         .then( res => res.data )
         .catch( err => console.error(err));
       dispatch(allArticle(all ? all : []))

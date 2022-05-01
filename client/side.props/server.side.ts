@@ -16,7 +16,7 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   if(!store.getState().user.id && token) await request.Profile();
   if(/article/.test(page) && params && token) await request.Article(String(params.id));
   if(/home/.test(page)) {
-    await request.AllArticle(0, query.nav ? String(query.nav) : 'all');
+    await request.AllArticle(0, query.nav ? String(query.nav) : 'all', query.word ? String(query.word) : '');
     await request.ShortArticle(0);
   }
 

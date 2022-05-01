@@ -8,6 +8,7 @@
     line-height: 26px;
     margin-right: 4px;
     margin-bottom: 12px;
+    position: relative;
   }
   &__main{
     position: static;
@@ -16,8 +17,11 @@
     position: static;
   }
   &__message{
-    position: relative;
-    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     font-size: 12px;
     padding-left: 20px;
     &::before{
@@ -25,8 +29,8 @@
       background-image: url("../../public/message.svg");
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      left: 2px;
+      transform: translate(50%, -50%);
+      left: 100%;
       width: 14px;
       height: 14px;
     }

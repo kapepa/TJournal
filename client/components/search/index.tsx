@@ -1,8 +1,9 @@
-import React, { FC, useState, useRef } from 'react';
+import React, {FC, useState, useRef, useEffect} from 'react';
 import style from './style.module.scss';
 import {articleAll} from "../../redux/article/articleAction";
 import {useDispatch} from "react-redux";
 import {cleanerArticle} from "../../redux/article/articleSlice";
+import {useRouter} from "next/router";
 
 interface ISearch {
   classes?: string,
@@ -10,6 +11,7 @@ interface ISearch {
 
 const Search: FC<ISearch> = ({classes}) => {
   const dispatch = useDispatch();
+  const { push, query } = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const timeoutRef = useRef<any>();
   const [trigger, setTrigger] = useState<Boolean>(false);
@@ -20,11 +22,16 @@ const Search: FC<ISearch> = ({classes}) => {
 
   const searchInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const val = (e.target as HTMLInputElement).value;
+    const { word, ...other } = query;
+    const calcQuery = Boolean(val) ? {...query, word: val} : other;
+
     clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
+      const nav = query.nav ? String(query.nav) : 'all';
+      push({query: calcQuery});
       dispatch(cleanerArticle([]));
-      dispatch(articleAll(0, 'all', val));
-    },2500)
+      dispatch(articleAll(0, nav, val));
+    },2000)
   }
 
   return (

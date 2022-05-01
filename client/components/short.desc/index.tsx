@@ -37,12 +37,14 @@ const ShortDesc: FC<IShortDesc> = ({user}) => {
     <div className={`flex flex-direction-column ${style.short_desc}`}>
       <div className={`flex flex-direction-column`}>
         {state?.map((el: IListNews, i: number) => (
-          <Link href={`/article/${el.id}`} key={`desc-${i}`}>
-            <a
-              onClick={checkAuth}
-              className={`${style.short_desc__link}`}
-            >{el.title} <span className={`${style.short_desc__message}`}>{el.comments}</span></a>
-          </Link>
+          <div key={`desc-${i}`}>
+            <Link href={`/article/${el.id}`}>
+              <a
+                onClick={checkAuth}
+                className={`${style.short_desc__link}`}
+              >{el.title} <span className={`${style.short_desc__message}`}>{el.comments}</span></a>
+            </Link>
+          </div>
         ))}
       </div>
       <div className={`${style.short_desc__footer}`}>

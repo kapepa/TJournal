@@ -65,6 +65,8 @@ const HeaderPanel: FC = () => {
       setPopup({ navAside: false, registration: false, editor: false })
     } else if (router.query.editor === 'true'){
       setPopup({ navAside: false, registration: false, editor: true })
+    } else if (router.query.registration === 'true') {
+      setPopup({ navAside: false, registration: true, editor: false })
     }
   },[router.query])
 

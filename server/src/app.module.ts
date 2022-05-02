@@ -23,6 +23,7 @@ import { SubscribeModule } from './subscribe/subscribe.module';
 import { SubscribeEntity } from './subscribe/subscribe.entity';
 import { ChatModule } from './chat/chat.module';
 import { AnswerEntity, ChatEntity } from './chat/chat.entity';
+import { SocketModule } from './socket/socket.module';
 
 config();
 
@@ -58,6 +59,7 @@ config();
     SettingsModule,
     SubscribeModule,
     ChatModule,
+    SocketModule,
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
 })

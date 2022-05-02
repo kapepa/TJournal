@@ -1,11 +1,11 @@
 import {NextPage} from "next";
 import style from './style.module.scss';
-import LayoutDefault from "../../layout/layout.default";
+import LayoutDefault, {DataContext} from "../../layout/layout.default";
 import ServerSideProps from "../../side.props/server.side";
 import {IQuery} from "../../dto/query";
 import News from "../../components/news";
 import Chat from "../../components/chat";
-import React, {useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
 
@@ -14,12 +14,15 @@ interface IArticlePage {
 }
 
 const Article: NextPage<IArticlePage> = ({query}) => {
+  const { socket } = useContext(DataContext);
   const { detailed } = useSelector(( store: any ) => store.article);
   const router = useRouter();
 
   useEffect(() =>{
     if(window && !detailed.id) router.push('/home');
   },[])
+
+  console.log( socket)
 
   return (
     <LayoutDefault title={'Article'} query={query}>

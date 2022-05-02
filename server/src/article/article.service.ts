@@ -49,7 +49,7 @@ export class ArticleService {
     const answer = await this.chatService.findAnswerAll(article.chat.id, 0);
     const myLikes = articleLikes.some((el) => el.id === userID);
 
-    return { ...article, subscribe: { ...other, sub }, chat: { ...chat, answer }, myLikes};
+    return { ...article, subscribe: { ...other, sub }, chat: { ...chat, answer }, myLikes };
   }
 
   async findArticle(key: string, val: string): Promise<DtoArticle> {

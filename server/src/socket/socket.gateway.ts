@@ -1,6 +1,8 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'ws';
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('socket')
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -17,10 +19,10 @@ export class SocketGateway {
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    // console.log(`Client disconnected: ${client.id}`);
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Client connected: ${client.id}`);
+    // console.log(`Client connected: ${client.id}`);
   }
 }

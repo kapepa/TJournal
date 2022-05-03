@@ -8,21 +8,19 @@ import Chat from "../../components/chat";
 import React, {useContext, useEffect} from "react";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/router";
+import SocketIO from "../../helpers/socket.io";
 
 interface IArticlePage {
   query: IQuery,
 }
 
 const Article: NextPage<IArticlePage> = ({query}) => {
-  const { socket } = useContext(DataContext);
   const { detailed } = useSelector(( store: any ) => store.article);
   const router = useRouter();
 
   useEffect(() =>{
     if(window && !detailed.id) router.push('/home');
   },[])
-
-  console.log( socket)
 
   return (
     <LayoutDefault title={'Article'} query={query}>

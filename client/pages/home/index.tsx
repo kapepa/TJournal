@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import LayoutDefault, {DataContext} from "../../layout/layout.default";
+import LayoutDefault from "../../layout/layout.default";
 import ServerSideProps from "../../side.props/server.side";
 import {IQuery} from "../../dto/query";
 import {IArticle} from "../../dto/news";
@@ -7,20 +7,15 @@ import style from './style.module.scss';
 import ShortDesc from "../../components/short.desc";
 import ShortNews from "../../components/short.news";
 import {useDispatch, useSelector, useStore} from "react-redux";
-import {useContext, useEffect, useRef} from "react";
+import {useEffect, useRef} from "react";
 import {articleAll} from "../../redux/article/articleAction";
 import {useRouter} from "next/router";
-import SocketIO from "../../helpers/socket.io";
 
 interface IHomePage {
   query: IQuery,
 }
 
 const Home: NextPage<IHomePage> = ({query}) => {
-  const { socket } = useContext(DataContext);
-
-  console.log(socket)
-
   const store = useStore()
   const dispatch = useDispatch();
   const router = useRouter();

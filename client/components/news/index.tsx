@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, useContext, useEffect} from "react";
 import style from './style.module.scss';
 import NewsType from "../news.type";
 import TimeCreate from "../time.create";
@@ -9,12 +9,14 @@ import SubscribePanel from "../subscribe.panel";
 import {useDispatch, useSelector} from "react-redux";
 import {IArticle} from "../../dto/news";
 import {articleLikes} from "../../redux/article/articleAction";
+import {DataContext} from "../../layout/layout.default";
 
 interface INews {
   article: IArticle;
 }
 
 const News: FC<INews> = ({article}) => {
+  const { socket } = useContext(DataContext);
   const dispatch = useDispatch();
   const user = useSelector(( store: any ) => store.user);
   const splitText = (text: string) => {
@@ -36,6 +38,10 @@ const News: FC<INews> = ({article}) => {
   const likeArticle = (article: IArticle) => {
     dispatch(articleLikes(article));
   };
+
+  // useEffect(() => {
+  //   console.log(socket)
+  // },[socket])
 
   return (
     <article className={`${style.article}`}>

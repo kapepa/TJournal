@@ -17,6 +17,10 @@ export class AuthService {
     return token;
   }
 
+  async JwtVerify(token: string): Promise<any> {
+    return jwt.verify(token, process.env.JWT_TOKEN);
+  }
+
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.userService.loginUser('email', email);
     const match = await bcrypt.compare(pass, user.password);

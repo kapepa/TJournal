@@ -50,6 +50,7 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
     if(window) window.addEventListener('click', globalClick);
     if(window) SocketIO.on('connect', () => setSocket(SocketIO));
 
+    console.log(SocketIO.id)
     return () => {
       window.removeEventListener('click', globalClick);
     }

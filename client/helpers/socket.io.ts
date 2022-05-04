@@ -4,7 +4,7 @@ import config from "../config";
 
 const SocketIO = io(config.url,{
   auth: { token: `Bearer ${cookie.get('token')}` },
-  // query: { id: 'sdasasd'}
+  transports: ['websocket'],
 });
 
 export default SocketIO;

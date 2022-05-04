@@ -40,8 +40,14 @@ const News: FC<INews> = ({article}) => {
   };
 
   // useEffect(() => {
-  //   console.log(socket)
-  // },[socket])
+  //   if(window && socket.connected){
+  //     console.log(socket.id)
+  //     socket.emit('join',{room: article.id})
+  //   }
+  //   return () => {
+  //     if(window && socket.connected) socket.emit('gone',{room: article.id})
+  //   }
+  // },[socket.connected])
 
   return (
     <article className={`${style.article}`}>

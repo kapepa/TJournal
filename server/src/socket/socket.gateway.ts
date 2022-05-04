@@ -39,15 +39,21 @@ export class SocketGateway {
     const { room } = payload;
   }
 
+
   handleDisconnect(client: Socket) {
     // console.log(`Client disconnected: ${client.id}`);
   }
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const authToken: string = client.handshake?.auth?.token.split(' ').pop();
+    // client.engine.generateId = () => {
+    //   return 'asdasda12312312231231231231231';
+    // };
     // if(authToken)
     // client.id = client.user.id;
-    console.log(authToken);
+    // console.log(authToken);
+
+    console.log(client.id);
     // console.log(`Client connected: ${client.id}`);
   }
 }

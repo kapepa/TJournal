@@ -61,6 +61,10 @@ const Chat: FC<IChat> = ({article}) => {
     return () => window.removeEventListener('scroll', answerLoad);
   },[])
 
+  useEffect(() => {
+
+  },[])
+
   return (
     <div className={`${style.chat}`}>
       <div className={`flex flex-direction-column ${style.chat__frame} ${style.chat__area}`}>

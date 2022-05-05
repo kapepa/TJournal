@@ -2,6 +2,7 @@ import React, {FC, useRef} from 'react';
 import Link from 'next/link'
 import style from './style.module.scss';
 import config from "../../config";
+import {useSelector} from "react-redux";
 
 enum ESize {
   fourty,
@@ -19,12 +20,14 @@ interface IAvatar{
   image?: string,
   name: string,
   path?: string,
+  userId?: string,
 }
 
-const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
+const Avatar: FC<IAvatar> = ({ size, image, name, path, type, userId }) => {
+  const online = useSelector(( store: any ) => store.online);
   const sizeImageRef = useRef<string>();
   const viewRef = useRef<string>();
-  const symbol = name.charAt(0);
+  const symbol = name.charAt(0).toUpperCase();
   const urlConfig = (image && /http/.test(image)) ? image : `${config.url}/${image}`
 
   switch (type){
@@ -40,9 +43,10 @@ const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
 
   return (
     <>
-      {path ?
-        <Link href={path}>
+      {path
+        ? <Link href={path}>
           <a className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current} ${image ? '' : style.avatar__color}`}>
+            {online.includes(userId) && <div className={style.avatar__online} />}
             {image ?
               <img
                 className={`${style.avatar__image} ${viewRef.current} ${type}`}
@@ -54,8 +58,9 @@ const Avatar: FC<IAvatar> = ({ size, image, name, path, type }) => {
               >{symbol}</span>
             }
           </a>
-        </Link>:
-        <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current} ${image ? '' : style.avatar__color}`}>
+        </Link>
+        : <div className={`flex justify-content-center align-items-center ${style.avatar} ${sizeImageRef.current} ${image ? '' : style.avatar__color}`}>
+          {online.includes(userId) && <div className={style.avatar__online} />}
           {image ?
             <img className={`${style.avatar__image} ${viewRef.current} ${type}`} src={urlConfig} alt='avatar'/> :
             <span className={`${style.avatar__symbol}`}>{symbol}</span>

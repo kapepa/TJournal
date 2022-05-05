@@ -8,7 +8,6 @@ export default class WsJwtGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
-      console.log(context.switchToWs().getClient());
       const client = context.switchToWs().getClient();
       const authToken: string = client.handshake?.auth?.token.split(' ').pop();
       const user = await this.authService.JwtVerify(authToken);

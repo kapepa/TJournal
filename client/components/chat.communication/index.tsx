@@ -26,6 +26,7 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
         change={change}
         text={textList[el.id]?.answer}
         query={el.id}
+        userId={el?.user?.id}
       >
         {Boolean(el.nested?.length) && el.nested?.map((nested,index) =>
           <AnswerComment
@@ -37,6 +38,7 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
             text={textList[el.id]?.answer}
             nested={true}
             query={el.id}
+            userId={nested?.user?.id}
           />
         )}
       </AnswerComment>)}

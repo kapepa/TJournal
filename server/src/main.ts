@@ -12,7 +12,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  // app.useWebSocketAdapter(new WsAdapter(app));
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(5000, () => console.log('server is run, port 5000'));
 }

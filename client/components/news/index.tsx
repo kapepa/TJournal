@@ -39,15 +39,15 @@ const News: FC<INews> = ({article}) => {
     dispatch(articleLikes(article));
   };
 
-  // useEffect(() => {
-  //   if(window && socket.connected){
-  //     console.log(socket.id)
-  //     socket.emit('join',{room: article.id})
-  //   }
-  //   return () => {
-  //     if(window && socket.connected) socket.emit('gone',{room: article.id})
-  //   }
-  // },[socket.connected])
+  useEffect(() => {
+    if(window && socket.connected){
+      // console.log(socket.id)
+      // socket.emit('join',{room: article.id})
+    }
+    return () => {
+      if(window && socket.connected) socket.emit('gone',{room: article.id})
+    }
+  },[socket.connected])
 
   return (
     <article className={`${style.article}`}>

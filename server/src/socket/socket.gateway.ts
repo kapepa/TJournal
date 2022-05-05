@@ -3,6 +3,7 @@ import { Server, Socket } from 'ws';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
 import WsAuthGuard from './ws-auth.guard';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('socket')
 @WebSocketGateway({
@@ -13,7 +14,9 @@ import WsAuthGuard from './ws-auth.guard';
 export class SocketGateway {
   @WebSocketServer()
   server: Server;
-  private roomMap = new Map<string, string[]>();
+  private RoomMap = new Map<string, string[]>();
+  private Online = new Map();
+  constructor(private authService: AuthService) {}
 
   @SubscribeMessage('join')
   @UseGuards(WsAuthGuard)
@@ -39,21 +42,22 @@ export class SocketGateway {
     const { room } = payload;
   }
 
-
   handleDisconnect(client: Socket) {
-    // console.log(`Client disconnected: ${client.id}`);
+    if (this.Online.has(client.id)){
+      client.leave('online');
+      client.broadcast.to('online').emit('offline', this.Online.get(client.id));
+      this.Online.delete(client.id);
+    }
   }
 
   async handleConnection(client: Socket) {
     const authToken: string = client.handshake?.auth?.token.split(' ').pop();
-    // client.engine.generateId = () => {
-    //   return 'asdasda12312312231231231231231';
-    // };
-    // if(authToken)
-    // client.id = client.user.id;
-    // console.log(authToken);
-
-    console.log(client.id);
-    // console.log(`Client connected: ${client.id}`);
+    if (authToken && authToken !== 'undefined') {
+      const { id } = await this.authService.JwtVerify(authToken);
+      this.Online.set(client.id, id);
+      client.join('online');
+      client.broadcast.to('online').emit('online', id);
+      client.emit('allOnline', [...this.Online.values()]);
+    }
   }
 }

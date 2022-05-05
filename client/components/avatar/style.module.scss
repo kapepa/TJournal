@@ -1,7 +1,8 @@
 .avatar{
   border-radius: 8px;
   cursor: pointer;
-  overflow: hidden;
+  //overflow: hidden;
+  position: relative;
   &__fourty{
     width: 40px;
     height: 40px;
@@ -27,7 +28,27 @@
     border-radius: 4px;
   }
   &__color{
-    background-color: #2ea83a;
+    background-color: darkgreen;
+  }
+  &__online{
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 0;
+    bottom: 0;
+    &::before{
+      content: '';
+      border-radius: 50%;
+      background-color: #2ea83a;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+    }
   }
 }
 

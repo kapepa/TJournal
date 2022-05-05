@@ -16,9 +16,10 @@ interface IAnswerComment{
   text?: string | undefined,
   nested?: boolean,
   query: string,
+  userId?: string,
 }
 
-const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, nested, query, children}) => {
+const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, nested, query, children, userId}) => {
   const { win } = useContext(DataContext);
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
@@ -57,7 +58,7 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, neste
     <div className={`${style.chat_comment}`}>
       <div className={`flex justify-content-between`}>
         <div className={`flex ${style.chat_comment__user}`}>
-          {answer.user && <Avatar image={answer.user.avatar} name={answer.user.name} size='thirty' type='circle' />}
+          {answer.user && <Avatar image={answer.user.avatar} name={answer.user.name} size='thirty' type='circle' userId={userId} />}
           <div className={`flex flex-direction-column ${style.chat_comment__nic}`}>
             {answer.user && <span className={`${style.chat_comment__aliase}`}>{answer.user.name}</span>}
             {answer.user && <span className={`${style.chat_comment__date}`}>{`${getDay} ${monthRef.current}`}</span>}

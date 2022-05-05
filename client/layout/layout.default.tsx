@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Cookies from "js-cookie";
 import {createContext, useEffect, useRef, useState} from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector, useStore} from "react-redux";
 import Head from 'next/head';
 import Axios from "../helpers/axios";
 import HeaderPanell from "../components/header.panel";
@@ -11,6 +11,7 @@ import { IArticle } from "../dto/news";
 import PopupWrong from "../components/popup.wrong";
 import { Socket } from "socket.io-client";
 import SocketIO from "../helpers/socket.io";
+import {setOnline} from "../redux/online/onlineSlice";
 
 interface IWrong {
   active: boolean,
@@ -35,7 +36,9 @@ interface IContext {
 export const DataContext = createContext({} as IContext);
 
 const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
+  const dispatch = useDispatch();
   const profile = useSelector(( store: any ) => store.user);
+  const online = useSelector(( store: any ) => store.online);
   const token = Cookies.get('token');
   const [win, setWin] = useState<number>(Date.now());
   const [wrong, setWrong] = useState<IWrong>({} as IWrong);
@@ -49,12 +52,29 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
     if(Cookies.get('token') && !profile.id) Cookies.remove('token');
     if(window) window.addEventListener('click', globalClick);
     if(window) SocketIO.on('connect', () => setSocket(SocketIO));
-
-    console.log(SocketIO.id)
     return () => {
       window.removeEventListener('click', globalClick);
     }
   },[]);
+
+  useEffect(() => {
+    if(window){
+      SocketIO.on('allOnline',(list: string[]) => {
+        dispatch(setOnline(list))
+      })
+      SocketIO.on('online',(id: string) => {
+        if(!online.includes(id) && window) dispatch(setOnline([...online, id]))
+      })
+      SocketIO.on('offline',(id: string) => {
+        const index = online.findIndex((key: string) => key === id);
+        if(index !== -1){
+          const del = [].concat(online)
+          del.splice(index, 1);
+          dispatch(setOnline(del))
+        }
+      })
+    }
+  },[online])
 
   useEffect(() => {
     Axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
@@ -75,7 +95,6 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
         <HeaderPanell />
       </header>
       <main id="main">
-        {/*<div className="container">{SocketIO.connected && children}</div>*/}
         <div className="container">{children}</div>
       </main>
       <footer id="footer"/>

@@ -3,12 +3,14 @@ import {Action} from 'redux';
 import {createWrapper} from "next-redux-wrapper";
 import {userSlice} from "./user/userSlice";
 import {articleSlice} from "./article/articleSlice";
+import {onlineSlice} from "./online/onlineSlice";
 
 const makeStore = () =>
   configureStore({
     reducer: {
       [userSlice.name]: userSlice.reducer,
       [articleSlice.name]: articleSlice.reducer,
+      [onlineSlice.name]: onlineSlice.reducer
     },
     devTools: true,
   });

@@ -78,8 +78,9 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
 
   useEffect(() => {
     Axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
-
-    //reconnect SocketIO
+    socket.auth = {token: `Bearer ${token}`};
+    // socket.disconnect().connect();
+    console.log(token)
   },[token]);
 
   useEffect(() => {

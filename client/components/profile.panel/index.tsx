@@ -14,6 +14,7 @@ import config from "../../config";
 import Cover from "../cover";
 import Axios from "../../helpers/axios";
 import SocketIO from "../../helpers/socket.io";
+import {DataContext} from "../../layout/layout.default";
 
 interface IState{
   file: IFile,
@@ -25,6 +26,7 @@ interface IProfilePanel {
 }
 
 const ProfilePanel: FC<IProfilePanel> = ({query,}) => {
+  const { socket } = useContext(DataContext);
   const router = useRouter();
   const user = useSelector(( store: any ) => store.user);
   const dispatch = useDispatch();
@@ -75,6 +77,7 @@ const ProfilePanel: FC<IProfilePanel> = ({query,}) => {
     Axios.defaults.headers.common = {'Authorization': ``};
     await router.push('/home');
     dispatch(setProfile({}))
+    socket.emit('exit');
   }
 
   const cleanCover = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => loadCover({cover: null, reader: null})

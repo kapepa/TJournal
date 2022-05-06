@@ -1,4 +1,4 @@
-import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { ConnectedSocket, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'ws';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
@@ -42,18 +42,24 @@ export class SocketGateway {
     const { room } = payload;
   }
 
+  @SubscribeMessage('exit')
+  @ApiCreatedResponse({
+    description: 'exit user',
+  })
+  exist(client: Socket) {
+    this.existUser(client);
+  }
+
   handleDisconnect(client: Socket) {
-    console.log(this.Online.has(client.id));
-    if (this.Online.has(client.id)) {
-      client.leave('online');
-      client.broadcast.to('online').emit('offline', this.Online.get(client.id));
-      this.Online.delete(client.id);
-    }
+    this.existUser(client);
   }
 
   async handleConnection(client: Socket) {
+    await this.loginUser(client);
+  }
+
+  async loginUser(client: Socket) {
     const authToken: string = client.handshake?.auth?.token.split(' ').pop();
-    // console.log(client.id);
     if (authToken && authToken !== 'undefined') {
       const { id } = await this.authService.JwtVerify(authToken);
       this.Online.set(client.id, id);
@@ -61,5 +67,17 @@ export class SocketGateway {
       client.broadcast.to('online').emit('online', id);
       client.emit('allOnline', [...this.Online.values()]);
     }
+  }
+
+  existUser(client: Socket) {
+    if (this.Online.has(client.id)) {
+      client.leave('online');
+      client.broadcast.to('online').emit('offline', this.Online.get(client.id));
+      this.Online.delete(client.id);
+    }
+  }
+
+  afterInit(client: Socket) {
+    console.log(client, 'afterInit');
   }
 }

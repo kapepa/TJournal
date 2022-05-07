@@ -59,9 +59,8 @@ export class SocketGateway {
   })
   async online(client: Socket) {
     if (client.user?.id) {
-      console.log(client.id);
-      client.broadcast.to('online').emit('listener', client.id);
       client.join('online');
+      client.broadcast.in('online').emit('listener', client.id);
       return [...client.adapter.rooms.get('online').values()];
     }
   }
@@ -79,12 +78,16 @@ export class SocketGateway {
     const authToken: string = client.handshake?.auth?.token.split(' ').pop();
     if (authToken && authToken !== 'undefined') {
       const { id } = await this.authService.JwtVerify(authToken);
-      // console.log(client.id, 'Connection');
+
       client.adapter.rooms.delete(client.id);
       client.adapter.sids.delete(client.id);
-      client.id = id;
       client.adapter.rooms.set(id, new Set([id]));
       client.adapter.sids.set(id, new Set([id]));
+
+      const user = client.nsp.sockets.get(client.id);
+      user.id = id;
+      client.nsp.sockets.delete(client.id);
+      client.nsp.sockets.set(id, user);
     }
   }
 }

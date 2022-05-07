@@ -51,7 +51,10 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
   useEffect( () => {
     if(Cookies.get('token') && !profile.id) Cookies.remove('token');
     if(window) window.addEventListener('click', globalClick);
-    if(window) SocketIO.on('connect', () => setSocket(SocketIO));
+    if(window) SocketIO.on('connect', () => {
+      console.log(SocketIO.id)
+      setSocket(SocketIO)
+    });
     return () => {
       window.removeEventListener('click', globalClick);
     }
@@ -59,13 +62,15 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
 
   useEffect(() => {
     if(window){
-      SocketIO.on('allOnline',(list: string[]) => {
+      SocketIO.emit('online',null, (list: string[]) => {
         dispatch(setOnline(list))
       })
-      SocketIO.on('online',(id: string) => {
+      SocketIO.on('listener',(id: string) => {
+        console.log(id,'listener')
         if(!online.includes(id) && window) dispatch(setOnline([...online, id]))
       })
       SocketIO.on('offline',(id: string) => {
+        console.log(id, 'offline')
         const index = online.findIndex((key: string) => key === id);
         if(index !== -1){
           const del = [].concat(online)
@@ -74,13 +79,10 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
         }
       })
     }
-  },[online])
+  },[online.length])
 
   useEffect(() => {
     Axios.defaults.headers.common = {'Authorization': `Bearer ${token}`};
-    socket.auth = {token: `Bearer ${token}`};
-    // socket.disconnect().connect();
-    console.log(token)
   },[token]);
 
   useEffect(() => {

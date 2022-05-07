@@ -18,7 +18,7 @@ interface ILogin{
 
 const FormLogin: FC = () => {
   const router = useRouter();
-  const { wrong } = useContext(DataContext);
+  const { wrong, socket } = useContext(DataContext);
   const recaptchaRef = React.createRef<ReCAPTCHA>();
   const [warning, setWarning] = useState<boolean>(false);
   const [login, setLogin] = useState<ILogin>({email: 'kapepa@mail.ru', password: '123456'} as ILogin);
@@ -34,7 +34,7 @@ const FormLogin: FC = () => {
   const submitLogin = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     // recaptchaRef.current?.execute();
-    sendLogin()
+    sendLogin();
   }
 
   const changeRecaptcha = async (captchaCode: string | null) => {
@@ -48,6 +48,8 @@ const FormLogin: FC = () => {
       setWarning(false);
       SubmitLogin(login, wrong).then(token => {
         if(!token) return;
+        socket.auth = {token: `Bearer ${token}`};
+        socket.disconnect().connect();
         Cookies.set('token', token);
         router.push('/home', { query: {}});
       })

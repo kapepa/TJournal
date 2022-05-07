@@ -1,4 +1,4 @@
-import { ConnectedSocket, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'ws';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UseGuards } from '@nestjs/common';
@@ -10,12 +10,12 @@ import { AuthService } from '../auth/auth.service';
   cors: {
     origin: '*',
   },
+  middlewares: [],
 })
 export class SocketGateway {
   @WebSocketServer()
   server: Server;
-  private RoomMap = new Map<string, string[]>();
-  private Online = new Map();
+  private ArticleMap = new Map<string, Map<string, string>>();
   constructor(private authService: AuthService) {}
 
   @SubscribeMessage('join')
@@ -24,13 +24,13 @@ export class SocketGateway {
     description: 'Join user to room',
   })
   joinRoom(client: Socket, payload: any) {
-    // const { room } = payload;
-    // client.join(room, { userId: client.user.id });
-    // client.broadcast.to(room).emit([]);
+    const { id } = client.user;
+    const { articleID } = payload;
+    if (!this.ArticleMap.has(articleID)) this.ArticleMap.set(articleID, new Map());
 
-    // console.log(client.user.id);
-    // console.log(client.adapter.rooms.get(room));
-    return 'Hello world!';
+    const article = this.ArticleMap.get(articleID);
+    article.set(client.id, id);
+    client.join(articleID);
   }
 
   @SubscribeMessage('leave')
@@ -39,45 +39,52 @@ export class SocketGateway {
     description: 'Leave user of room',
   })
   leaveRoom(client: Socket, payload: any) {
-    const { room } = payload;
+    const { articleID } = payload;
+    client.leave(articleID);
+    client.broadcast.to(articleID).emit('offline', client.id);
   }
 
   @SubscribeMessage('exit')
   @ApiCreatedResponse({
     description: 'exit user',
   })
-  exist(client: Socket) {
-    this.existUser(client);
+  async exist(client: Socket) {
+    await this.existUser(client);
   }
 
-  handleDisconnect(client: Socket) {
-    this.existUser(client);
+  @SubscribeMessage('online')
+  @UseGuards(WsAuthGuard)
+  @ApiCreatedResponse({
+    description: 'online users',
+  })
+  async online(client: Socket) {
+    if (client.user?.id) {
+      console.log(client.id);
+      client.broadcast.to('online').emit('listener', client.id);
+      client.join('online');
+      return [...client.adapter.rooms.get('online').values()];
+    }
+  }
+
+  async existUser(client: Socket) {
+    client.leave('online');
+    client.broadcast.to('online').emit('offline', client.id);
+  }
+
+  async handleDisconnect(client: Socket) {
+    await this.existUser(client);
   }
 
   async handleConnection(client: Socket) {
-    await this.loginUser(client);
-  }
-
-  async loginUser(client: Socket) {
     const authToken: string = client.handshake?.auth?.token.split(' ').pop();
     if (authToken && authToken !== 'undefined') {
       const { id } = await this.authService.JwtVerify(authToken);
-      this.Online.set(client.id, id);
-      client.join('online');
-      client.broadcast.to('online').emit('online', id);
-      client.emit('allOnline', [...this.Online.values()]);
+      // console.log(client.id, 'Connection');
+      client.adapter.rooms.delete(client.id);
+      client.adapter.sids.delete(client.id);
+      client.id = id;
+      client.adapter.rooms.set(id, new Set([id]));
+      client.adapter.sids.set(id, new Set([id]));
     }
-  }
-
-  existUser(client: Socket) {
-    if (this.Online.has(client.id)) {
-      client.leave('online');
-      client.broadcast.to('online').emit('offline', this.Online.get(client.id));
-      this.Online.delete(client.id);
-    }
-  }
-
-  afterInit(client: Socket) {
-    console.log(client, 'afterInit');
   }
 }

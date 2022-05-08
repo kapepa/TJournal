@@ -17,10 +17,11 @@ interface IAnswerComment{
   nested?: boolean,
   query: string,
   userId?: string,
+  articleID: string,
 }
 
-const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, nested, query, children, userId}) => {
-  const { win } = useContext(DataContext);
+const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, nested, query, children, userId, articleID}) => {
+  const { win, socket } = useContext(DataContext);
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
   const monthRef = useRef<string>();
@@ -33,6 +34,7 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, neste
 
     if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, query, i))
     if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, query, i))
+    socket.emit('changeLikesAnswer',{articleID, answerID: answer.id, position: i});
   }
 
   switch (getMonth){

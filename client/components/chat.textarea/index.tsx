@@ -57,18 +57,26 @@ const ChatTextarea: FC<IChatTextarea> = ({classes, placeholder, send, change, op
         suppressContentEditableWarning={true}
         className={style.chat_textarea__text}
         placeholder={placeholder}
-        onKeyDown={change}
+        onKeyDown={(e) => {
+          change(e)
+          setState({...state, open: true})
+        }}
         data-to={to}
         data-id={id}
         ref={refSpan}
       />
       {state.open && <div className={`flex ${style.chat_textarea__btn_wrapper}`}>
-        <ButtonDefault text='Отправит' cb={(e) => {
-          e.stopPropagation();
-          setState({...state, open: false})
-          send(id, null);
-          if(refSpan.current) refSpan.current.textContent = text ? text : placeholder;
-        }} type='blue'/>
+        <ButtonDefault
+          text={ Boolean(refSpan.current?.textContent) ? 'Отправит' : 'Закрыть' }
+          type='blue'
+          classes={style.chat_textarea__btn}
+          cb={(e) => {
+            e.stopPropagation();
+            setState({...state, open: false})
+            send(id, null);
+            if(refSpan.current) refSpan.current.textContent = text ? text : placeholder;
+          }}
+        />
       </div>}
     </div>
   )

@@ -51,7 +51,10 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
   useEffect( () => {
     if(Cookies.get('token') && !profile.id) Cookies.remove('token');
     if(window) window.addEventListener('click', globalClick);
-    if(window) SocketIO.on('connect', () => setSocket(SocketIO));
+    if(window) SocketIO.on('connect', () => {
+      setSocket(SocketIO);
+      SocketIO.emit('online',null, (list: string[]) => dispatch(setOnline(list)));
+    });
     return () => {
       window.removeEventListener('click', globalClick);
     }
@@ -59,11 +62,8 @@ const LayoutDefault: NextPage<ILayoutDefault> = ({title, query, children }) => {
 
   useEffect(() => {
     if(window){
-      SocketIO.emit('online',null, (list: string[]) => {
-        dispatch(setOnline(list))
-      })
       SocketIO.on('listener',(id: string) => {
-        if(!online.includes(id) && window) dispatch(setOnline([...online, id]))
+        if(!online.includes(id) && window) dispatch(setOnline([...online, id]));
       })
       SocketIO.on('offline',(id: string) => {
         const index = online.findIndex((key: string) => key === id);

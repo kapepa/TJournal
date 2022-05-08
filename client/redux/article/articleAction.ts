@@ -12,6 +12,13 @@ export const articleShort = (number: number): AppThunk => async dispatch => {
   dispatch(articleSlice.actions.setShort(short));
 };
 
+export const getOneAnswer = (id: string, index: number): AppThunk => async dispatch => {
+  const answer = await Axios.get(`/api/chat/one?id=${id}`)
+    .then(res => res.data)
+    .catch(err => console.error(err))
+  dispatch(articleSlice.actions.updateAnswer({answer, i: index}))
+}
+
 export const loadAnswer = (id: string, length: number, take = 5): AppThunk => async dispatch => {
   const answer = await Axios.get(`/api/chat/answer?id=${id}&length=${length}&take=${take}`)
     .then(res => res.data)

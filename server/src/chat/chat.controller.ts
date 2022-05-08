@@ -9,6 +9,16 @@ import { DtoAnswer, DtoChat } from '../dto/dto.chat';
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
+  @Get('/one')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'get one answer',
+    type: DtoAnswer,
+  })
+  async getOne(@Query('id') query): Promise<any> {
+    return await this.chatService.findAnswerOne('id', query);
+  }
+
   @Get('/answer')
   @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({

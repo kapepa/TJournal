@@ -83,10 +83,10 @@ export class UserEntity {
   @Column()
   name: string;
 
-  @Column({ unique: true, select: true })
+  @Column({ unique: true, select: false })
   email: string;
 
-  @Column({ default: '', select: true })
+  @Column({ default: '', select: false })
   password: string;
 
   @Column({ default: '' })

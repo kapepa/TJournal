@@ -28,13 +28,20 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, neste
   const date = new Date(answer.created_at);
   const getDay = date.getDate();
   const getMonth = date.getMonth();
-  const clickLikes = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const clickLikes = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
 
-    if(data === 'decrease' && answer.myLikes) dispatch(answerLikes({...answer, myLikes: false }, query, i))
-    if(data === 'increase' && !answer.myLikes) dispatch(answerLikes({...answer, myLikes: true }, query, i))
-    socket.emit('changeLikesAnswer',{articleID, answerID: answer.id, position: i});
+    console.log (data === 'decrease' , answer.myLikes)
+    console.log (data === 'increase' , !answer.myLikes)
+    if(data === 'decrease' && answer.myLikes){
+      await dispatch(answerLikes({...answer, myLikes: false }, query, i))
+      socket.emit('changeLikesAnswer',{articleID, answerID: answer.id, position: i});
+    }
+    if(data === 'increase' && !answer.myLikes) {
+      await dispatch(answerLikes({...answer, myLikes: true }, query, i))
+      socket.emit('changeLikesAnswer',{articleID, answerID: answer.id, position: i});
+    }
   }
 
   switch (getMonth){

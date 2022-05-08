@@ -3,7 +3,7 @@ import style from './style.module.scss';
 import AnswerComment from "../chat.answer";
 import {IArticle} from "../../dto/news";
 import {DataContext} from "../../layout/layout.default";
-import {selectAnswer} from "../../redux/article/articleAction";
+import {getOneAnswer, selectAnswer} from "../../redux/article/articleAction";
 import {useDispatch} from "react-redux";
 
 interface IChatCommunication {
@@ -34,10 +34,8 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
   useEffect(() => {
     if(socket.connected && window && article.chat?.answer) {
       socket.on('updateLikesAnswer',(data: {answerID: string, position: number}) => {
-        const limit = article.chat?.answer?.length;
-        if (limit && limit >= data.position) {
-
-        }
+        const limit = article.chat?.answer;
+        if (limit && limit.length >= data.position) dispatch(getOneAnswer(limit[data.position].id, data.position));
       })
     }
   },[socket.connected, article.chat?.answer?.length])

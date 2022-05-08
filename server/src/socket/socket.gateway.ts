@@ -15,8 +15,27 @@ import { AuthService } from '../auth/auth.service';
 export class SocketGateway {
   @WebSocketServer()
   server: Server;
-  private ArticleMap = new Map<string, Map<string, string>>();
   constructor(private authService: AuthService) {}
+
+  @SubscribeMessage('noticeSend')
+  @UseGuards(WsAuthGuard)
+  @ApiCreatedResponse({
+    description: 'The notice where add new message, send out all users who connection to room',
+  })
+  noticeSend(client: Socket, payload: { articleID: string }) {
+    const { articleID } = payload;
+    client.broadcast.in(articleID).emit('noticeListening');
+  }
+
+  @SubscribeMessage('changeLikesAnswer')
+  @UseGuards(WsAuthGuard)
+  @ApiCreatedResponse({
+    description: 'The likes comment put',
+  })
+  likesComment(client: Socket, payload: { articleID: string; answerID: string; position: number }) {
+    const { articleID, answerID, position } = payload;
+    client.broadcast.in(articleID).emit('updateLikesAnswer', { answerID, position });
+  }
 
   @SubscribeMessage('join')
   @UseGuards(WsAuthGuard)
@@ -24,12 +43,7 @@ export class SocketGateway {
     description: 'Join user to room',
   })
   joinRoom(client: Socket, payload: any) {
-    const { id } = client.user;
     const { articleID } = payload;
-    if (!this.ArticleMap.has(articleID)) this.ArticleMap.set(articleID, new Map());
-
-    const article = this.ArticleMap.get(articleID);
-    article.set(client.id, id);
     client.join(articleID);
   }
 
@@ -38,10 +52,9 @@ export class SocketGateway {
   @ApiCreatedResponse({
     description: 'Leave user of room',
   })
-  leaveRoom(client: Socket, payload: any) {
+  leaveRoom(client: Socket, payload: { articleID: string }) {
     const { articleID } = payload;
     client.leave(articleID);
-    client.broadcast.to(articleID).emit('offline', client.id);
   }
 
   @SubscribeMessage('exit')
@@ -72,6 +85,9 @@ export class SocketGateway {
 
   async handleDisconnect(client: Socket) {
     await this.existUser(client);
+    client.adapter.rooms.delete(client.id);
+    client.adapter.sids.delete(client.id);
+    client.nsp.sockets.delete(client.id);
   }
 
   async handleConnection(client: Socket) {
@@ -84,10 +100,9 @@ export class SocketGateway {
       client.adapter.rooms.set(id, new Set([id]));
       client.adapter.sids.set(id, new Set([id]));
 
-      const user = client.nsp.sockets.get(client.id);
-      user.id = id;
+      client.nsp.sockets.set(id, client.nsp.sockets.get(client.id));
       client.nsp.sockets.delete(client.id);
-      client.nsp.sockets.set(id, user);
+      client.id = id;
     }
   }
 }

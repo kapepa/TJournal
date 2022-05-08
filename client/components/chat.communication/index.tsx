@@ -1,7 +1,10 @@
-import React, {FC} from "react";
+import React, {FC, useContext, useEffect} from "react";
 import style from './style.module.scss';
 import AnswerComment from "../chat.answer";
 import {IArticle} from "../../dto/news";
+import {DataContext} from "../../layout/layout.default";
+import {selectAnswer} from "../../redux/article/articleAction";
+import {useDispatch} from "react-redux";
 
 interface IChatCommunication {
   article: IArticle,
@@ -16,6 +19,29 @@ interface IChatCommunication {
 }
 
 const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textList}) => {
+  const { socket } = useContext(DataContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(socket.connected && window) {
+      socket.on('noticeListening',() => {
+        if(article.chat && article.chat?.answer)
+          dispatch(selectAnswer(article.chat?.id, 0, 1));
+      })
+    }
+  },[socket.connected])
+
+  useEffect(() => {
+    if(socket.connected && window && article.chat?.answer) {
+      socket.on('updateLikesAnswer',(data: {answerID: string, position: number}) => {
+        const limit = article.chat?.answer?.length;
+        if (limit && limit >= data.position) {
+
+        }
+      })
+    }
+  },[socket.connected, article.chat?.answer?.length])
+
   return (
     <div className={`flex flex-direction-column ${style.chat_communication}`}>
       {article.chat?.answer?.map((el, i) => <AnswerComment
@@ -27,6 +53,7 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
         text={textList[el.id]?.answer}
         query={el.id}
         userId={el?.user?.id}
+        articleID={article.id}
       >
         {Boolean(el.nested?.length) && el.nested?.map((nested,index) =>
           <AnswerComment
@@ -39,6 +66,7 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
             nested={true}
             query={el.id}
             userId={nested?.user?.id}
+            articleID={article.id}
           />
         )}
       </AnswerComment>)}

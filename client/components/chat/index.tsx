@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from "react";
+import React, {FC, useContext, useEffect, useRef, useState} from "react";
 import {useDispatch, useStore} from "react-redux";
 import style from './style.module.scss';
 import ButtonIcon from "../button.icon";
@@ -6,6 +6,7 @@ import ChatTextarea from "../chat.textarea";
 import ChatCommunication from "../chat.communication";
 import {appendAnswer, loadAnswer, messageChat} from "../../redux/article/articleAction";
 import {IArticle} from "../../dto/news";
+import {DataContext} from "../../layout/layout.default";
 
 interface IState {
   [key: string]: {
@@ -22,19 +23,22 @@ interface IChat {
 const Chat: FC<IChat> = ({article}) => {
   const dispatch = useDispatch();
   const store = useStore();
+  const { socket } = useContext(DataContext);
   const [state, setState] = useState<IState>({} as IState);
   const refScroll = useRef<number>(0);
   const refLength = useRef<number>(0);
   const changeText = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     const to = e.currentTarget.dataset.to;
     const id = String(e.currentTarget.dataset.id);
-    const answer = e.currentTarget.textContent;
+    const answer: string | null = e.currentTarget.textContent;
 
-    if(article.chat && answer && to) setState({...state, [id]: { id, answer, to }});
+    if(article.chat && to) setState({...state, [id]: { id, answer: answer ? answer: '', to }});
   }
-  const sendMessage = (id: string, index: number | null) => {
-    index === null ? dispatch(messageChat(state[id])) : dispatch(appendAnswer(state[id], index));
-    setState({...state, [id]: { ...state[id], answer: '' }} );
+  const sendMessage = async (id: string, index: number | null) => {
+    if(!Boolean(state[id].answer)) return;
+    index === null ? await dispatch(messageChat(state[id])) : await dispatch(appendAnswer(state[id], index));
+    setState({...state, [id]: { ...state[id], answer: '' }});
+    socket.emit('noticeSend',{ articleID: article.id });
   }
 
   const answerLoad = (e: Event) => {
@@ -59,10 +63,6 @@ const Chat: FC<IChat> = ({article}) => {
   useEffect(() => {
     if( window ) window.addEventListener('scroll', answerLoad);
     return () => window.removeEventListener('scroll', answerLoad);
-  },[])
-
-  useEffect(() => {
-
   },[])
 
   return (

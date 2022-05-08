@@ -33,8 +33,7 @@ const FormLogin: FC = () => {
 
   const submitLogin = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // recaptchaRef.current?.execute();
-    sendLogin();
+    recaptchaRef.current?.execute();
   }
 
   const changeRecaptcha = async (captchaCode: string | null) => {

@@ -32,12 +32,12 @@ export class ChatService {
     return await this.answerRepository.save(answer);
   }
 
-  async findAnswerAll(id: string, skip: number): Promise<DtoAnswer[]> {
+  async findAnswerAll(id: string, skip: number, take = 5): Promise<DtoAnswer[]> {
     return await this.answerRepository.find({
       where: { chat: { id } },
       relations: ['user', 'nested', 'nested.user'],
       order: { created_at: 'DESC' },
-      take: 5,
+      take,
       skip,
     });
   }
@@ -56,6 +56,12 @@ export class ChatService {
 
   async findChatFull(key: string, val: string): Promise<DtoChat> {
     return await this.chatRepository.findOne({ [key]: val }, { relations: ['answer'] });
+  }
+
+  async selectChat(id: string, skip: number, take: number): Promise<DtoChat> {
+    const chat = await this.findChatFull('id', id);
+    const answer = await this.findAnswerAll(id, skip, take);
+    return { ...chat, answer };
   }
 
   async writeAnswer(body: IAnswer, userID: string): Promise<DtoChat | DtoAnswer> {

@@ -15,9 +15,20 @@ export class ChatController {
     description: 'create',
     type: DtoAnswer,
   })
-  async loadAnswer(@Query() query, @Req() req): Promise<any> {
-    const { id, length } = query;
-    return await this.chatService.findAnswerAll(id, length);
+  async loadAnswer(@Query() query, @Req() req): Promise<DtoAnswer[]> {
+    const { id, length, take } = query;
+    return await this.chatService.findAnswerAll(id, length, take);
+  }
+
+  @Get('/select')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'select chat',
+    type: DtoAnswer,
+  })
+  async selectChat(@Query() query): Promise<DtoChat> {
+    const { id, length, take } = query;
+    return this.chatService.selectChat(id, length, take);
   }
 
   @Put('/message')

@@ -42,4 +42,15 @@
     margin-right: 10px;
     align-self: end;
   }
+  &__btn{
+    min-width: 105px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .chat_textarea{
+    &__btn{
+      min-width: auto;
+    }
+  }
 }

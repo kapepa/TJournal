@@ -54,13 +54,6 @@ export const articleUpdate = (article: IArticle, index: number): AppThunk => asy
   dispatch(articleSlice.actions.updateArticleOne({article: update, index}));
 }
 
-export const articleRefresh = (article: IArticle): AppThunk => async dispatch => {
-  const update = await Axios.put(`/api/article/update`, article)
-    .then(res => res.data)
-    .catch(err => console.error(err));
-  dispatch(articleSlice.actions.setArticle(update));
-}
-
 export const appendSubscribe = (data: ISubscribe | undefined): AppThunk => async dispatch => {
   const append = await Axios.put(`/api/subscribe/append`,data)
     .then(res => res.data)
@@ -87,6 +80,13 @@ export const articleLikes = (article: IArticle): AppThunk => async dispatch => {
     .then(res => res.data)
     .catch(err => console.error(err));
   dispatch(articleSlice.actions.updateDetailed(update));
+}
+
+export const getArticleLikes = (articleID: string): AppThunk => async dispatch => {
+  const count = await Axios.get(`/api/article/likes/count/${articleID}`)
+    .then(res => res.data)
+    .catch(err => console.error(err));
+  dispatch(articleSlice.actions.likesArticle(count));
 }
 
 export const answerLikes = (data: IAnswer, query: string, i: number): AppThunk => async dispatch => {

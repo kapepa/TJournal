@@ -37,6 +37,16 @@ export class SocketGateway {
     client.broadcast.in(articleID).emit('updateLikesAnswer', { answerID, position });
   }
 
+  @SubscribeMessage('changeLikesArticle')
+  @UseGuards(WsAuthGuard)
+  @ApiCreatedResponse({
+    description: 'The likes article put',
+  })
+  likesArticle(client: Socket, payload: { articleID: string }) {
+    const { articleID } = payload;
+    client.broadcast.in(articleID).emit('updateLikesArticle');
+  }
+
   @SubscribeMessage('join')
   @UseGuards(WsAuthGuard)
   @ApiCreatedResponse({

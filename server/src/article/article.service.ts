@@ -19,9 +19,9 @@ export class ArticleService {
   constructor(
     @InjectRepository(ArticleEntity)
     private articleRepository: Repository<ArticleEntity>,
+    private subscribeService: SubscribeService,
     private userService: UserService,
     private fileService: FileService,
-    private subscribeService: SubscribeService,
     private chatService: ChatService,
   ) {}
 

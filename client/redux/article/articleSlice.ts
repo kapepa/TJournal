@@ -13,6 +13,9 @@ export const articleSlice = createSlice({
     setArticle(state, action) {
       return { ...state, detailed: action.payload };
     },
+    likesArticle(state, action) {
+      return { ...state, detailed: {...state.detailed, likes: action.payload} };
+    },
     updateDetailed(state, action) {
       const { likes, myLikes } = action.payload;
       return { ...state, detailed: {...state.detailed, likes, myLikes} };

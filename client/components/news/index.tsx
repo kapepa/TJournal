@@ -8,7 +8,7 @@ import InteractionsPanel from "../ interactions.panel";
 import SubscribePanel from "../subscribe.panel";
 import {useDispatch, useSelector} from "react-redux";
 import {IArticle} from "../../dto/news";
-import {articleLikes} from "../../redux/article/articleAction";
+import {articleLikes, getArticleLikes} from "../../redux/article/articleAction";
 import {DataContext} from "../../layout/layout.default";
 
 interface INews {
@@ -35,12 +35,16 @@ const News: FC<INews> = ({article}) => {
     return list;
   };
 
-  const likeArticle = (article: IArticle) => {
-    dispatch(articleLikes(article));
+  const likeArticle = async (article: IArticle) => {
+    await dispatch(articleLikes(article));
+    socket.emit('changeLikesArticle',{ articleID: article.id })
   };
 
   useEffect(() => {
-    if(window && socket.connected) socket.emit('join', {articleID: article.id});
+    if(window && socket.connected) {
+      socket.emit('join', {articleID: article.id});
+      socket.on('updateLikesArticle',() => dispatch(getArticleLikes(article.id)))
+    }
     return () => {
       if(window && socket.connected) socket.emit('leave', {articleID: article.id});
     }

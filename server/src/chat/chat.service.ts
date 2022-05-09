@@ -58,6 +58,13 @@ export class ChatService {
     return await this.chatRepository.findOne({ [key]: val }, { relations: ['answer'] });
   }
 
+  async generateAnswerOne(answerID: string, userID: string): Promise<DtoAnswer> {
+    const user = await this.userService.findUser('id', userID);
+    const answer = await this.findAnswerOne('id', answerID);
+    const myLikes = [].concat(user.answerLikes).includes(answer.id);
+    return { ...(await this.findAnswerOne('id', answerID)), myLikes };
+  }
+
   async selectChat(id: string, skip: number, take: number): Promise<DtoChat> {
     const chat = await this.findChatFull('id', id);
     const answer = await this.findAnswerAll(id, skip, take);
@@ -96,6 +103,9 @@ export class ChatService {
     answer.myLikes = myLikes;
     answer.likes = answer.answerLikes.length;
 
-    return await this.answerRepository.save(answer).then(async () => await this.findAnswerOne('id', answerID));
+    return await this.answerRepository.save(answer).then(async () => {
+      const find = await this.findAnswerOne('id', answerID);
+      return Boolean(find) ? { ...find, myLikes } : {};
+    });
   }
 }

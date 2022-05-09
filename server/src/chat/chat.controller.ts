@@ -15,8 +15,8 @@ export class ChatController {
     description: 'get one answer',
     type: DtoAnswer,
   })
-  async getOne(@Query('id') query): Promise<any> {
-    return await this.chatService.findAnswerOne('id', query);
+  async getOne(@Query('id') query, @Req() req): Promise<any> {
+    return await this.chatService.generateAnswerOne(query, req.user.id);
   }
 
   @Get('/answer')

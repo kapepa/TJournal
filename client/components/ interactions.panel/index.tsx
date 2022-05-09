@@ -1,8 +1,7 @@
-import React, {FC} from "react";
+import React, {FC, useContext} from "react";
 import style from './style.module.scss';
 import ButtonIcon from "../button.icon";
 import {IArticle} from "../../dto/news";
-import {useSelector} from "react-redux";
 import {IUser} from "../../dto/user";
 
 interface IInteractionsPanel {

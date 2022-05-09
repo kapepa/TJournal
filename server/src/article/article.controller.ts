@@ -63,9 +63,7 @@ export class ArticleController {
     type: DtoArticle,
   })
   async searchArticle(@Query('word') query, @Req() req): Promise<any> {
-    const art = await this.articleService.allArticle(0, 'all', req.user.id, query);
-    console.log(art);
-    return art;
+    return await this.articleService.allArticle(0, 'all', req.user.id, query);
   }
 
   @Get('/short')
@@ -94,6 +92,16 @@ export class ArticleController {
   })
   async likes(@Body() body, @Req() req): Promise<DtoArticle> {
     return await this.articleService.likesArticle(body, req.user.id);
+  }
+
+  @Get('/likes/count/:id')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'receive likes to article',
+  })
+  async countLikes(@Param('id') param): Promise<number> {
+    const article = await this.articleService.findArticle('id', param);
+    return article.likes;
   }
 
   @Delete('/')

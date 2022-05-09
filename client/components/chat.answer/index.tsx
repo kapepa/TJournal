@@ -32,8 +32,6 @@ const AnswerComment: FC<IAnswerComment> = ({answer, i, send, change, text, neste
     const element = (e.target as HTMLButtonElement);
     const data = element.dataset.likes;
 
-    console.log (data === 'decrease' , answer.myLikes)
-    console.log (data === 'increase' , !answer.myLikes)
     if(data === 'decrease' && answer.myLikes){
       await dispatch(answerLikes({...answer, myLikes: false }, query, i))
       socket.emit('changeLikesAnswer',{articleID, answerID: answer.id, position: i});

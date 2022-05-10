@@ -38,7 +38,7 @@ const ProfileContent: FC<IProfileContent> = () => {
         }
         { (nav === 'comment') &&
           <div className={`flex justify-content-center align-items-center ${style.profile_content__comments} ${style.profile_content__containe}`}>
-            { user.comments?.length ? user.comments.length : 'Вы еще не оставили ни одного комментария' }
+            { user?.answer?.length ? user.answer.length : 'Вы еще не оставили ни одного комментария' }
           </div>
         }
         { (nav === 'drafts') &&

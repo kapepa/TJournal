@@ -65,7 +65,7 @@ export class UserService {
     return await this.usersRepository.findOne({ [key]: val }, { select: ['id', 'email', 'password', 'name'] });
   }
 
-  async findFullUser(key: string, val: string) {
+  async findFullUser(key: string, val: string): Promise<DtoUser> {
     return await this.usersRepository.findOne(
       { [key]: val },
       { relations: ['settings', 'list', 'message', 'articleLikes', 'answerLikes'] },

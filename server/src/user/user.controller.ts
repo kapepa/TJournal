@@ -31,7 +31,7 @@ export class UserController {
     const user = await this.userService.findFullUser('id', req.user.id);
     if (!user) throw new NotFoundException();
     const { password, ...other } = user;
-    return other;
+    return Boolean(user) ? other : ({} as DtoUser);
   }
 
   @Put('/file')

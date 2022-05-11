@@ -12,7 +12,7 @@ export const RequestServer = (token: string | undefined , dispatch: any) => {
       const profile = await Axios.get('/api/user')
         .then( res => res.data )
         .catch(err => {});
-      dispatch(setProfile(profile))
+      dispatch(setProfile(Boolean(profile) ? profile : {}))
     },
     async Article (param: string) {
       const article = await Axios.get(`/api/article/one/${param}`)
@@ -30,7 +30,7 @@ export const RequestServer = (token: string | undefined , dispatch: any) => {
       const short = await Axios.get(`/api/article/short?list=${number}`)
         .then(res => res.data)
         .catch(err => console.error(err));
-      dispatch(setShort(short ? short : []))
+      if(Boolean(short)) dispatch(setShort(short))
     }
   }
 }

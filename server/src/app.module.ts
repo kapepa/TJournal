@@ -36,8 +36,8 @@ config();
       type: 'mysql',
       host: process.env.MYSQL_HOST,
       port: Number(process.env.MYSQL_PORT),
-      username: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
+      username: process.env.MYSQL_USERNAME,
+      password: process.env.MYSQL_ROOT_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [
         `${__dirname}/**/user.entity{.ts,.js}`,
@@ -68,6 +68,6 @@ config();
     ChatModule,
     SocketModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
+  providers: [LocalStrategy, JwtStrategy, GoogleStrategy, FacebookStrategy],
 })
 export class AppModule {}

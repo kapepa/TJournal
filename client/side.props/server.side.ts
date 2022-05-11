@@ -22,7 +22,6 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
 
   data.query = regist === 'true' ? Boolean(regist) : false;
   // if(!store.getState().user.id) return { props: { ...data }, redirect: { destination: '/home',  permanent: true } };
-
   return { props: { ...data } };
 });
 

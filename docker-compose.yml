@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    depends_on:
+      - nestjs
   nestjs:
     container_name: nestjs
     restart: always
@@ -18,9 +20,17 @@ services:
       - "5000:5000"
     env_file:
       - ./server/.env
-#    depends_on:
-#      - mysql
-#  mysql:
-#    container_name: mysql
-#    restart: always
+    environment:
+      - MYSQL_HOST=mysql
+    depends_on:
+      - mysql
+  mysql:
+    container_name: mysql
+    restart: always
+    hostname: mysql
+    image: mysql:8.0.28
+    ports:
+      - "3307:3306"
+    env_file:
+      - ./server/.env
 

@@ -13,6 +13,7 @@ services:
   nestjs:
     container_name: nestjs
     restart: always
+    hostname: nestjs
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -21,7 +22,7 @@ services:
     env_file:
       - ./server/.env
     environment:
-      - MYSQL_HOST=mysql
+      MYSQL_HOST: mysql
     depends_on:
       - mysql
   mysql:
@@ -33,4 +34,7 @@ services:
       - "3307:3306"
     env_file:
       - ./server/.env
-
+    volumes:
+      - mysqldb:/var/lib/mysql
+volumes:
+  mysqldb: {}

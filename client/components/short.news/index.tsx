@@ -32,7 +32,8 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   };
 
   const updateArticle = (article: IArticle) => {
-    dispatch(articleUpdate(article, index))
+    console.log(article)
+    // dispatch(articleUpdate(article, index))
   }
 
   const interaction = (e: React.MouseEvent<HTMLButtonElement>) => {

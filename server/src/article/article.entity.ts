@@ -18,20 +18,20 @@ export class ArticleEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.article)
+  @ManyToOne(() => UserEntity, (user) => user.article, { onDelete: 'CASCADE' })
   user: UserEntity;
 
-  @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.article)
+  @ManyToOne(() => SubscribeEntity, (subscribe) => subscribe.article, { onDelete: 'CASCADE' })
   subscribe: SubscribeEntity;
 
-  @OneToOne(() => ChatEntity, (chat) => chat.article)
+  @OneToOne(() => ChatEntity, (chat) => chat.article,{ onDelete: 'CASCADE' })
   @JoinColumn()
   chat: ChatEntity;
 
-  @ManyToMany(() => UserEntity, (user) => user.articleLikes)
+  @ManyToMany(() => UserEntity, (user) => user.articleLikes, { onDelete: 'CASCADE' })
   articleLikes: UserEntity[];
 
-  @ManyToMany(() => UserEntity, (user) => user.exclude)
+  @ManyToMany(() => UserEntity, (user) => user.exclude, { onDelete: 'CASCADE' })
   exclude: UserEntity[];
 
   @Column({ default: false })

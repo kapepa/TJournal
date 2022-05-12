@@ -17,10 +17,10 @@ export class ChatEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => ArticleEntity, (article) => article.chat)
+  @OneToOne(() => ArticleEntity, (article) => article.chat,{ onDelete: 'CASCADE' })
   article: ArticleEntity;
 
-  @OneToMany(() => AnswerEntity, (answer) => answer.chat)
+  @OneToMany(() => AnswerEntity, (answer) => answer.chat, { onDelete: 'CASCADE' })
   @JoinColumn()
   answer: AnswerEntity[];
 
@@ -33,20 +33,20 @@ export class AnswerEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => ChatEntity, (chat) => chat.answer)
+  @ManyToOne(() => ChatEntity, (chat) => chat.answer, { onDelete: 'CASCADE' })
   chat: ChatEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.answer)
+  @ManyToOne(() => UserEntity, (user) => user.answer,{ onDelete: 'CASCADE' })
   user: UserEntity;
 
-  @ManyToOne(() => AnswerEntity, (answer) => answer.nested)
+  @ManyToOne(() => AnswerEntity, (answer) => answer.nested, { onDelete: 'CASCADE' })
   inner: AnswerEntity;
 
-  @OneToMany(() => AnswerEntity, (answer) => answer.inner)
+  @OneToMany(() => AnswerEntity, (answer) => answer.inner, { onDelete: 'CASCADE' })
   @JoinColumn()
   nested: AnswerEntity[];
 
-  @ManyToMany(() => UserEntity, (user) => user.answerLikes)
+  @ManyToMany(() => UserEntity, (user) => user.answerLikes, { onDelete: 'CASCADE' })
   answerLikes: UserEntity[];
 
   @Column({ default: false })

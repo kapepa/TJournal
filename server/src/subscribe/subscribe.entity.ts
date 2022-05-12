@@ -7,13 +7,13 @@ export class SubscribeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => UserEntity, (user) => user.subscribe)
+  @OneToOne(() => UserEntity, (user) => user.subscribe,{ onDelete: 'CASCADE' })
   user: UserEntity;
 
-  @ManyToMany(() => UserEntity, (user) => user.listening)
+  @ManyToMany(() => UserEntity, (user) => user.listening,{ onDelete: 'CASCADE' })
   subscribe: UserEntity[];
 
-  @OneToMany(() => ArticleEntity, (article) => article.subscribe)
+  @OneToMany(() => ArticleEntity, (article) => article.subscribe,{ onDelete: 'CASCADE' })
   article: ArticleEntity[];
 
   @Column({ default: false })

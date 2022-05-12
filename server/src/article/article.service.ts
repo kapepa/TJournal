@@ -7,6 +7,7 @@ import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
 import { SubscribeService } from '../subscribe/subscribe.service';
 import { ChatService } from '../chat/chat.service';
+import { DtoUser } from '../dto/dto.user';
 
 interface ICreateArticle {
   title: string;
@@ -84,12 +85,21 @@ export class ArticleService {
       ? (props.order = { [search]: search === 'chat' ? { count: 'DESC' } : 'DESC' })
       : (props.where = { ...props.where, ...type });
 
-    return await this.articleRepository.find({
-      ...props,
-      take: 5,
-      skip: number,
-      relations: ['chat'],
-    });
+    return await this.articleRepository
+      .find({
+        ...props,
+        take: 5,
+        skip: number,
+        relations: ['chat'],
+      })
+      .then(async (article: DtoArticle[]) => {
+        const articles = article;
+        if (Boolean(userID)) {
+          const { articleLikes } = await this.userService.findUser('id', userID);
+          return articles.map((art) => ({ ...art, myLikes: [].concat(articleLikes).includes(art.id) }));
+        }
+        return articles;
+      });
   }
 
   async shortArticle(number: number): Promise<DtoArticle[]> {

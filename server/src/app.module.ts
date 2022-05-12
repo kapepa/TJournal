@@ -30,7 +30,7 @@ config();
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'static'),
+      rootPath: join(__dirname, '..', '/static'),
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -47,14 +47,6 @@ config();
         `${__dirname}/**/message.entity{.ts,.js}`,
         `${__dirname}/**/subscribe.entity{.ts,.js}`,
         `${__dirname}/**/chat.entity{.ts,.js}`,
-        // UserEntity,
-        // ArticleEntity,
-        // SettingsEntity,
-        // ListEntity,
-        // MessageEntity,
-        // SubscribeEntity,
-        // ChatEntity,
-        // AnswerEntity,
       ],
       synchronize: true,
     }),

@@ -67,6 +67,7 @@ export class ArticleController {
   }
 
   @Get('/short')
+  @UseGuards(JwtCheckGuard)
   @ApiCreatedResponse({
     description: 'short receive all article',
   })

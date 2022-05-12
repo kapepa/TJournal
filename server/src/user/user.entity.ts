@@ -25,23 +25,23 @@ export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => SettingsEntity, (settings) => settings.user)
+  @OneToOne(() => SettingsEntity, (settings) => settings.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   settings: SettingsEntity;
 
-  @OneToOne(() => ListEntity, (list) => list.user)
+  @OneToOne(() => ListEntity, (list) => list.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   list: ListEntity;
 
-  @OneToOne(() => MessageEntity, (message) => message.user)
+  @OneToOne(() => MessageEntity, (message) => message.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   message: MessageEntity;
 
-  @OneToOne(() => SubscribeEntity, (subscribe) => subscribe.user)
+  @OneToOne(() => SubscribeEntity, (subscribe) => subscribe.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   subscribe: SubscribeEntity;
 
-  @ManyToMany(() => SubscribeEntity, (subscribe) => subscribe.subscribe)
+  @ManyToMany(() => SubscribeEntity, (subscribe) => subscribe.subscribe, { onDelete: 'CASCADE' })
   @JoinTable({
     name: 'listening_subscribe',
     joinColumns: [{ name: 'listeningId' }],
@@ -49,14 +49,14 @@ export class UserEntity {
   })
   listening: SubscribeEntity[];
 
-  @OneToMany(() => AnswerEntity, (answer) => answer.user)
+  @OneToMany(() => AnswerEntity, (answer) => answer.user, { onDelete: 'CASCADE' })
   answer: AnswerEntity[];
 
-  @OneToMany(() => ArticleEntity, (article) => article.user)
+  @OneToMany(() => ArticleEntity, (article) => article.user, { onDelete: 'CASCADE' })
   @JoinColumn()
   article: ArticleEntity[];
 
-  @ManyToMany(() => AnswerEntity, (answer) => answer.answerLikes)
+  @ManyToMany(() => AnswerEntity, (answer) => answer.answerLikes, { onDelete: 'CASCADE' })
   @JoinTable({
     name: 'answer_likes',
     joinColumns: [{ name: 'answerLikes' }],
@@ -64,7 +64,7 @@ export class UserEntity {
   })
   answerLikes: AnswerEntity[];
 
-  @ManyToMany(() => ArticleEntity, (article) => article.articleLikes)
+  @ManyToMany(() => ArticleEntity, (article) => article.articleLikes, { onDelete: 'CASCADE' })
   @JoinTable({
     name: 'article_likes',
     joinColumns: [{ name: 'articleLikes' }],
@@ -72,7 +72,7 @@ export class UserEntity {
   })
   articleLikes: ArticleEntity[];
 
-  @ManyToMany(() => ArticleEntity, (article) => article.exclude)
+  @ManyToMany(() => ArticleEntity, (article) => article.exclude, { onDelete: 'CASCADE' })
   @JoinTable({
     name: 'exclude_article',
     joinColumns: [{ name: 'exclude' }],

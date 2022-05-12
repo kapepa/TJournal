@@ -92,14 +92,23 @@ export class ArticleService {
         skip: number,
         relations: ['chat'],
       })
-      .then(async (article: DtoArticle[]) => {
-        const articles = article;
-        if (Boolean(userID)) {
-          const { articleLikes } = await this.userService.findUser('id', userID);
-          return articles.map((art) => ({ ...art, myLikes: [].concat(articleLikes).includes(art.id) }));
-        }
-        return articles;
-      });
+      .then((article: DtoArticle[]) => this.checkHaveLike(article, userID));
+  }
+
+  async pleaseArticle(article: DtoArticle, userID: string): Promise<DtoArticle> {
+    return await this.likesArticle(article, userID).then(async (article: DtoArticle) => {
+      const art = await this.checkHaveLike([article], userID);
+      return art[0];
+    });
+  }
+
+  async checkHaveLike(article: DtoArticle[], userID: string): Promise<DtoArticle[]> {
+    const articles = article;
+    if (Boolean(userID)) {
+      const { articleLikes } = await this.userService.findUser('id', userID);
+      return articles.map((art) => ({ ...art, myLikes: [].concat(articleLikes).includes(art.id) }));
+    }
+    return articles;
   }
 
   async shortArticle(number: number): Promise<DtoArticle[]> {

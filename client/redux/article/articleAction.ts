@@ -48,10 +48,10 @@ export const articleDelete = (id: string, index: number): AppThunk => async disp
 };
 
 export const articleUpdate = (article: IArticle, index: number): AppThunk => async dispatch => {
-  const update = await Axios.put(`/api/article/update`, article)
+  const please = await Axios.put(`/api/article/please`, article)
     .then(res => res.data)
     .catch(err => console.error(err));
-  dispatch(articleSlice.actions.updateArticleOne({article: update, index}));
+  dispatch(articleSlice.actions.updateArticleOne({article: please, index}));
 }
 
 export const articleLikes = (article: IArticle): AppThunk => async dispatch => {

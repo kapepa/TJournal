@@ -45,8 +45,8 @@ export const articleSlice = createSlice({
       return { ...state, all };
     },
     updateArticleOne(state, action) {
-      const all = state.all.splice(action.payload.index,1,action.payload.article);
-      return { ...state, all };
+      state.all.splice(action.payload.index,1,action.payload.article);
+      return state;
     },
     updateSubscribe(state, action) {
       return { ...state, detailed: { ...state.detailed, subscribe: action.payload} };

@@ -76,6 +76,7 @@ export class ArticleController {
   }
 
   @Put('/update')
+  @UseGuards(JwtAuthGuard)
   @ApiCreatedResponse({
     description: 'update one article',
     type: DtoArticle,
@@ -83,6 +84,16 @@ export class ArticleController {
   async update(@Body() body): Promise<DtoArticle> {
     const { id, ...other } = body;
     return await this.articleService.updateArticle('id', id, other);
+  }
+
+  @Put('/please')
+  @UseGuards(JwtAuthGuard)
+  @ApiCreatedResponse({
+    description: 'update one article',
+    type: DtoArticle,
+  })
+  async refresh(@Body() body, @Req() req): Promise<any> {
+    return await this.articleService.pleaseArticle(body, req.user.id);
   }
 
   @Put('/likes')

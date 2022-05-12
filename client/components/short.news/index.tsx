@@ -20,10 +20,10 @@ interface IShortNews{
 }
 
 const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
+  const { socket } = useContext(DataContext);
   const dispatch = useDispatch();
   const existUser = Boolean(Object.keys(user).length);
   const { wrong } = useContext(DataContext);
-  const [state, setState] = useState<IArticle>(article);
 
   const clickDelete = async () => dispatch(articleDelete( article.id, index ));
 
@@ -32,8 +32,8 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   };
 
   const updateArticle = (article: IArticle) => {
-    console.log(article)
-    // dispatch(articleUpdate(article, index))
+    dispatch(articleUpdate(article, index))
+    socket.emit('changeLikesArticle',{ articleID: article.id })
   }
 
   const interaction = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -51,23 +51,23 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
   return (
     <div className={`flex flex-direction-column ${style.short_news}`}>
       <div className={`flex justify-content-between ${style.short_news__head}`}>
-        <NewsType type={state.type} query={query}/>
+        <NewsType type={article.type} query={query}/>
         <ButtonDrop list={[
           {name: 'Скрыть', cb: clickHide},
           {name: 'Удалить', cb: clickDelete},
         ]} />
       </div>
-      <Link href={`/article/${state.id}`}>
+      <Link href={`/article/${article.id}`}>
         <a onClick={checkAuth} className={`${style.short_news__short_description}`}>
-          <span className={`${style.short_news__span}`}>{`${state.text.substring(0, 130)} ...`}</span>
+          <span className={`${style.short_news__span}`}>{`${article.text.substring(0, 130)} ...`}</span>
         </a>
       </Link>
-      <Link href={`/article/${state.id}`}>
+      <Link href={`/article/${article.id}`}>
         <a onClick={checkAuth} className={`${style.short_news__picture}`}>
-          <img className={`${style.short_news__image}`} src={`${config.url}/${state.image[0]}`} alt={state.title}/>
+          <img className={`${style.short_news__image}`} src={`${config.url}/${article.image[0]}`} alt={article.title}/>
         </a>
       </Link>
-      <InteractionsPanel article={state} user={user} like={updateArticle} cb={interaction}/>
+      <InteractionsPanel article={article} user={user} like={updateArticle} cb={interaction}/>
     </div>
   )
 }

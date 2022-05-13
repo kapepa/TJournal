@@ -21,7 +21,7 @@ export class FileService {
     const basic = join(__dirname, '..', '..', '/static');
 
     if (!fs.existsSync(basic)) await fs.mkdirSync(basic);
-    fs.writeFileSync(`${basic}\\${createName}`, Buffer.from(file.buffer));
+    await fs.writeFileSync(`${basic}\\${createName}`, Buffer.from(file.buffer));
     return createName;
   }
 

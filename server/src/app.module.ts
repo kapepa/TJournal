@@ -29,7 +29,7 @@ config();
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '/static'),
+      rootPath: join(__dirname, '..', '..', '/dist', '/static'),
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',

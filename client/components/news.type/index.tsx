@@ -1,6 +1,7 @@
 import React, {FC, useRef} from "react";
 import Link from 'next/link'
 import style from './style.module.scss';
+import {useRouter} from "next/router";
 
 interface INewsType{
   type: string,
@@ -8,7 +9,13 @@ interface INewsType{
 }
 
 const NewsType: FC<INewsType> = ({type, query}) => {
-  const viewRef = useRef<{alias: string, classes: string}>()
+  const viewRef = useRef<{alias: string, classes: string}>();
+  const router = useRouter();
+
+  const putQuery = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    router.push({query: { nav: type }})
+  }
 
   switch (type){
     case 'news': viewRef.current = {alias: 'Новости', classes: style.news_type__news}; break;
@@ -22,7 +29,10 @@ const NewsType: FC<INewsType> = ({type, query}) => {
 
   return (
     <Link href={`${query}`}>
-      <a className={`${style.news_type} ${viewRef.current.classes ? viewRef.current.classes : ''}`}>{viewRef.current.alias}</a>
+      <a
+        onClick={putQuery}
+        className={`${style.news_type} ${viewRef.current.classes ? viewRef.current.classes : ''}`}
+      >{viewRef.current.alias}</a>
     </Link>
   )
 }

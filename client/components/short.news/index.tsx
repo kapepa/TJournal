@@ -31,8 +31,8 @@ const ShortNews: FC<IShortNews> = ({article, user, index, query}) => {
     existUser ? dispatch(excludeArticleUser(article.id, index)) : dispatch(excludeArticle({index}));
   };
 
-  const updateArticle = (article: IArticle) => {
-    dispatch(articleUpdate(article, index))
+  const updateArticle = async (article: IArticle) => {
+    await dispatch(articleUpdate(article, index))
     socket.emit('changeLikesArticle',{ articleID: article.id })
   }
 

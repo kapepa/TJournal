@@ -13,7 +13,6 @@ import { MessageEntity } from './settings/message.entity';
 import { SubscribeEntity } from './subscribe/subscribe.entity';
 import { AnswerEntity, ChatEntity } from './chat/chat.entity';
 import { LocalStrategy } from './auth/local.strategy';
-import { AuthService } from './auth/auth.service';
 import { MailerModule } from './mailer/mailer.module';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { FileModule } from './file/file.module';

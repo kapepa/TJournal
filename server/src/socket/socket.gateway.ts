@@ -22,9 +22,9 @@ export class SocketGateway {
   @ApiCreatedResponse({
     description: 'The notice where add new message, send out all users who connection to room',
   })
-  noticeSend(client: Socket, payload: { articleID: string }) {
-    const { articleID } = payload;
-    client.broadcast.in(articleID).emit('noticeListening');
+  noticeSend(client: Socket, payload: { articleID: string; index: number | null }) {
+    const { articleID, index } = payload;
+    client.broadcast.in(articleID).emit('noticeListening', { index });
   }
 
   @SubscribeMessage('changeLikesAnswer')

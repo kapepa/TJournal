@@ -38,7 +38,7 @@ const Chat: FC<IChat> = ({article}) => {
     if(!Boolean(state[id].answer)) return;
     index === null ? await dispatch(messageChat(state[id])) : await dispatch(appendAnswer(state[id], index));
     setState({...state, [id]: { ...state[id], answer: '' }});
-    socket.emit('noticeSend',{ articleID: article.id });
+    socket.emit('noticeSend',{ articleID: article.id, index });
   }
 
   const answerLoad = (e: Event) => {
@@ -63,7 +63,7 @@ const Chat: FC<IChat> = ({article}) => {
   useEffect(() => {
     if( window ) window.addEventListener('scroll', answerLoad);
     return () => window.removeEventListener('scroll', answerLoad);
-  },[])
+  },[]);
 
   return (
     <div className={`${style.chat}`}>

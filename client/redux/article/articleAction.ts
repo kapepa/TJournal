@@ -26,11 +26,12 @@ export const loadAnswer = (id: string, length: number, take = 5): AppThunk => as
   dispatch(articleSlice.actions.addAnswer(answer));
 };
 
-export const selectAnswer = (id: string, length: number, take = 5): AppThunk => async dispatch => {
-  const answer = await Axios.get(`/api/chat/select?id=${id}&length=${length}&take=${take}`)
+export const selectAnswer = (id: string, length: number, take = 5, index: number | null): AppThunk => async dispatch => {
+  const position = typeof index === 'number' ? index : length;
+  const answer = await Axios.get(`/api/chat/select?id=${id}&length=${position}&take=${take}`)
     .then(res => res.data)
     .catch(err => console.error(err))
-  dispatch(articleSlice.actions.updateChat(answer));
+  typeof index === 'number' ? dispatch(articleSlice.actions.swapChat({answer, index})) : dispatch(articleSlice.actions.updateChat(answer));
 };
 
 export const articleAll = (number: number, nav: string, word= ''): AppThunk => async dispatch => {

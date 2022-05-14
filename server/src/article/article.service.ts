@@ -77,8 +77,8 @@ export class ArticleService {
     if (word) props.where = { ...props.where, title: Like(`%${word}%`) };
 
     if (userID) {
-      const { exclude } = await this.userService.findUser('id', userID);
-      props.where = { ...props.where, id: Not(In(exclude)) };
+      const user = await this.userService.findUser('id', userID);
+      if (Boolean(user.exclude)) props.where = { ...props.where, id: Not(In(user.exclude)) };
     }
 
     checked

@@ -41,8 +41,8 @@ export const articleSlice = createSlice({
       return { ...state, all: action.payload };
     },
     delArticleOne(state, action) {
-      const all = state.all.splice(action.payload.index,1);
-      return { ...state, all };
+      state.all.splice(action.payload.index,1);
+      return state;
     },
     updateArticleOne(state, action) {
       state.all.splice(action.payload.index,1,action.payload.article);
@@ -55,6 +55,11 @@ export const articleSlice = createSlice({
       const answer = JSON.parse(JSON.stringify(state.detailed.chat?.answer));
       answer.unshift(...action.payload.answer);
       state.detailed.chat = {...action.payload, answer} as IChat;
+      return state;
+    },
+    swapChat(state, action) {
+      const { answer, index } = action.payload;
+      state.detailed.chat?.answer?.splice(index,1,answer.answer[0])
       return state;
     },
     updateAnswer(state, action) {

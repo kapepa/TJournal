@@ -63,7 +63,7 @@ const Chat: FC<IChat> = ({article}) => {
   useEffect(() => {
     if( window ) window.addEventListener('scroll', answerLoad);
     return () => window.removeEventListener('scroll', answerLoad);
-  },[])
+  },[]);
 
   return (
     <div className={`${style.chat}`}>

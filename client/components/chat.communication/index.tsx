@@ -24,9 +24,9 @@ const ChatCommunication: FC<IChatCommunication> = ({article, send, change, textL
 
   useEffect(() => {
     if(socket.connected && window) {
-      socket.on('noticeListening',() => {
+      socket.on('noticeListening',async (args: { index : number | null }) => {
         if(article.chat && article.chat?.answer)
-          dispatch(selectAnswer(article.chat?.id, 0, 1));
+          await dispatch(selectAnswer(article.chat?.id, 0, 1, args.index));
       })
     }
   },[socket.connected])

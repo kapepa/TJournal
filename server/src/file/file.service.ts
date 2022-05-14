@@ -9,8 +9,8 @@ export class FileService {
   constructor(readonly userService: UserService) {}
 
   async DeleteFile(file: string) {
-    const basic = join(__dirname, '..', '..', '/static');
-    const fullPath = `${basic}\\${file}`;
+    const basic = join(__dirname, '..', '..', 'static');
+    const fullPath = `${basic}/${file}`;
     if (fs.existsSync(fullPath)) await fs.unlinkSync(fullPath);
   }
 
@@ -18,10 +18,10 @@ export class FileService {
     const newName = uuidv4();
     const prefix = file.originalname.split('.').pop();
     const createName = `${newName}.${prefix}`;
-    const basic = join(__dirname, '..', '..', '/static');
+    const basic = join(__dirname, '..', '..', 'static');
 
     if (!fs.existsSync(basic)) await fs.mkdirSync(basic);
-    await fs.writeFileSync(`${basic}\\${createName}`, Buffer.from(file.buffer));
+    await fs.writeFileSync(`${basic}/${createName}`, Buffer.from(file.buffer));
     return createName;
   }
 

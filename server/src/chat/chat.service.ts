@@ -32,14 +32,18 @@ export class ChatService {
     return await this.answerRepository.save(answer);
   }
 
-  async findAnswerAll(id: string, skip: number, take = 5): Promise<DtoAnswer[]> {
-    return await this.answerRepository.find({
-      where: { chat: { id } },
-      relations: ['user', 'nested', 'nested.user'],
-      order: { created_at: 'DESC' },
-      take,
-      skip,
-    });
+  async findAnswerAll(userID: string, id: string, skip: number, take = 5): Promise<DtoAnswer[]> {
+    return await this.answerRepository
+      .find({
+        where: { chat: { id } },
+        relations: ['user', 'nested', 'nested.user'],
+        order: { created_at: 'DESC' },
+        take,
+        skip,
+      })
+      .then(async (answer: DtoAnswer[]) => {
+        return await this.existLikeAnswer(userID, answer);
+      });
   }
 
   async findAnswerOne(key: string, val: string): Promise<DtoAnswer> {
@@ -59,15 +63,14 @@ export class ChatService {
   }
 
   async generateAnswerOne(answerID: string, userID: string): Promise<DtoAnswer> {
-    const user = await this.userService.findUser('id', userID);
     const answer = await this.findAnswerOne('id', answerID);
-    const myLikes = [].concat(user.answerLikes).includes(answer.id);
-    return { ...(await this.findAnswerOne('id', answerID)), myLikes };
+    const setLikes = await this.existLikeAnswer(userID, [answer]);
+    return setLikes[0];
   }
 
-  async selectChat(id: string, skip: number, take: number): Promise<DtoChat> {
+  async selectChat(userID, id: string, skip: number, take: number): Promise<DtoChat> {
     const chat = await this.findChatFull('id', id);
-    const answer = await this.findAnswerAll(id, skip, take);
+    const answer = await this.findAnswerAll(userID, id, skip, take);
     return { ...chat, answer };
   }
 
@@ -100,12 +103,27 @@ export class ChatService {
     if (myLikes && position === -1) answer.answerLikes.push(user);
     if (!myLikes && position !== -1) answer.answerLikes.splice(position, 1);
 
-    answer.myLikes = myLikes;
     answer.likes = answer.answerLikes.length;
 
     return await this.answerRepository.save(answer).then(async () => {
       const find = await this.findAnswerOne('id', answerID);
-      return Boolean(find) ? { ...find, myLikes } : {};
+      const setLikes = await this.existLikeAnswer(userID, [find]);
+      return setLikes[0];
+    });
+  }
+
+  async existLikeAnswer(userID: string, answer: DtoAnswer[]): Promise<DtoAnswer[]> {
+    const { answerLikes } = await this.userService.findUser('id', userID);
+    const concatLike = [].concat(answerLikes);
+
+    return answer.map((answer: DtoAnswer) => {
+      answer.myLikes = concatLike.includes(answer.id);
+      if (Boolean(answer.nested.length))
+        answer.nested = answer.nested.map((nested: DtoAnswer) => {
+          nested.myLikes = concatLike.includes(nested.id);
+          return nested;
+        });
+      return answer;
     });
   }
 }

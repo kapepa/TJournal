@@ -27,7 +27,7 @@ export class ChatController {
   })
   async loadAnswer(@Query() query, @Req() req): Promise<DtoAnswer[]> {
     const { id, length, take } = query;
-    return await this.chatService.findAnswerAll(id, length, take);
+    return await this.chatService.findAnswerAll(req.user.id, id, length, take);
   }
 
   @Get('/select')
@@ -36,9 +36,9 @@ export class ChatController {
     description: 'select chat',
     type: DtoAnswer,
   })
-  async selectChat(@Query() query): Promise<DtoChat> {
+  async selectChat(@Query() query, @Req() req): Promise<DtoChat> {
     const { id, length, take } = query;
-    return this.chatService.selectChat(id, length, take);
+    return this.chatService.selectChat(req.user.id, id, length, take);
   }
 
   @Put('/message')

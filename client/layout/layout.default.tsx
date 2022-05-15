@@ -31,7 +31,7 @@ interface IContext {
   win: number,
   wrong: (message: string) => void,
   socket: Socket
-}
+};
 
 export const DataContext = createContext({} as IContext);
 

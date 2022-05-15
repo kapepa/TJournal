@@ -4,8 +4,6 @@ import { RequestServer } from "../helpers/request.server";
 import { GetServerSideProps } from "next";
 import { IUser } from "../dto/user";
 
-const homeRedirect = () => { return { redirect: { permanent: false, destination: "/home" } } } ;
-
 const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => async ({resolvedUrl, params, query, req, res}) => {
   const data = {} as { query: boolean, user: IUser };
   const regist = query?.registration;
@@ -21,7 +19,9 @@ const ServerSideProps: GetServerSideProps = wrapper.getServerSideProps(store => 
   }
 
   data.query = regist === 'true' ? Boolean(regist) : false;
-  // if(!store.getState().user.id) return { props: { ...data }, redirect: { destination: '/home',  permanent: true } };
+
+  if( !Boolean(store.getState().user.id) && resolvedUrl !== '/home' ) return { props: { }, redirect: { destination: '/home',  permanent: true } };
+
   return { props: { ...data } };
 });
 

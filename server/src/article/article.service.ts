@@ -7,7 +7,6 @@ import { UserService } from '../user/user.service';
 import { FileService } from '../file/file.service';
 import { SubscribeService } from '../subscribe/subscribe.service';
 import { ChatService } from '../chat/chat.service';
-import { DtoUser } from '../dto/dto.user';
 
 interface ICreateArticle {
   title: string;
